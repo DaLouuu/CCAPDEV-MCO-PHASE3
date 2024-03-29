@@ -1,0 +1,70 @@
+
+<body>
+    <div id="header">
+        <div id="top-bar">
+            <img id="logo" src="/common/CSS & Assets/Assets/ILABYOU-logo.png" alt="img not available">
+            <button id="homeButton" class="header-but">Home</button>
+            <button id="aboutButton" class="header-but">Info</button>
+            <div class="profile-container">
+                <button id="pfp"></button>
+                <div class="profile-popup">
+                    <ul>
+                        <li><a href="/profile">View Account</a></li>
+                        <li><a href="/login">Logout</a></li>
+                    </ul>
+                </div>
+            </div>      
+        </div>
+    </div>
+    <div id="title-bar">
+            <div id="title">
+                <h1>Search Users</h1>
+            </div>
+
+            <div id="filterForm">
+                <label for="filterInput">Search:</label>
+                <input type="text" id="filterInput" name="filterInput" placeholder="Enter search keyword...">
+                <button id="filterButton">Search</button>
+            </div>
+        </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>ID Number</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+                <tr class="table-row">
+                    <td class="user-id">{{_id}}</td>
+                    <td><a href="/user?id={{_id}}">{{firstName}} {{lastName}}</a></td>
+                    <td>{{role}}</td>
+                    <td>{{idNum}}</td>
+                    {{#if isPublic}}
+                        <td>Public</td>
+                    {{else}}
+                        <td>Private</td>
+                    {{/if}}
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <div id="aboutWindow" class="popup">
+        <button id="closeAbout" class="close-popup">&times;</button>
+        <h4>What is this page?</h4>
+        <div>This page allows you to search user profiles. Click on the rows to learn more
+            check out each user!</div>
+    </div>
+    <div class="profile-popup">
+        <ul>
+            <li><a href="/profile">View Account</a></li>
+            <li><a href="/login">Logout</a></li>
+        </ul>
+    </div>
+    
+</body>
+
+

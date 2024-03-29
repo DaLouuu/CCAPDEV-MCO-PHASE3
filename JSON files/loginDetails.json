@@ -1,0 +1,28 @@
+[
+    {
+      "username": "elmo_g@dlsu.edu.ph",
+      "password": "elmog",
+      "role": "labtech"
+    },
+    {
+      "username": "john@example.com",
+      "password": "john",
+      "role": "student"
+    },
+    {
+      "username": "jane@example.com",
+      "password": "jane",
+      "role": "student"
+    },
+    {
+      "username": "alice@example.com",
+      "password": "alice",
+      "role": "labtech"
+    },
+    {
+      "username": "michael@example.com",
+      "password": "michael",
+      "role": "labtech"
+    }
+  ]
+  

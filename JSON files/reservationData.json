@@ -1,0 +1,51 @@
+[{
+    "lab": "GK303",
+    "seat": "A1",
+    "requestDT": "2024-02-19 09:30 AM",
+    "reserveDT": "2024-02-20 07:30 AM - 09:00 AM",
+    "type": "Solo",
+    "requesterID": "ST123456",
+    "requestFor": "ST123456",
+    "isDeleted": true
+},
+{
+    "lab": "GK304",
+    "seat": "A3, A4",
+    "requestDT": "2024-02-20 09:30 AM",
+    "reserveDT": "2024-02-23 09:15 AM - 10:45 AM",
+    "type": "Group",
+    "requesterID": "ST789012",
+    "requestFor": "ST789012",
+    "isDeleted": false  
+},
+{
+    "lab": "GK305",
+    "seat": "B7, B8, B9",
+    "requestDT": "2024-02-20 09:30 AM",
+    "reserveDT": "2024-02-24 11:00 AM - 12:30 PM",
+    "type": "Group",
+    "requesterID": "LT12209589",
+    "requestFor": "ST123456",
+    "isDeleted": false  
+},
+{
+    "lab": "GK306A",
+    "seat": "C1, C2, C3, C4, C5",
+    "requestDT": "2024-02-20 09:30 AM",
+    "reserveDT": "2024-02-27 02:30 PM - 04:00 PM",
+    "type": "Group",
+    "requesterID": "ST123456",
+    "requestFor": "ST123456",
+    "isDeleted": false  
+},
+{
+    "lab": "GK306B",
+    "seat": "B7",
+    "requestDT": "2024-02-25 09:30 AM",
+    "reserveDT": "2024-03-01 11:00 - 12:30 PM",
+    "type": "Solo",
+    "requesterID": "LT12209589",
+    "requestFor": "ST123456",
+    "isDeleted": false  
+}
+]

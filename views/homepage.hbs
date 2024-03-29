@@ -1,0 +1,42 @@
+<body id="{{profileDetails.role}}-view">
+<div id="header">
+    <div id="top-bar">
+        <img id="logo" src="/common/CSS & Assets/Assets/ILABYOU-logo.png" alt="img not available">
+        <div class="profile-container">
+            <button id="pfp"></button>
+            <div class="profile-popup">
+                <ul>
+                    <li><a href="/profile">View Account</a></li>
+                    <li><a href="/">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="body">
+        <div id="upper-body">
+           <h1 id="good-day">Good day, {{profileDetails.firstName}}!</h1>
+           <h1 id="greeting">What can we do for you today?</h1>
+        </div>
+        <div id="lower-body">
+            <div id="reserveButton" class="card">
+                <img class="card-img" src="/common/CSS & Assets/Assets/chair.png" alt="img not available">
+                <div class="card-txt">
+                    <h3>Place a Reservation</h3>   
+                </div>         
+            </div>
+            <div id="viewButton" class="card">
+                <img class="card-img" src="/common/CSS & Assets/Assets/list.png" alt="img not available">
+                <div class="card-txt">
+                    <h3>View All Reservations</h3>   
+                </div>           
+            </div>
+            <div id="searchButton" class="card">
+                <img class="card-img" src="/common/CSS & Assets/Assets/glass.png" alt="img not available">
+                <div class="card-txt">
+                    <h3>Search Users</h3>     
+                </div>        
+            </div>
+        </div>
+    </div>
+</body>

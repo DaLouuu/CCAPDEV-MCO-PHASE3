@@ -1,0 +1,228 @@
+#logo {
+    width: 6%;
+    margin-left: 5%;
+}
+
+.header-but{
+  font-family: Baskerville;
+  background-color: rgba(255, 255, 255, 0); 
+  margin-left: 3%;
+  border: 0px;
+  font-weight: bold;
+  font-size: 1.2vw;
+  text-decoration: underline;
+  height: 50%;
+  width: auto;
+  
+}
+
+#header {
+  margin-top: 0px;
+  margin-left: 5%;
+  width: 90%;
+  align-items: center;
+}
+
+.profile-container {
+  width: 9vw;
+  height: 9vh;
+  margin-top: 10px;
+  border-radius: 100%;
+  margin-left: 74%;
+  border: white solid 0.5px;
+  position: relative;
+}
+
+#pfp {
+  width: 5vw;
+  height: 5vw;
+  border-radius: 100%;
+  background-image: url('./Assets/elmo.jpg');
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+}
+
+#topbar {
+  display: flex;
+  flex-direction: row;
+}
+
+#top-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: first baseline;
+    margin: 0;
+    padding: 0;
+}
+
+#student-view {
+  font-family: Helvetica, sans-serif; 
+  margin: 0px;
+  padding: 0px;
+  background-image: url('./Assets/homepage-bg.png');
+  background-size: cover; 
+}
+#labtech-view {
+  font-family: Helvetica, sans-serif;
+  padding: 0px;
+  margin: 0px;
+  background-image: url('./Assets/labtech-homepage-bg.png');
+  background-size: cover;
+  
+}
+h1{
+    font-size: 400% ;
+}
+
+#greeting{
+  font-size: 2.2vw;
+  font-family: Helvetica, sans-serif;
+  font-style: normal;
+  margin-left: 0.5%;
+}
+
+#upper-body{
+  padding-left: 10%;
+   padding-top: 6%;
+   text-align: left;
+}
+
+.card {
+  width: 12%;
+  height: 100%; 
+  margin-left: 2%;
+  border: 0.5px solid black;
+  border-radius: 10px;
+  align-self: center;
+  border-radius: 20px;
+  display: flex;
+  padding: 2%;
+  font-size: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+  cursor: pointer;
+}
+
+.card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  background: inherit;
+  z-index: -1;
+}
+
+#good-day {
+  font-size: 5vw;
+}
+
+#lower-body{
+  display: flex;
+  padding-top: 3%;
+  padding-left: 8%;
+  
+}
+
+.card-txt{
+  font-size: 1.1vw;
+  width: 50%;
+  padding-top: 5%;
+  padding-left: 2%;
+  font-family:  Helvetica, sans-serif;
+}
+
+.card-img{
+  width:30%;
+  height: 80%;
+  margin-right: 3%;
+  margin-top: 5%;
+}
+
+#popupWindow {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out; 
+  opacity: 0; 
+}
+
+#popupWindow.open {
+  display: block;
+  opacity: 1; 
+}
+
+#closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#openButton {
+  margin-top: 20px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile-popup {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100px;
+  background-color: #F8EBFC;
+  border: 1px solid #F8EBFC;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-popup ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-popup ul li {
+  padding: 10px;
+}
+
+.profile-popup ul li a {
+  font-family: Helvetica, sans-serif;
+  font-weight: bold;
+  text-decoration: none; 
+  color: #333;
+  font-size: 15px;
+}
+
+.profile-popup ul li:hover {
+  background-color: #f1d4fa;
+}
+
+#floatingButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #FAABF5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
