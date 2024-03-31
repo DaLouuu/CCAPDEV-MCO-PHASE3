@@ -1,0 +1,58 @@
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f1d2d5;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+  .popup h2 {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    letter-spacing: 1.5px;
+  }
+
+  .popup p {
+    font-family: Helvetica, sans-serif;
+    color: black;
+    text-align: center;
+    text-align: center;
+  }
+  
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 9998;
+  }
+
+  
+  button {
+    background-color: #f1d2d5; 
+    color: black; 
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 50px; 
+    cursor: pointer; 
+    font-weight: bolder;
+    width: fit-content;
+    height:fit-content;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    font-family: Helvetica, sans-serif;
+}
+ 

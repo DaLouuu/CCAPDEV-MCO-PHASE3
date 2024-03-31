@@ -1,0 +1,493 @@
+ <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve | {{profileDetails.role}}</title>
+
+    <link id="favicon" rel="icon" href="/common/CSS & Assets/Assets/ILABYOU-logo.png" type="image/png">
+    {{#if profileDetails.isLabtech}}
+    <link rel="stylesheet" href="/common/CSS & Assets/edit_reserve.css">
+    {{else}}
+    <link rel="stylesheet" href="/common/CSS & Assets/reserve_lab.css">
+   {{/if}}
+
+</head>
+
+<body id="{{profileDetails.role}}-view">
+    <div id="header">
+            <div id="top-bar">
+                <img id="logo" src="/common/CSS & Assets/Assets/ILABYOU-logo.png" alt="img not available">
+                <button id="homeButton" class="header-but">Home</button>
+                <button id="quesButton" class="header-but">Info</button>
+                <div class="profile-container">
+                    <button id="pfp"></button>
+                    <div class="profile-popup">
+                        <ul>
+                            <li><a href="/profile">View Account</a></li>
+                            <li><a href="/login">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="title-bar">
+                <div id="title">
+                    <h1>Reserve a Seat</h1>
+                </div>
+            </div>
+
+
+    </div>
+
+    <div id ="body">
+        <div class="seating-plan">
+    
+            <div class="row"> 
+                <div style="width: 50%;"></div>
+                <div class="t-table"><div class="seat-id">FRONT</div> </div>
+                <div style="width: 50%;"></div>
+              </div>
+{{#inArray selectedLab.labIndex "1,2"}}     
+     <div class="top-row">
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+            </div>
+            
+        <div class="row">
+  {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpToA4 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+{{/each}}
+        <div style="width: 25%;"></div>
+      {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpA5ToA8 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+{{/each}}
+        </div>
+
+         <div class="row">
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+        </div>
+
+         <div class="row">
+  {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpToB4 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+{{/each}}
+        <div style="width: 25%;"></div>
+      {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpB5ToB8 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+{{/each}}
+        </div>   
+
+        <div class="row">
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+        </div>
+
+        <div class="row">
+  {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpToC4 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+{{/each}}
+        <div style="width: 25%;"></div>
+      {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpC5ToC8 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+{{/each}}
+        </div>   
+{{else}}
+   <div class="top-row">
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+    </div>
+<div class="row">
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpToA3 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+  {{/each}}
+        <div style="width: 15%;"></div>
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpA4ToA6 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+ {{/each}}
+        <div style="width: 15%;"></div>
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpA7ToA9 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+ {{/each}}
+</div>
+<div class="row">
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+                <div style="width: 25%;"></div>
+                <div class="table"> </div>
+</div>
+<div class="row">
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpToB3 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+  {{/each}}
+        <div style="width: 15%;"></div>
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpB4ToB6 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+ {{/each}}
+        <div style="width: 15%;"></div>
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpB7ToB9 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+ {{/each}}
+</div>
+
+<div class="row">
+                <div class="table"> </div>
+                <div style="width:25%"></div>
+                <div class="table"> </div>
+                <div style="width:25%"></div>
+                <div class="table"> </div>
+</div>
+<div class="row">
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpToC3 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+  {{/each}}
+        <div style="width: 15%;"></div>
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpC4ToC6 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+ {{/each}}
+        <div style="width: 15%;"></div>
+ {{#each selectedLab.seatNumbers}}
+    {{#if (isSeatUpC7ToC9 @index)}}
+        <div class="seat">
+            <div class="seat-id" id="seat_{{this}}"> {{this}}</div>
+        </div>
+    {{/if}}
+ {{/each}} 
+  </div>
+  
+{{/inArray}}
+          
+
+
+
+  {{#if profileDetails.isLabtech}}
+            <div class="row"> 
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="green"></div>
+                        <span>Available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="red"></div>
+                        <span>Booked</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="purple"></div>
+                        <span>Selected</span>
+                    </div>
+                </div>    
+            </div>      
+            {{else}}
+            <div class="row"> 
+                <div class="legend">
+
+                    <div class="legend-item">
+                        <div class="orange"></div>
+                        <span>My Bookings</span>
+                    </div>
+    
+                    <div class="legend-item">
+                        <div class="green"></div>
+                        <span>Available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="red"></div>
+                        <span>Booked</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="purple"></div>
+                        <span>Selected</span>
+                    </div>
+                </div>    
+            </div>
+            {{/if}}
+
+
+        </div>
+
+ 
+        <div class="reserve-layout">
+            
+            <div class="row-reserve">
+                <div class="lab-name"> <strong>{{selectedLab.labName}} </strong></div>
+            </div>
+
+            <div class="dateBox">
+                <div id="left-arrow"><img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/angle-left-512.png" alt="left-arrow"></div>
+                <div class="date" id="currentDate"> </div>
+                <div id="right-arrow"><img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/angle-right-512.png" alt="right-arrow"></div>
+            </div> 
+{{#if profileDetails.isLabtech}}
+            <div class="reserve-form">
+              
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="seatnum">Student ID</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="selectedStudentID" name="studentID" placeholder="Please enter Student ID">
+
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="seatnum">Seat Number:</label>
+                    </div>
+                    <div class="col-75">
+                      <input type="text" id="selectedSeatNum"name="seatnumber" placeholder="Please select a Seat"  readonly>
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="date">Date:</label>
+                    </div>
+                    <div class="col-75">
+                      <input type="date" id="selectedDate" name="date" placeholder="Please select a Date">
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="timeSlot">Time Slot:</label>
+                    </div>
+                    <div class="col-75">
+                      <select id="selectedTime" name="time">
+                        <option value="7000"> 07:30 AM - 09:00 AM     </option>
+                        <option value="9000"> 09:15 AM - 10:45 AM     </option>
+                        <option value="1100"> 11:00 AM - 12:30 PM     </option>
+                        <option value="1200"> 12:45 PM - 02:15 PM     </option>
+                        <option value="1400"> 02:30 PM - 04:00 PM     </option>
+                        <option value="1600"> 04:15 PM - 05:45 PM     </option>
+                      </select>
+                    </div>
+                </div>
+                
+                <div class="row-reserve">
+                    <div class="col-25">
+                        <label for="groupOrSolo"> </label>
+                    </div>
+                    <div class="col-75">
+                        <input type="radio" id="soloReservation" name="reservationType" value="solo" checked>
+                        <label for="soloReservation"><img src="https://cdn-icons-png.flaticon.com/128/9742/9742643.png" alt="Solo Logo" height="32"> Solo </label>
+                        <input type="radio" id="groupReservation" name="reservationType" value="group">
+                        <label for="groupReservation"><img src="https://cdn-icons-png.flaticon.com/128/1769/1769041.png" alt="Group Logo" height="32">Group Reservation</label>
+                        
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div  class="group-note">
+                        <img src="https://cdn-icons-png.flaticon.com/128/665/665049.png" alt="group-note" height="32">
+                         <i><p>Group reservations allow booking between 2 to 5 seats</p></i>
+                    </div>
+                </div>
+            
+                <div class="row-reserve">
+                    <div class="col-25">
+                    </div>
+                    <div class="col-75">
+                    <input type="submit" value="Reserve" id="reserveBtn">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+          
+            <h2>Reservation Confirmation</h2>
+            <h4>Room: {{selectedLab.labName}}</h4>
+            <p>Student ID Number: <span id="confirmStudentID"></span></p>
+            <p>Seat Number: <span id="confirmSeatNum"></span></p>
+            <p>Date: <span id="confirmDate"></span></p>
+            <p>Time Slot: <span id="confirmTime"></span></p>
+            <p>Reservation Type II: <span id="confirmReservationTypeGroupOrSolo"></span></p>
+            <button id="confirmReservationBtn">Confirm Reservation</button>
+            <button id="cancelReservationBtn">Cancel</button>
+        </div>
+    </div>
+{{else}}
+
+            <div class="reserve-form">
+              
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="seatnum">Seat Number:</label>
+                    </div>
+                    <div class="col-75">
+                    <input type="text" id="selectedSeatNum"name="seatnumber" placeholder="Please select a Seat"  readonly>
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="date">Date:</label>
+                    </div>
+                    <div class="col-75">
+                      <input type="date" id="selectedDate" name="date" placeholder="Please select a Date">
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div class="col-25">
+                      <label for="timeSlot">Time Slot:</label>
+                    </div>
+                    <div class="col-75">
+                      <select id="selectedTime" name="time">
+                        <option value="7000"> 07:30 AM - 09:00 AM     </option>
+                        <option value="9000"> 09:15 AM - 10:45 AM     </option>
+                        <option value="1100"> 11:00 AM - 12:30 PM     </option>
+                        <option value="1200"> 12:45 PM - 02:15 PM     </option>
+                        <option value="1400"> 02:30 PM - 04:00 PM     </option>
+                        <option value="1600"> 04:15 PM - 05:45 PM     </option>
+                      </select>
+                    </div>
+                </div>
+                
+                <div class="row-reserve">
+                    <div class="col-25">
+                        <label for="anonymous"  style="font-size: 16px;">Reserve Anonymously:</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="checkbox" id="anonymous" name="anonymous">
+                        <label for="anonymous"  style="font-size: 18px;">Yes, I'd like to reserve anonymously</label>
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div class="col-25">
+                        <label for="groupOrSolo"> </label>
+                    </div>
+                    <div class="col-75">
+                        <input type="radio" id="soloReservation" name="reservationType" value="solo" checked>
+                        <label for="soloReservation"><img src="https://cdn-icons-png.flaticon.com/128/9742/9742643.png" alt="Solo Logo" height="32"> Solo </label>
+                        <input type="radio" id="groupReservation" name="reservationType" value="group">
+                        <label for="groupReservation"><img src="https://cdn-icons-png.flaticon.com/128/1769/1769041.png" alt="Group Logo" height="32">Group Reservation</label>
+                        
+                    </div>
+                </div>
+                <div class="row-reserve">
+                    <div  class="group-note">
+                        <img src="https://cdn-icons-png.flaticon.com/128/665/665049.png" alt="group-note" height="32">
+                         <i><p>Group reservations allow booking between 2 to 5 seats</p></i>
+                    </div>
+                </div>
+            
+                <div class="row-reserve">
+                    <div class="col-25">
+                    </div>
+                    <div class="col-75">
+                    <input type="submit" value="Reserve" id="reserveBtn">
+                    </div>
+                </div>
+                
+        
+            </div>
+
+
+                
+                
+
+        </div>
+
+    </div>
+    
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+          
+            <h2>Reservation Confirmation</h2>
+            <h4>Room: {{selectedLab.labName}}</h4>
+<strong> <p>Seat Number: </strong> <span id="confirmSeatNum"></span></p>
+<strong> <p>Date:        </strong><span id="confirmDate"></span></p>
+<strong> <p>Time Slot:   </strong> <span id="confirmTime"></span></p>
+<strong> <p>Reservation Type:</strong> <span id="confirmReservationType"></span></p>
+<strong> <p>Reservation Type II: </strong><span id="confirmReservationTypeGroupOrSolo"></span></p>
+            <button id="confirmReservationBtn">Confirm Reservation</button>
+            <button id="cancelReservationBtn">Cancel</button>
+        </div>
+    </div>
+{{/if}}
+
+    
+   
+    
+    <div id="dimmedBackground"></div>
+    <div id="popupWindow">
+        <div id="closeButton">&times;</div>
+        <h4>What is this page?</h4>
+        <div>This page facilitates reserving seats for specific labs. Choose your desired seat, along with the preferred date and time slot.</div>
+    </div>
+
+  
+   <script src="/common/Javascript/edit_popup.js"></script>
+{{#if profileDetails.isLabtech}}
+  <script src="/common/Javascript/reserve_labtech.js"></script>
+{{else}}
+  <script src="/common/Javascript/reserve_lab.js"></script>
+{{/if}}
+
+ 
+
+</body>

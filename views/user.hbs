@@ -1,0 +1,109 @@
+<body id="{{user.role}}-view">
+    <div id="header">
+        <div id="top-bar">
+            <img id="logo" src="/common/CSS & Assets/Assets/ILABYOU-logo.png" alt="img not available">
+            <button id="backButton" class="header-but">Back</button>
+            <button id="homeButton" class="header-but">Home</button>
+        </div>
+    </div>
+    <div id="body">
+        <div id="main-section">
+            <img id="profile-picture" src="/common/CSS & Assets/Assets/elmo.jpg" alt="Profile Picture">
+            <br>            
+            <div id="fullName">{{user.firstName}} {{user.lastName}}</div>   
+            <br>
+            {{#if user.isLabtech}}
+                <div id="account-type">Lab Technician</div>
+            {{else}}
+                <div id="account-type">Student</div>
+            {{/if}}
+        </div>
+        <div id="mid-section">
+            <div id="bio">
+                <h2>Bio</h2>
+                <div id="bio-text">{{user.bio}}</div> 
+            </div>
+            <div id="account-details">
+                <h2>Account Details</h2>
+                <div class="profile-detail">
+                    <div><b>Email: &ensp;</b></div>
+                    <div id="email">{{user.email}}</div>
+                </div>
+                <div class="profile-detail">
+                    <div><b>ID Number: &ensp;</b></div>
+                    <div id="idNumber">{{user.idNum}}</div>
+                </div>
+                <div class="profile-detail">
+                    <div><b>Birthday: &ensp;</b></div>
+                    <div id="birthday">{{user.birthday}}</div>
+                </div>
+                <div class="profile-detail">
+                    <div><b>Pronouns: &ensp;</b></div>
+                    <div id="pronouns">{{user.pronouns}}</div>
+                </div>
+            </div>
+            {{#if user.isPublic}}
+            <div id="stats">
+                <h2>Stats</h2>
+                <div id="active-stat">You have 5 active reservations.</div>
+                <div id="type-ratio-label">Reservation Type Ratio</div>
+                <progress id="type-bar" max="100" value="50">50%</progress>
+                <div id="type-ratio">
+                    <div id="solo-percent">Solo: 50%</div>
+                    <div id="group-percent">Group: 50%</div>
+                </div>
+            </div>
+            {{else}}
+            <div id="stats">
+                <h2>Stats</h2>
+                <div id="active-stat">Stats are hidden for this user. You cannot see this user's active reservations.</div>
+            </div>
+            {{/if}}
+        </div>
+        {{#if user.isPublic}}
+        <div id="res-section"> 
+            <h2>{{user.firstName}}'s Reservations</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Laboratory</th>
+                        <th>Seat</th>
+                        <th>Request DT</th>
+                        <th>Reservation DT</th>
+                        <th>Type</th>
+                        {{#if user.isLabtech}}
+                            <th>Student ID</th>
+                        {{/if}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if user.isLabtech}}
+                        {{#each reservations}}
+                            <tr class="table-row">
+                                <td>{{lab}}</td>
+                                <td>{{seat}}</td>
+                                <td>{{requestDT}}</td>
+                                <td>{{reserveDT}}</td>
+                                <td>{{type}}</td>
+                                <td>{{id}}</td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        {{#each reservations}}
+                        <tr class="table-row">
+                            <td>{{lab}}</td>
+                            <td>{{seat}}</td>
+                            <td>{{requestDT}}</td>
+                            <td>{{reserveDT}}</td>
+                            <td>{{type}}</td>
+                        </tr>
+                        {{/each}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+        {{/if}}
+    </div>
+    <div id="dimmedBackground"></div>
+</div>
+</body>

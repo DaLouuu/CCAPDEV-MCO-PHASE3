@@ -1,0 +1,234 @@
+body {
+    margin: 0%;
+    background-image: url("./Assets/login-bg.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+.body-parent {
+    display: flex;
+    flex-direction: row;
+}
+
+.signup-box-parent {
+    display: flex;
+    margin-left: 3%;
+}
+
+.bounded-box {
+    border: 1px solid black;
+    background-color: rgba(255, 250, 250, 0.20);
+    padding: 5%;
+    margin: 10% 10% 8.33% 10%;
+    border-radius: 5vw;
+    width: 49vw;
+    height: 40vw;
+}
+
+.box-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.logo-header > img {
+    max-width: 14vw;
+}
+
+.signup-header {
+    display: flex;
+    margin-left: 3.7%;
+    margin-top: 1.5%;
+    font-family: Baskerville Old Face;
+    font-size: 5vw;
+    align-items: center;
+    justify-content: right;
+    letter-spacing: 3px;
+}
+
+.signup-forms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin-top: 10%;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
+.form-input img {
+    max-width: 2vw;
+    margin-right: 10px;
+    margin-bottom: 9px;
+}
+
+.signup-email, .signup-password, .confirm-password {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: none;
+    outline: none;
+    background: none;
+    border-bottom: 1px solid black;
+    width: 25vw;
+    margin-bottom: 5%;
+}
+
+.signup-email::placeholder,
+.signup-password::placeholder,
+.confirm-password::placeholder {
+    font-family: Helvetica, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+label {
+    font-family: Helvetica, sans-serif;
+    font-size: 1.2vw;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-right: 1%;
+}
+
+input[type="checkbox"] {
+    position: relative;
+    margin-right: 1%;
+    appearance: none;
+    width: 1.7vw;
+    height: 1.7vw;
+    background-color: #f1d2d5;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #edb0b6;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '\2713'; 
+    font-size: 1vw;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+label:hover input[type="checkbox"] {
+    border: 2px solid #edb0b6;
+}
+
+.remember-signup {
+    display: flex;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 9.46%; /* 70px / 740px * 100 */
+}
+
+.submit-button input[type="submit"] {
+    background-color: #f1d2d5;
+    color: black;
+    border: none;
+    padding: 1.35% 2.7%; /* 10px / 740px * 100 */
+    border-radius: 6.76vw; /* 50px / 740px * 100 */
+    cursor: pointer;
+    font-weight: bolder;
+    width: 13vw;
+    font-size: 1.3vw; /* 1.3px / 740px * 100 */
+    letter-spacing: 0.20vw; /* 1.5px / 740px * 100 */
+    font-family: Helvetica, sans-serif;
+    height: fit-content; 
+}
+
+.submit-button input[type="submit"]:hover {
+    background-color: #edb0b6;
+}
+
+.signup-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5%;
+    font-family: Helvetica, sans-serif;
+    font-size: 1vw;
+    letter-spacing: 1px;
+}
+
+a {
+    color: black;
+}
+
+.visuals-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    margin-left: 4%;
+}
+
+.image-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 15% 15% 0 0;
+    width: 20vw;
+    height: 30vw;
+}
+
+.image-frame img {
+    border-radius: 15% 15% 0 0;
+    max-width: 100%;
+    max-height: 100%;
+    width: 20vw;
+    height: 30vw;
+    display: block;
+}
+
+.visuals-quote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5%;
+    font-family: Baskerville Old Face;
+    font-size: 3vw;
+    letter-spacing: 2px;
+}
+
+#user-type-choice {
+    justify-content: left;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 1%;
+    margin-right: 2%;
+}
+
+#role-label, .choice-label {
+    font-family: Helvetica, sans-serif;
+    font-size: 1vw;
+    letter-spacing: 1px;
+    margin-left: 0.5%;
+}
+
+input[type="radio"], .input-choice {
+    position: relative;
+    width: 1.7vw;
+    height: 1.7vw;
+    accent-color: deeppink;
+    cursor: pointer;
+    background-color: white;
+}

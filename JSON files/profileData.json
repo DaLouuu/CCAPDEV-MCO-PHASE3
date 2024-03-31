@@ -1,0 +1,63 @@
+[
+    {
+      "firstName": "Elmo",
+      "lastName": "Gulat",
+      "role": "labtech",
+      "bio": "Hi, I am a laboratory technician. Feel free to approach me regarding your concerns or bookings. Contact details below.",
+      "email": "elmo_g@dlsu.edu.ph",
+      "idNum": "LT12209589",
+      "birthday": "2000-01-01",
+      "pronouns": "She/Her",
+      "isPublic": true,
+      "isLabtech": true
+    },
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "student",
+      "bio": "Hi, I'm a student. I enjoy studying and learning new things.",
+      "email": "john@example.com",
+      "idNum": "ST123456",
+      "birthday": "1998-05-15",
+      "pronouns": "He/Him",
+      "isPublic": false,
+      "isLabtech": false
+    },
+    {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "role": "student",
+      "bio": "Hello, I'm another student. I love art and music.",
+      "email": "jane@example.com",
+      "idNum": "ST789012",
+      "birthday": "1999-11-20",
+      "pronouns": "She/Her",
+      "isPublic": true,
+      "isLabtech": false
+    },
+    {
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "role": "labtech",
+      "bio": "Hello, I am another lab technician. I specialize in chemistry.",
+      "email": "alice@example.com",
+      "idNum": "LT987654",
+      "birthday": "1985-08-10",
+      "pronouns": "She/Her",
+      "isPublic": true,
+      "isLabtech": true
+    },
+    {
+      "firstName": "Michael",
+      "lastName": "Brown",
+      "role": "labtech",
+      "bio": "Hello, I'm a lab technician with a background in biology.",
+      "email": "michael@example.com",
+      "idNum": "LT456789",
+      "birthday": "1990-03-25",
+      "pronouns": "He/Him",
+      "isPublic": true,
+      "isLabtech": true
+    }
+  ]
+  

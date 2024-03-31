@@ -1,0 +1,116 @@
+
+<body>
+    <div id="header">
+        <div id="top-bar">
+            <img id="logo" src="/common/CSS & Assets/Assets/ILABYOU-logo.png" alt="img not available">
+            <button id="homeButton" class="header-but">Home</button>
+            <button id="aboutButton" class="header-but">Info</button>
+            <div class="profile-container">
+                <button id="pfp"></button>
+                <div class="profile-popup">
+                    <ul>
+                        <li><a href="/profile">View Account</a></li>
+                        <li><a href="/login">Logout</a></li>
+                    </ul>
+                </div>
+            </div>      
+        </div>
+    </div>
+    <div id="title-bar">
+            <div id="title">
+                <h1>Active Reservations</h1>
+            </div>
+
+            <div id="filterForm">
+                <label for="filterInput">Search:</label>
+                <input type="text" id="filterInput" name="filterInput" placeholder="Enter search keyword...">
+                <button id="filterButton">Search</button>
+            </div>
+        </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Laboratory Number</th>
+                <th>Seat Number</th>
+                <th>Date and Time of Request</th>
+                <th>Date and Time of Reservation</th>
+                <th>Reservation Type</th>
+                {{#if profileDetails.isLabtech}}
+                            <th>Student ID</th>
+                {{/if}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#if profileDetails.isLabtech}}
+                        {{#each reservations}}
+                            <tr class="table-row">
+                                <td>{{lab}}</td>
+                                <td>{{seat}}</td>
+                                <td>{{requestDT}}</td>
+                                <td>{{reserveDT}}</td>
+                                <td>{{type}}</td>
+                                <td>{{requestFor}}</td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        {{#each reservations}}
+                        <tr class="table-row">
+                            <td>{{lab}}</td>
+                            <td>{{seat}}</td>
+                            <td>{{requestDT}}</td>
+                            <td>{{reserveDT}}</td>
+                            <td>{{type}}</td>
+                            
+                        </tr>
+                        {{/each}}
+                    {{/if}}
+        </tbody>
+    </table>
+    <div id="dimmedBackground"></div>
+    <div id="resWindow" class="popup">
+        <button id="closeRes" class="close-popup">&times;</button>
+        
+        <h4>Reservation Details</h4>
+        <div id="student-id"></div>
+        <div id="res-type"></div>
+        <div id="laboratory"></div>
+        <div id="seat-num"></div>
+        <div id="req-date"></div>
+        <div id="res-date"></div> 
+        <button id="edit-res">Edit Reservation</button>
+        <button id="delete-res">Delete Reservation</button>
+    </div>
+    <div id="aboutWindow" class="popup">
+        <button id="closeAbout" class="close-popup">&times;</button>
+        <h4>What is this page?</h4>
+        <div>This page allows you to view all your active reservations in a table format. Click on the rows to learn more
+            about each reservation!</div>
+    </div>
+    <div id="deletePopup">
+        <button id="closeButtonDelete">&times;</button>
+        <h3>Are you sure you want to delete your reservation?</h3>
+        <div id="delete-options">
+            <form id="choiceForm">
+                <div class="choice">
+                    <input type="radio" id="yes-delete" name="choice" value="yes" class="input-choice">
+                    <label for="yes-delete" class="choice-label">Yes, delete my reservation.</label>
+                </div>
+                <div class="choice">
+                    <input type="radio" id="no-delete" name="choice" value="no" class="input-choice">
+                    <label for="no-delete" class="choice-label">No, keep my reservation.</label>
+                </div>
+                <br>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div> 
+    </div>  
+    <div class="profile-popup">
+        <ul>
+            <li><a href="labtech_profile.html">View Account</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
+    </div>
+    
+</body>
+
+

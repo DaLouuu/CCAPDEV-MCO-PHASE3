@@ -1,0 +1,28 @@
+[
+    {
+        "labIndex": "0",
+        "labName": "GK303",
+        "columns": 9
+    },
+    
+    {
+        "labIndex": "1",
+        "labName": "GK304",
+        "columns": 8
+    },
+    {
+        "labIndex": "2",
+        "labName": "GK305",
+        "columns": 8
+    },
+    {
+        "labIndex": "3",
+        "labName": "GK306A",
+        "columns": 9
+    },
+    {
+        "labIndex": "4",
+        "labName": "GK306B",
+        "columns": 9
+    }
+]

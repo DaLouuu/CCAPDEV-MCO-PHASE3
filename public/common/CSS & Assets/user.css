@@ -1,0 +1,360 @@
+#student-view {
+    font-family: Helvetica, sans-serif; 
+    margin: 0px;
+    padding: 0px;
+    background-image: url('./Assets/general-bg.png');
+    background-size: cover; 
+}
+#labtech-view {
+    font-family: Helvetica, sans-serif;
+    padding: 0px;
+    margin: 0px;
+    background-image: url('./Assets/labtech-bg.png');
+    background-size: cover;
+    
+}
+#body{
+    margin-top: 15px;
+    display: flex;
+    height: 100%;
+    margin-left: 50px;
+    margin-right: 50px;
+
+}
+
+#header {
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 90%;
+    align-items: center;
+}
+
+#top-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+#logo {
+    width: 6%;
+}
+
+.profile-detail {
+    display: flex;
+    margin-bottom: 7px;
+    
+}
+
+#profile-picture  {
+    
+    width: 17vw;
+    height: 17vw;
+    border-radius: 50%;
+    align-self: center;
+    margin-top: 7%;
+    border: solid 10px pink;
+}
+
+#editProfilePicButton {
+    background-color: white;
+    border-radius: 10px;
+    border: solid 0.5px grey;
+    font-size: 70%;
+    margin-top: 10px;
+    margin-bottom: 7%;
+}
+
+.header-but {
+    font-family: Baskerville;
+    background-color: rgba(255, 255, 255, 0); 
+    margin-left: 3%;
+    border:0px;
+    font-weight: bold;
+    font-size: large;
+    text-decoration: underline;
+    height: 50%;
+    width: auto;
+    
+}
+
+#main-section {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: solid 0.5px black;
+    width: 50%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    height: auto; /* Adjusted height to fit content */
+}
+
+#fullName {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+#username, #account-privacy{
+    color:grey;
+}
+
+#account-type{
+    font-weight: bold;
+    color:maroon;
+    font-size: 120%;
+}
+
+#editProfileButton, #delProfileButton, #saveChangesButton {
+    margin-top: 10%;
+    background-color: rgb(242, 128, 128);
+    color: white;
+    font-weight: bold;
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#saveChangesButton{
+    margin-top: 0;
+}
+
+#bio, #account-details, #stats {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: solid 0.5px black;
+    width:100%;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin: 10px;
+    border-radius: 10px;
+   font-size: 1vw;
+}
+#bio{
+    height:8vw;   
+}
+#account-details {
+    height:12vw;
+}
+#stats{
+    height:11vw;
+}
+
+#mid-section {
+    text-align: center;
+    width: 50%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    height: auto; /* Adjusted height to fit content */
+}
+
+h2{
+    font-family: Baskerville;
+    font-size: 1.4vw;
+}
+
+#active-stat{
+    font-weight: bold;
+    font-size: 1.2vw;
+    color:maroon;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+#type-ratio-label{
+    font-weight: bold;
+    color:grey;
+}
+#upcoming-stat, #ongoing-stat{
+    margin-bottom: 10px;
+}
+/*
+    validation for editing bio
+    generating stat data
+    extra editing options for new profile deets
+
+*/
+#res-section{
+    background-color: rgba(255, 255, 255, 0.5);
+    border: solid 0.5px black;
+    width:35%;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin: 10px;
+    margin-left: 80px;
+    border-radius: 10px;
+    overflow-y: auto;
+    height: 35vw; 
+    font-size: 1vw;
+}
+
+
+.table-row {
+    border: 1px solid gray; 
+    border-radius: 5px;
+    padding: 10px; 
+    margin-bottom: 10px; 
+    
+}
+
+#dataTable th,
+#dataTable td {
+    text-align: center; 
+    padding: 8px; 
+    font-size: 0.8vw;
+}
+
+#dataTable th {
+    background-color:pink; 
+    font-weight: bold; 
+    font-size: small;
+}
+
+#popupWindow {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+    overflow-y: auto;
+    max-height: 500px;
+}
+#counter {
+    
+    color: gray;
+    font-size: 10px;
+}
+#dimmedBackground {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    
+}
+
+#closeButton {
+    border: 0px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+  .choice {
+    display: inline-block;
+    margin: 0 12px;
+    border: 10px;
+}
+
+
+.input-choice {
+    margin-right: 5px; 
+}
+
+
+.choice-label {
+    margin-right: 30px;
+    font-size: 16px;
+
+}
+
+progress {
+    width: 90%;
+}
+progress::-webkit-progress-bar {
+    background-color: rgb(255, 164, 179);
+ }
+ progress::-webkit-progress-value {
+    background-color: rgb(193, 132, 193);
+ }
+#type-ratio{
+    display: flex;
+    width: 90%;
+}
+#solo-percent {
+    color: rgb(193, 132, 193);
+    font-weight: bold;
+    font-size: 1vw;
+    width: 50%;
+}
+#group-percent {
+    color: rgb(255, 164, 179);
+    font-weight: bold;
+    font-size: 1vw;
+    width: 50%;
+    text-align: end;
+}
+
+
+/* slider style */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  input:checked + .slider {
+    background-color: pink;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(193, 132, 193);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider.round:before {
+  position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  #privacyStatus {
+    font-size: 0.9vw;
+    font-weight: bold;
+    color: maroon;
+    margin-left: 10px;
+  
+  }
+  #slider-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+  }
