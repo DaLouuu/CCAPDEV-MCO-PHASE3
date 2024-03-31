@@ -1,4 +1,5 @@
 const responder = require('../models/Responder');
+const bcrypt = require('bcrypt');
 
 function handleError(response, errorMessage) {
   console.error(errorMessage); // Log the error message to console for debugging
@@ -170,54 +171,53 @@ function add(server){
   });
 
     // login and find user
-server.post('/read-user', function(req, resp){
-  const searchQuery = { username: req.body.email, password: req.body.password };
-  console.log("username: " + req.body.password )
-  console.log("pass: " + req.body.email )
-  // Using the Mongoose model to perform the query
-  responder.Login.findOne(searchQuery).then(function(login){
-    console.log('Finding user');
+    server.post('/read-user', function(req, resp) {
+      let searchUser = { username: req.body.email };
+      let password = req.body.password;
+  
+      responder.Login.findOne(searchUser).then(function(user) {
+      console.log('Finding user');
+  
+      if (user != undefined && user._id != null) {
+        bcrypt.compare(password, user.password, function(err, result) {
+          if (result) {
+              // Once login is found, find the corresponding profile
+              responder.Profile.findOne({ email: user.username }).then(function(profile) {
+                if (profile != undefined && profile._id != null) {
+                    // Merge login and profile details
+                    const sessionProfile = {
+                        firstName: profile.firstName,
+                        lastName: profile.lastName,
+                        role: profile.role,
+                        bio: profile.bio,
+                        email: profile.email,
+                        idNum: profile.idNum,
+                        birthday: profile.birthday,
+                        pronouns: profile.pronouns,
+                        isPublic: profile.isPublic,
+                        isLabtech: profile.isLabtech
+                    };
 
-    if(login != undefined && login._id != null){
-      // Once login is found, find the corresponding profile
-      responder.Profile.findOne({ email: login.username }).then(function(profile) {
-        if(profile != undefined && profile._id != null) {
-          // Merge login and profile details
-          const sessionProfile = {
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            role: profile.role,
-           
-            bio: profile.bio,
-            email: profile.email,
-            idNum: profile.idNum,
-            birthday: profile.birthday,
-            pronouns: profile.pronouns,
-            isPublic: profile.isPublic,
-            isLabtech: profile.isLabtech
-          };
-          
-          // Save sessionProfile in session for future use
-          
-          profileDetails = sessionProfile;
-          console.log("email: " + profileDetails.email )
-          // Redirect to homepage and override profileDetails with sessionProfile
-          resp.redirect('/homepage');
-        } else {
-          // Profile not found for the logged-in user
-          handleError(resp, 'Profile not found for the logged-in user');
+                    // Save sessionProfile in session for future use
+                    profileDetails = sessionProfile;
+                    console.log("email: " + profileDetails.email)
+  
+                    // Redirect to homepage and override profileDetails with sessionProfile
+                    resp.redirect('/homepage');
+                } else {
+                    handleError(resp, 'Profile not found for the logged-in user');
+                  }
+              }).catch(error => {handleError(resp, 'Error finding profile: ' + error);
+                  });
+          } else { handleError(resp, 'Profile not found for the logged-in user');}
+        });
+      } else {
+          // Login details not found or incorrect
+          resp.redirect('/');
         }
-      }).catch(error => {
-        handleError(resp, 'Error finding profile: ' + error);
-      });
-    } else {
-      // Login details not found or incorrect
-      resp.redirect('/');
-    }
-  }).catch(error => {
-    handleError(resp, 'Error finding user: ' + error);
+      }).catch(error => {handleError(resp, 'Error finding user: ' + error);});
   });
-});
+  
 
 
 
@@ -240,11 +240,18 @@ server.post('/create-user', function(req, resp) {
   }
 
   generateUniqueUserId(prefix).then((newId) => {
-    console.log("Unique  ID:", newId);
+    console.log("Unique ID:", newId);
+
+    const saltRounds = 10;
+    let default_pass = req.body.password;
+
+    bcrypt.hash(default_pass, saltRounds).then(hash => {
+    const encrypted_pass = hash;
+    console.log("Encrypted pass:", encrypted_pass);
 
     const loginInstance = responder.Login({
       username: req.body.email,
-      password: req.body.password,
+      password: encrypted_pass,
       role: req.body.choice
     });
 
@@ -261,8 +268,8 @@ server.post('/create-user', function(req, resp) {
       isLabtech: isLabtech
     });
 
-    // Save the instances to the database
-    loginInstance.save().then(function(login) {
+      // Save the instances to the database
+      loginInstance.save().then(function(login) {
       console.log('User created');
       profileInstance.save();
       resp.redirect('/'); // Redirect to home page after successful creation
@@ -274,6 +281,14 @@ server.post('/create-user', function(req, resp) {
     console.error('Error generating unique user ID:', error);
     resp.redirect('/'); // Redirect to home page in case of error
   });
+  }).catch(err => {
+    // Handle errors during hashing
+    console.error("Error hashing password:", err);
+  });
+
+    
+
+    
 });
 
     
