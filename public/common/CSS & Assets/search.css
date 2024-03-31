@@ -1,3 +1,4 @@
+/* Body */
 body {
     font-family: Helvetica, sans-serif;
     margin: 20px;
@@ -6,50 +7,54 @@ body {
     overflow-x: hidden;
 }
 
-button:hover{
+/* Buttons */
+button:hover {
     cursor: pointer;
 }
 
-.header-but{
+/* Header */
+.header-but {
     font-family: Baskerville;
     background-color: rgba(255, 255, 255, 0); 
     margin-left: 3%;
-    border:0px;
+    border: 0px;
     font-weight: bold;
     font-size: 1.2vw;
     text-decoration: underline;
     height: 50%;
     width: auto;
-    
 }
-#header, #title-bar{
+
+#header, #title-bar {
     margin-top: 0px;
     margin-left: 5%;
     width: 90%;
     align-items: center;
 }
-#top-bar, #title-bar{
+
+#top-bar, #title-bar {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
 }
 
-#logo{
+#logo {
     width: 6%;
-    
 }
-.profile-container{
+
+/* Profile */
+.profile-container {
+    padding-left: 2.5vw;
     width: 9vh;
     height: 9vh;
     margin-top: 10px;
     border-radius: 100%;
     margin-left: 62vw;
-    border: white solid 0.5px;
     position: relative;
-  }
-  
-  #pfp {
+}
+
+#pfp {
     width: 5vw;
     height: 5vw;
     border-radius: 100%;
@@ -57,27 +62,29 @@ button:hover{
     background-size: cover;
     border: none;
     cursor: pointer;
-  }
-  
-h1{
+}
+
+/* Headings */
+h1 {
     font-family: Baskerville;
     font-size: 3vw;
 }
 
-#pfp:hover{
-  cursor: pointer;
+h4 {
+    font-size: 150%;
 }
+
+/* Forms */
 #filterForm {
+    padding-left: 31.5vw;
     text-align: end;
     align-self: center;
     width: 40%;
     font-weight: bold;
     font-size: 1vw;
 }
-#title {
-    width:50%;
-}
 
+/* Tables */
 table {
     width: 90%;
     border-collapse: collapse;
@@ -95,14 +102,18 @@ th {
     border-top: 0.5px solid black;
     border-bottom: 0.5px solid black;
 }
+
 th:first-child {
     border-left: 0.5px solid black;
-  }
+}
+
 th:last-child {
     border-right: 0.5px solid black;
 }
+
+/* Filter Button */
 #filterButton {
-    padding:7px;
+    padding: 7px;
     background-color: #EFB5B1;
     font-size: 1vw;
     cursor: pointer;
@@ -111,6 +122,7 @@ th:last-child {
     border: 0.5px solid black;
 }
 
+/* Table Rows */
 tbody tr {
     display: flex;
     flex-wrap: wrap;
@@ -132,12 +144,14 @@ tbody tr:hover {
 tbody tr td {
     flex: 1;
     padding: 15px;
+    font-size: 1vw;
 }
 
 #dataTable {
     box-shadow: none;
 }
 
+/* Table Headers */
 thead tr {
     display: flex;
     flex-wrap: wrap;
@@ -148,9 +162,7 @@ thead tr {
     margin-bottom: 10px;
     overflow: hidden;
 }
-.table-row {
-    font-size: 0.9vw;
-}
+
 thead tr th {
     flex: 1;
     padding: 15px;
@@ -158,13 +170,9 @@ thead tr th {
     font-size: 1vw;
 }
 
-h4 {
-    font-size: 150%;
-}
-
+/* Dimmed Background for Popup */
 #dimmedBackground {  
     position: fixed;
-    
     top: 0;
     left: 0;
     width: 100%;
@@ -173,8 +181,9 @@ h4 {
     z-index: 999; 
 }
 
+/* Popup */
 .popup {
-    display:none;
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -194,10 +203,6 @@ h4 {
     background-color: #fff;
 }
 
-.close-popup:hover {
-    cursor: pointer;
-}
-
 #closeButtonDelete {
     border: 0px;
     border-radius: 10px;
@@ -208,28 +213,21 @@ h4 {
     left: 10px; 
 }
 
-#closeButtonDelete:hover {
-    cursor: pointer;
-}
-
-  .choice {
+/* Choices and Inputs */
+.choice {
     display: inline-block; 
     margin: 0 12px;
     border: 10px;
 }
 
-
 .input-choice {
     margin-right: 5px; 
 }
 
-
 .choice-label {
     margin-right: 30px;
     font-size: 16px; 
-
 }
-
 
 .submit-button {
     display: block; 
@@ -246,10 +244,7 @@ h4 {
     border-radius: 5px; 
 }
 
-.submit-button:hover {
-    background-color: rgb(242, 128, 128); 
-}
-
+/* Profile Popup */
 .profile-popup {
     display: none;
     position: absolute;
@@ -260,45 +255,49 @@ h4 {
     border: 1px solid #F8EBFC;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  
-  .profile-popup ul {
+}
+
+.profile-popup ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .profile-popup ul li {
+}
+
+.profile-popup ul li {
     padding: 10px;
-  }
-  
-  .profile-popup ul li a {
+}
+
+.profile-popup ul li a {
     font-family: Helvetica, sans-serif;
     font-weight: bold;
     text-decoration: none; 
     color: #333;
     font-size: 15px;
-  }
-  
-  .profile-popup ul li:hover {
+}
+
+.profile-popup ul li:hover {
     background-color: #f1d4fa;
-  }
-  #student-id{
+}
+
+/* Links */
+#student-id {
     text-decoration: underline;
     font-weight: bold;
     color: maroon;
-  }
-  #student-id:hover{
+}
+
+#student-id:hover {
     cursor: pointer;
     color: pink;
-  }
+}
 
-  .user-id {
+.user-id {
     display: none;
-  }
+}
 
-  a {
+a {
+
+
     text-decoration: none;
     color: black;
-  }
+}

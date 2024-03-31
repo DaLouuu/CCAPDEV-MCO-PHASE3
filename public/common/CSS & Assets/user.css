@@ -1,3 +1,4 @@
+/* Student View */
 #student-view {
     font-family: Helvetica, sans-serif; 
     margin: 0px;
@@ -5,23 +6,26 @@
     background-image: url('./Assets/general-bg.png');
     background-size: cover; 
 }
+
+/* Labtech View */
 #labtech-view {
     font-family: Helvetica, sans-serif;
     padding: 0px;
     margin: 0px;
     background-image: url('./Assets/labtech-bg.png');
     background-size: cover;
-    
 }
-#body{
+
+/* Body */
+#body {
     margin-top: 15px;
     display: flex;
     height: 100%;
     margin-left: 50px;
     margin-right: 50px;
-
 }
 
+/* Header */
 #header {
     margin-top: 2%;
     margin-left: 5%;
@@ -29,6 +33,63 @@
     align-items: center;
 }
 
+/* Profile */
+.profile-container {
+    padding-left: 2.5vw;
+    width: 9vh;
+    height: 9vh;
+    margin-top: 10px;
+    border-radius: 100%;
+    margin-left: 62vw;
+    position: relative;
+}
+
+#pfp {
+    width: 5vw;
+    height: 5vw;
+    border-radius: 100%;
+    background-image: url('./Assets/elmo.jpg');
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+/* Profile Popup */
+.profile-popup {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px); 
+    left: 0;
+    width: 100px; 
+    background-color: #F8EBFC;
+    border: 1px solid #F8EBFC;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-popup ul li {
+    padding: 10px;
+}
+
+.profile-popup ul li a {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    text-decoration: none; 
+    color: #333;
+    font-size: 15px;
+}
+
+.profile-popup ul li:hover {
+    background-color: #f1d4fa;
+}
+
+/* Top Bar */
 #top-bar {
     display: flex;
     flex-direction: row;
@@ -36,18 +97,19 @@
     width: 100%;
 }
 
+/* Logo */
 #logo {
     width: 6%;
 }
 
+/* Profile Detail */
 .profile-detail {
     display: flex;
     margin-bottom: 7px;
-    
 }
 
-#profile-picture  {
-    
+/* Profile Picture */
+#profile-picture {
     width: 17vw;
     height: 17vw;
     border-radius: 50%;
@@ -56,6 +118,7 @@
     border: solid 10px pink;
 }
 
+/* Edit Profile Picture Button */
 #editProfilePicButton {
     background-color: white;
     border-radius: 10px;
@@ -65,19 +128,24 @@
     margin-bottom: 7%;
 }
 
+/* Header Buttons */
 .header-but {
     font-family: Baskerville;
     background-color: rgba(255, 255, 255, 0); 
     margin-left: 3%;
-    border:0px;
+    border: 0px;
     font-weight: bold;
     font-size: large;
     text-decoration: underline;
     height: 50%;
     width: auto;
-    
 }
 
+button:hover {
+    cursor: pointer;
+}
+
+/* Main Section */
 #main-section {
     text-align: center;
     background-color: rgba(255, 255, 255, 0.5);
@@ -86,24 +154,28 @@
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
-    height: auto; /* Adjusted height to fit content */
+    height: auto;
 }
 
+/* Full Name */
 #fullName {
     font-size: 150%;
     font-weight: bold;
 }
 
-#username, #account-privacy{
-    color:grey;
+/* Username, Account Privacy */
+#username, #account-privacy {
+    color: grey;
 }
 
-#account-type{
+/* Account Type */
+#account-type {
     font-weight: bold;
-    color:maroon;
+    color: maroon;
     font-size: 120%;
 }
 
+/* Edit Profile Button, Delete Profile Button, Save Changes Button */
 #editProfileButton, #delProfileButton, #saveChangesButton {
     margin-top: 10%;
     background-color: rgb(242, 128, 128);
@@ -114,69 +186,76 @@
     padding: 5px;
 }
 
-#saveChangesButton{
+#saveChangesButton {
     margin-top: 0;
 }
 
+/* Bio, Account Details, Stats */
 #bio, #account-details, #stats {
     background-color: rgba(255, 255, 255, 0.5);
     border: solid 0.5px black;
-    width:100%;
+    width: 100%;
     padding: 10px;
     padding-left: 25px;
     padding-right: 25px;
     margin: 10px;
     border-radius: 10px;
-   font-size: 1vw;
-}
-#bio{
-    height:8vw;   
-}
-#account-details {
-    height:12vw;
-}
-#stats{
-    height:11vw;
+    font-size: 1vw;
 }
 
+#bio {
+    height: 8vw;   
+}
+
+#account-details {
+    height: 12vw;
+}
+
+#stats {
+    height: 11vw;
+}
+
+/* Mid Section */
 #mid-section {
     text-align: center;
     width: 50%;
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
-    height: auto; /* Adjusted height to fit content */
+    height: auto;
 }
 
-h2{
+/* Heading 2 */
+h2 {
     font-family: Baskerville;
     font-size: 1.4vw;
 }
 
-#active-stat{
+/* Active Stat */
+#active-stat {
     font-weight: bold;
     font-size: 1.2vw;
-    color:maroon;
+    color: maroon;
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
-#type-ratio-label{
+
+/* Type Ratio Label */
+#type-ratio-label {
     font-weight: bold;
-    color:grey;
+    color: grey;
 }
-#upcoming-stat, #ongoing-stat{
+
+/* Upcoming Stat, Ongoing Stat */
+#upcoming-stat, #ongoing-stat {
     margin-bottom: 10px;
 }
-/*
-    validation for editing bio
-    generating stat data
-    extra editing options for new profile deets
 
-*/
-#res-section{
+/* Resolution Section */
+#res-section {
     background-color: rgba(255, 255, 255, 0.5);
     border: solid 0.5px black;
-    width:35%;
+    width: 35%;
     padding: 10px;
     padding-left: 25px;
     padding-right: 25px;
@@ -188,28 +267,29 @@ h2{
     font-size: 1vw;
 }
 
-
+/* Table Row */
 .table-row {
     border: 1px solid gray; 
     border-radius: 5px;
     padding: 10px; 
     margin-bottom: 10px; 
-    
 }
 
-#dataTable th,
-#dataTable td {
+/* Data Table TH, TD */
+#dataTable th, #dataTable td {
     text-align: center; 
     padding: 8px; 
     font-size: 0.8vw;
 }
 
+/* Data Table TH */
 #dataTable th {
-    background-color:pink; 
+    background-color: pink; 
     font-weight: bold; 
     font-size: small;
 }
 
+/* Popup Window */
 #popupWindow {
     display: none;
     position: fixed;
@@ -226,11 +306,14 @@ h2{
     overflow-y: auto;
     max-height: 500px;
 }
+
+/* Counter */
 #counter {
-    
-    color: gray;
+    color: grey;
     font-size: 10px;
 }
+
+/* Dimmed Background */
 #dimmedBackground {
     display: none;
     position: fixed;
@@ -240,52 +323,63 @@ h2{
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    
 }
 
+/* Close Button */
 #closeButton {
     border: 0px;
     border-radius: 10px;
     background-color: #fff;
 }
 
-  .choice {
+/* Choice */
+.choice {
     display: inline-block;
     margin: 0 12px;
     border: 10px;
 }
 
-
+/* Input Choice */
 .input-choice {
     margin-right: 5px; 
 }
 
-
+/* Choice Label */
 .choice-label {
     margin-right: 30px;
-    font-size: 16px;
+    font-size: 
 
+16px;
 }
 
+/* Progress */
 progress {
     width: 90%;
 }
+
 progress::-webkit-progress-bar {
     background-color: rgb(255, 164, 179);
- }
- progress::-webkit-progress-value {
+}
+
+progress::-webkit-progress-value {
     background-color: rgb(193, 132, 193);
- }
-#type-ratio{
+}
+
+/* Type Ratio */
+#type-ratio {
     display: flex;
     width: 90%;
 }
+
+/* Solo Percent */
 #solo-percent {
     color: rgb(193, 132, 193);
     font-weight: bold;
     font-size: 1vw;
     width: 50%;
 }
+
+/* Group Percent */
 #group-percent {
     color: rgb(255, 164, 179);
     font-weight: bold;
@@ -294,33 +388,31 @@ progress::-webkit-progress-bar {
     text-align: end;
 }
 
-
-/* slider style */
+/* Switch */
 .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-    
-  }
-  
-  .switch input { 
+}
+
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked + .slider {
     background-color: pink;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-  }
-  
-  .slider.round {
+}
+
+.slider.round {
     border-radius: 34px;
     position: absolute;
     cursor: pointer;
@@ -331,10 +423,10 @@ progress::-webkit-progress-bar {
     background-color: rgb(193, 132, 193);
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  .slider.round:before {
-  position: absolute;
+}
+
+.slider.round:before {
+    position: absolute;
     content: "";
     height: 26px;
     width: 26px;
@@ -344,17 +436,19 @@ progress::-webkit-progress-bar {
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 50%;
-  }
+}
 
-  #privacyStatus {
+/* Privacy Status */
+#privacyStatus {
     font-size: 0.9vw;
     font-weight: bold;
     color: maroon;
     margin-left: 10px;
-  
-  }
-  #slider-container {
+}
+
+/* Slider Container */
+#slider-container {
     margin-top: 10px;
     display: flex;
     align-items: center;
-  }
+}
