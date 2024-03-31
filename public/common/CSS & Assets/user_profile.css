@@ -33,6 +33,62 @@ a:hover {
     align-items: center;
 }
 
+/* Profile */
+.profile-container {
+    padding-left: 2.5vw;
+    width: 9vh;
+    height: 9vh;
+    margin-top: 10px;
+    border-radius: 100%;
+    margin-left: 62vw;
+    position: relative;
+}
+
+#pfp {
+    width: 5vw;
+    height: 5vw;
+    border-radius: 100%;
+    background-image: url('./Assets/elmo.jpg');
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+/* Profile Popup */
+.profile-popup {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px); 
+    left: 0;
+    width: 100px; 
+    background-color: #F8EBFC;
+    border: 1px solid #F8EBFC;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-popup ul li {
+    padding: 10px;
+}
+
+.profile-popup ul li a {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    text-decoration: none; 
+    color: #333;
+    font-size: 15px;
+}
+
+.profile-popup ul li:hover {
+    background-color: #f1d4fa;
+}
+
 #top-bar {
     display: flex;
     flex-direction: row;
