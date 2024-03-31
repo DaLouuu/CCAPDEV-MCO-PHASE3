@@ -156,7 +156,8 @@
         <button id="closeButtonDelete">&times;</button>
         <h3>Are you sure you want to delete your account? This action is irreversible.</h3>
         <div id="delete-options">
-            <form id="choiceForm">
+            <!--<form name ="login-user" action="read-user" method="post"></form>-->
+            <form id="choiceForm" action="delete-user" method="post">
                 <div class="choice">
                     <input type="radio" id="yes-delete" name="choice" value="yes" class="input-choice">
                     <label for="yes-delete" class="choice-label">Yes, delete my account.</label>

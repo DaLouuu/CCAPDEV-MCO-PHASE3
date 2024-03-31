@@ -150,7 +150,7 @@ $(document).ready(function () {
         $('#privacyStatus').text(status);
     });
 
-
+/*
     $('#choiceForm').submit(function (event) {
         event.preventDefault();
 
@@ -164,6 +164,6 @@ $(document).ready(function () {
         else if (choice === "no"){
             closeButtonDelete.trigger('click');
         }
-    });
+    });*/
 
 });

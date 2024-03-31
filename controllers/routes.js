@@ -265,7 +265,8 @@ server.post('/create-user', function(req, resp) {
       birthday: '',
       pronouns: '',
       isPublic: true,
-      isLabtech: isLabtech
+      isLabtech: isLabtech,
+      isDeleted: false
     });
 
       // Save the instances to the database
@@ -289,6 +290,23 @@ server.post('/create-user', function(req, resp) {
     
 
     
+});
+
+//delete user
+server.post('/delete-user', function(req, resp){
+  resp.redirect('/');
+
+  /* YOU NEED SESSIONS FOR THIS LMAOOOOO LEARN THAT
+  console.log("id: ", profileDetails._id);
+  responder.Profile.findById(profileDetails._id).then(function(userDelete){
+    userDelete.isDeleted = true;
+    console.log("User deleted successfully: ", userDelete);
+    resp.redirect('/');
+  }).catch(function(error) {
+    console.error('Error deleting user:', error);
+    resp.status(500).send('Error deleting user');
+  });*/
+ 
 });
 
     
