@@ -1,28 +1,40 @@
-[
-    {
-      "username": "elmo_g@dlsu.edu.ph",
-      "password": "elmog",
-      "role": "labtech"
-    },
-    {
-      "username": "john@example.com",
-      "password": "john",
-      "role": "student"
-    },
-    {
-      "username": "jane@example.com",
-      "password": "jane",
-      "role": "student"
-    },
-    {
-      "username": "alice@example.com",
-      "password": "alice",
-      "role": "labtech"
-    },
-    {
-      "username": "michael@example.com",
-      "password": "michael",
-      "role": "labtech"
-    }
-  ]
-  
+[{
+  "_id": {
+    "$oid": "65f27d24ec622dac00b21ff9"
+  },
+  "username": "elmo_g@dlsu.edu.ph",
+  "password": "$2b$10$DNbTM91C70ZsU2RzGIwAa.0euLyo7nd1tpqSx5P/fmR3edLDflUua",
+  "role": "labtech"
+},
+{
+  "_id": {
+    "$oid": "65f27d24ec622dac00b21ffa"
+  },
+  "username": "john@example.com",
+  "password": "$2b$10$XrXOEiFXMRWkTTAnIb4w1u/eUQQTowZlgi/RWJnteUwkMzjIFdTES",
+  "role": "student"
+},
+{
+  "_id": {
+    "$oid": "65f27d24ec622dac00b21ffb"
+  },
+  "username": "jane@example.com",
+  "password": "$2b$10$Y0Tefc.B3xljKsTYjnPho.4AsyHfYovSUDSActg9B258rwnVHQSQ6",
+  "role": "student"
+},
+{
+  "_id": {
+    "$oid": "65f27d24ec622dac00b21ffc"
+  },
+  "username": "alice@example.com",
+  "password": "$2b$10$reQjb9W7K/ahVQVeiVtf2uvLpv68a3xGpFNEci0WxKznRpVnA2gam",
+  "role": "labtech"
+},
+{
+  "_id": {
+    "$oid": "65f27d24ec622dac00b21ffd"
+  },
+  "username": "michael@example.com",
+  "password": "$2b$10$fpi87Cyb.d5troWfJGi/rOQCoFCjg2m6eJsiJ0C/nkDX1xUxfhhq.",
+  "role": "labtech"
+}]
