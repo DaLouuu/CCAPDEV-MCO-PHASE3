@@ -63,16 +63,38 @@ $(document).ready(function () {
     
     $('#editProfilePicButton').click(function() {
         $('#fileInput').click();
+       
     });
     $('#fileInput').change(function() {
-        var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#profile-picture').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
+        var formData = new FormData();
+        formData.append('profilePicture', $('#fileInput')[0].files[0]);
+        formData.append('id', $('#idNumber').text());
+    
+        $.ajax({
+            url: '/upload-pfp',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data, status) {
+                // Handle success response
+                console.log('Profile picture uploaded successfully');
+                console.log('Response data:', data);
+    
+                // reload page
+                location.reload();
+    
+                // Display success message to the user
+                alert('Profile picture uploaded successfully');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error('Error uploading profile picture:', error);
+                
+                // Display error message to the user
+                alert('Error uploading profile picture. Please try again.');
+            }
+        });
     });
     function updateProgressBar() {
         const soloPercent = getSoloPercent();

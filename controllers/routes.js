@@ -1,5 +1,7 @@
 const responder = require('../models/Responder');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
 
 function handleError(response, errorMessage) {
   console.error(errorMessage); // Log the error message to console for debugging
@@ -16,25 +18,45 @@ function getSearchUsers(profileDetails) {
     console.log('List successful');
     let userList = [];
     for (const user of users) {
-      userList.push({
-        _id: user._id.toString(),
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-        bio: user.bio,
-        email: user.email,
-        idNum: user.idNum,
-        birthday: user.birthday,
-        pronouns: user.pronouns,
-        isPublic: user.isPublic,
-        isLabtech: user.isLabtech
-      });
+      if (!user.isDeleted) {
+        userList.push({
+          _id: user._id.toString(),
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+          bio: user.bio,
+          email: user.email,
+          idNum: user.idNum,
+          birthday: user.birthday,
+          pronouns: user.pronouns,
+          pic: user.pic,
+          isPublic: user.isPublic,
+          isLabtech: user.isLabtech
+        });
+      }
     }
     console.log("user res: " + userList);
     return userList;
   }).catch(errorFn);
 }
 
+// Get the parent directory of the current script's directory (remove \controllers)
+const parentDir = path.dirname(__dirname);
+
+// Define the destination directory using path.join()
+const destinationDirectory = path.join(parentDir, 'public', 'common', 'CSS & Assets', 'Assets');
+
+// Multer configuration
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, destinationDirectory);
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
 
 
 // function to get reservations for lab techs
@@ -110,7 +132,19 @@ async function generateUniqueUserId(prefix) {
   return id;
 }
 function add(server){
-  let profileDetails = [];
+  let profileDetails = {
+    firstName: '',
+    lastName: '',
+    role: '',
+    bio: '',
+    email: '',
+    idNum: '',
+    birthday: '',
+    pronouns: '',
+    pic: '',
+    isPublic: false,
+    isLabtech: false
+  };
   
   //login page
   server.get('/', function(req, resp){
@@ -145,8 +179,34 @@ function add(server){
     const numColumns = 9; // Specify the number of columns
     const seats = generateSeatNumbers(numColumns);
     console.log(seats);
+    console.log("Profile pic: " + profileDetails.pic);
   });
-  
+  // Route handler for uploading profile pictures
+server.post('/upload-pfp', upload.single('profilePicture'), async (req, res) => {
+  try {
+      // Handle file upload with Multer
+      console.log('Received request to upload profile picture');
+    console.log('Request body:', req.body);
+    console.log('Request file:', req.file);
+      // Store file data (e.g., file path or filename) in MongoDB database
+      const updateQuery = { idNum: req.body.id };
+      newPfp = '/common/CSS & Assets/Assets/' +  req.file.filename;
+      const updateValues = { $set: { pic: newPfp} };
+      responder.Profile.updateOne(updateQuery, updateValues).then(function(){
+        console.log("Saved successfully");
+        
+        profileDetails.pic = newPfp;
+        res.status(200).send('Profile picture uploaded successfully');
+      }
+
+      );
+    
+      
+  } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      res.status(500).send('Error uploading profile picture');
+  }
+});
   server.get('/profile', function(req, resp){
     if (profileDetails.isLabtech) {
        getLabTechReservations(profileDetails).then(function(userReservations) {
@@ -169,6 +229,7 @@ function add(server){
       });
     }
   });
+  
 
     // login and find user
     server.post('/read-user', function(req, resp) {
@@ -194,6 +255,7 @@ function add(server){
                         idNum: profile.idNum,
                         birthday: profile.birthday,
                         pronouns: profile.pronouns,
+                        pic: profile.pic,
                         isPublic: profile.isPublic,
                         isLabtech: profile.isLabtech
                     };
@@ -264,6 +326,7 @@ server.post('/create-user', function(req, resp) {
       idNum: newId,
       birthday: '',
       pronouns: '',
+      pic: '/common/CSS & Assets/Assets/default_pfp.jpg',
       isPublic: true,
       isLabtech: isLabtech
     });
@@ -424,6 +487,7 @@ function generateSeatNumbers(numColumns) {
           idNum: user.idNum,
           birthday: user.birthday,
           pronouns: user.pronouns,
+          pic: user.pic,
           isPublic: user.isPublic,
           isLabtech: user.isLabtech
         };

@@ -16,6 +16,7 @@ const mongoose = require('mongoose');
     idNum: { type: String },
     birthday: { type: String },
     pronouns: { type: String },
+    pic: {type: String},
     isPublic: { type: Boolean },
     isLabtech: { type: Boolean },
     isDeleted: { type: Boolean }

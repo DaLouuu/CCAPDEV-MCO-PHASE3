@@ -183,12 +183,11 @@ position: relative;
 width: 5vw;
 height: 5vw;
 border-radius: 100%;
-background-image: url('./Assets/elmo.jpg');
 background-size: cover;
 border: none;
 cursor: pointer;
 }
-
+*/
 .profile-popup {
   display: none;
   position: absolute;
