@@ -1,9 +1,17 @@
 const responder = require('../models/Responder');
 const bcrypt = require('bcrypt');
 
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/labDB');
+const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
+mongoose.connect(mongo_uri);
+const session = require('express-session');
+const mongoStore = require('connect-mongodb-session')(session);
+
 function handleError(response, errorMessage) {
   console.error(errorMessage); // Log the error message to console for debugging
-  response.status(500).send('Internal Server Error'); // Send a generic error response with status code 500
+  //response.status(500).send('Internal Server Error'); // Send a generic error response with status code 500
 }
 function errorFn(err){
   console.log('Error found. Please trace!');
@@ -111,6 +119,18 @@ async function generateUniqueUserId(prefix) {
 }
 function add(server){
   let profileDetails = [];
+
+  server.use(session({
+    secret: 'sikret',
+    saveUninitialized: true, 
+    resave: false,
+    store: new mongoStore({ 
+      uri: mongo_uri,
+      collection: 'sessions',
+      //expires: 1000*60*60 // 1 hour
+      //expires: 1000*60*60// 1 hour
+    })
+  }));
   
   //login page
   server.get('/', function(req, resp){
@@ -133,6 +153,12 @@ function add(server){
 
   //store account details 
   server.get('/homepage', function(req, resp){
+
+    //will fix if need fixing lol
+    if(req.session.login_id == undefined){
+      resp.redirect('/');
+      return;
+    }
     
     resp.render('homepage',{
       layout: 'index',
@@ -145,6 +171,9 @@ function add(server){
     const numColumns = 9; // Specify the number of columns
     const seats = generateSeatNumbers(numColumns);
     console.log(seats);
+
+    console.log("USER ID:", req.session.login_user);
+    console.log("SESSION ID: ", req.session.login_id);
   });
   
   server.get('/profile', function(req, resp){
@@ -172,18 +201,18 @@ function add(server){
 
     // login and find user
     server.post('/read-user', function(req, resp) {
-      let searchUser = { username: req.body.email };
-      let password = req.body.password;
+    let searchUser = { username: req.body.email };
+    let password = req.body.password;
+
+    responder.Login.findOne(searchUser).then(function(user) {
+    console.log('Finding user');
   
-      responder.Login.findOne(searchUser).then(function(user) {
-      console.log('Finding user');
-  
-      if (user != undefined && user._id != null) {
+    if (user != undefined && user._id != null) {
         bcrypt.compare(password, user.password, function(err, result) {
-          if (result) {
-              // Once login is found, find the corresponding profile
-              responder.Profile.findOne({ email: user.username }).then(function(profile) {
-                if (profile != undefined && profile._id != null) {
+        if (result) {
+            // Once login is found, find the corresponding profile
+            responder.Profile.findOne({ email: user.username }).then(function(profile) {
+                if (profile != undefined && profile._id != null && profile.isDeleted != true) {
                     // Merge login and profile details
                     const sessionProfile = {
                         firstName: profile.firstName,
@@ -195,32 +224,56 @@ function add(server){
                         birthday: profile.birthday,
                         pronouns: profile.pronouns,
                         isPublic: profile.isPublic,
-                        isLabtech: profile.isLabtech
+                        isLabtech: profile.isLabtech,
+                        isDeleted: profile.isDeleted
                     };
 
                     // Save sessionProfile in session for future use
                     profileDetails = sessionProfile;
                     console.log("email: " + profileDetails.email)
-  
+
+                    let expiration;
+                    if (req.body.remember === "true") {
+                        expiration = 21 * 24 * 60 * 60 * 1000; // 14 days
+                    } else {
+                        expiration = 1000 * 60 * 60; // 1 hour
+                    }
+
+                    // Create session with updated expiration
+                    req.session.expires = expiration;
+
+                    //session
+                    req.session.login_user = profile._id;
+                    req.session.login_id = req.sessionID;
+
                     // Redirect to homepage and override profileDetails with sessionProfile
                     resp.redirect('/homepage');
                 } else {
+                    // Profile not found or deleted
                     handleError(resp, 'Profile not found for the logged-in user');
-                  }
-              }).catch(error => {handleError(resp, 'Error finding profile: ' + error);
-                  });
-          } else { handleError(resp, 'Profile not found for the logged-in user');}
-        });
-      } else {
-          // Login details not found or incorrect
-          resp.redirect('/');
+                    resp.redirect('/');
+                }
+            }).catch(error => {
+                handleError(resp, 'Error finding profile: ' + error);
+                resp.redirect('/');
+            });
+        } else {
+            // Password incorrect
+            handleError(resp, 'Incorrect password');
+            resp.redirect('/');
         }
-      }).catch(error => {handleError(resp, 'Error finding user: ' + error);});
+        });
+          } else {
+              // User not found
+              handleError(resp, 'User not found');
+              resp.redirect('/');
+          }
+      }).catch(error => {
+          handleError(resp, 'Error finding user: ' + error);
+          resp.redirect('/');
+      });
   });
   
-
-
-
 //creates user
 server.post('/create-user', function(req, resp) {
   // Check if password and confirmPass match
@@ -293,21 +346,28 @@ server.post('/create-user', function(req, resp) {
 });
 
 //delete user
-server.post('/delete-user', function(req, resp){
-  resp.redirect('/');
+server.post('/delete-user', function(req, resp) {
+  const userId = req.session.login_user; // Assuming login_user stores the user ID
 
-  /* YOU NEED SESSIONS FOR THIS LMAOOOOO LEARN THAT
-  console.log("id: ", profileDetails._id);
-  responder.Profile.findById(profileDetails._id).then(function(userDelete){
-    userDelete.isDeleted = true;
-    console.log("User deleted successfully: ", userDelete);
-    resp.redirect('/');
-  }).catch(function(error) {
-    console.error('Error deleting user:', error);
-    resp.status(500).send('Error deleting user');
-  });*/
- 
+  responder.Profile.findByIdAndUpdate(userId, { isDeleted: true })
+    .then(userDelete => {
+      if (userDelete) {
+        console.log("User deleted successfully: ", userDelete);
+        req.session.destroy(function(err) {
+          console.log("Session destroyed.");
+          resp.redirect('/');
+        });
+      } else {
+        console.error('User not found for deletion');
+        resp.status(404).send('User not found'); // User not found error
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting user:', error);
+      resp.status(500).send('Error deleting user'); // Internal server error
+    });
 });
+
 
     
     
@@ -476,6 +536,14 @@ function generateSeatNumbers(numColumns) {
     }).catch(error => {
         handleError(resp, 'Error finding user: ' + error);
     });
+});
+
+
+server.get('/logout', function(req, resp){
+  req.session.destroy(function(err) {
+    console.log("Session destroyed. Successfully logged out.");
+      resp.redirect('/');
+  });
 });
   
   }     
