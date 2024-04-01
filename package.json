@@ -2,8 +2,10 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "connect-mongodb-session": "^2.2.0",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
     "mongoose": "^8.2.4"
   },
   "name": "ccapdev-mco-phase2",
