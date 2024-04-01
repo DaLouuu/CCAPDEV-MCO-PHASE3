@@ -1,61 +1,45 @@
+/* Logo */
 #logo {
-    width: 6%;
-    margin-left: 5%;
+  width: 5.82%;
+  padding-bottom: 1.48vw;
+  padding-left: 1.39vw;
 }
 
-.header-but{
-  font-family: Baskerville;
-  background-color: rgba(255, 255, 255, 0); 
-  margin-left: 3%;
-  border: 0px;
-  font-weight: bold;
-  font-size: 1.2vw;
-  text-decoration: underline;
-  height: 50%;
-  width: auto;
-  
+/* Header */
+.header-but {
+font-family: Baskerville;
+background-color: rgba(255, 255, 255, 0); 
+margin-left: 3%;
+border: 0px;
+font-weight: bold;
+font-size: 1.2vw;
+text-decoration: underline;
+height: 50%;
+width: auto;
 }
 
 #header {
-  margin-top: 0px;
-  margin-left: 5%;
-  width: 90%;
-  align-items: center;
+margin-top: 0px;
+margin-left: 5%;
+width: 90%;
+align-items: center;
 }
 
-.profile-container {
-  width: 9vw;
-  height: 9vh;
-  margin-top: 10px;
-  border-radius: 100%;
-  margin-left: 74%;
-  border: white solid 0.5px;
-  position: relative;
-}
-
-#pfp {
-  width: 5vw;
-  height: 5vw;
-  border-radius: 100%;
-  background-image: url('./Assets/elmo.jpg');
-  background-size: cover;
-  border: none;
-  cursor: pointer;
-}
-
+/* Top Bar */
 #topbar {
   display: flex;
   flex-direction: row;
 }
 
 #top-bar {
-    display: flex;
-    flex-direction: row;
-    align-items: first baseline;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: first baseline;
+  margin: 0;
+  padding: 0;
 }
 
+/* Views */
 #student-view {
   font-family: Helvetica, sans-serif; 
   margin: 0px;
@@ -63,31 +47,33 @@
   background-image: url('./Assets/homepage-bg.png');
   background-size: cover; 
 }
+
 #labtech-view {
   font-family: Helvetica, sans-serif;
   padding: 0px;
   margin: 0px;
   background-image: url('./Assets/labtech-homepage-bg.png');
-  background-size: cover;
-  
-}
-h1{
-    font-size: 400% ;
+  background-size: cover;  
 }
 
-#greeting{
+h1 {
+  font-size: 400%;
+}
+
+#greeting {
   font-size: 2.2vw;
   font-family: Helvetica, sans-serif;
   font-style: normal;
   margin-left: 0.5%;
 }
 
-#upper-body{
-  padding-left: 10%;
-   padding-top: 6%;
-   text-align: left;
+#upper-body {
+  padding-left: 6.3%;
+  padding-top: 6%;
+  text-align: left;
 }
 
+/* Cards */
 .card {
   width: 12%;
   height: 100%; 
@@ -125,14 +111,13 @@ h1{
   font-size: 5vw;
 }
 
-#lower-body{
+#lower-body {
   display: flex;
   padding-top: 3%;
-  padding-left: 8%;
-  
+  padding-left: 5%;
 }
 
-.card-txt{
+.card-txt {
   font-size: 1.1vw;
   width: 50%;
   padding-top: 5%;
@@ -140,13 +125,14 @@ h1{
   font-family:  Helvetica, sans-serif;
 }
 
-.card-img{
-  width:30%;
+.card-img {
+  width: 30%;
   height: 80%;
   margin-right: 3%;
   margin-top: 5%;
 }
 
+/* Popup Window */
 #popupWindow {
   display: none;
   position: fixed;
@@ -179,6 +165,28 @@ h1{
   margin-top: 20px;
   padding: 10px;
   cursor: pointer;
+}
+
+/* Profile */
+.profile-container {
+padding-left: 14.82vw;
+width: 9vh;
+height: 9vh;
+margin-top: 10px;
+border-radius: 100%;
+margin-left: 62vw;
+border: white solid 0.5px;
+position: relative;
+}
+
+#pfp {
+width: 5vw;
+height: 5vw;
+border-radius: 100%;
+background-image: url('./Assets/elmo.jpg');
+background-size: cover;
+border: none;
+cursor: pointer;
 }
 
 .profile-popup {
@@ -215,6 +223,7 @@ h1{
   background-color: #f1d4fa;
 }
 
+/* Floating Button */
 #floatingButton {
   position: fixed;
   bottom: 20px;

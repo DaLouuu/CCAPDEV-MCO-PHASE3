@@ -9,31 +9,7 @@
 </head>
 
 <body>
-    <div id="header">
-        <div id="top-bar">
-            <img id="logo" src="/common/CSS & Assets/Assets/ILABYOU-logo.png" alt="img not available">
-            <button id="homeButton" class="header-but">Home</button>
-            <button id="aboutButton" class="header-but">Info</button>
-            <div class="profile-container">
-                <button id="pfp"></button>
-                <div class="profile-popup">
-                    <ul>
-                        <li><a href="/profile">View Account</a></li>
-                        <li><a href="/login">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div id="title-bar">
-            <div id="title">
-                <h1>Choose a Lab</h1>
-            </div>
-
-            
-        </div>
-
-    </div>
-
+    {{> mainHeader}}
     <div class="main-content-parent">
         <button onclick="leftArrow()" id="left-arrow" class="arrow">&lt;</button>
         <div class="visuals-parent">
