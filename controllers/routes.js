@@ -9,6 +9,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/labDB');
 const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
 mongoose.connect(mongo_uri);
 const session = require('express-session');
+const { createBrotliCompress } = require('zlib');
 const mongoStore = require('connect-mongodb-session')(session);
 
 function handleError(response, errorMessage) {
@@ -237,6 +238,35 @@ server.post('/upload-pfp', upload.single('profilePicture'), async (req, res) => 
   } catch (error) {
       console.error('Error uploading profile picture:', error);
       res.status(500).send('Error uploading profile picture');
+  }
+});
+server.post('/save-pfp', async (req, res) => {
+  try {
+      const { firstName, lastName, birthday, pronouns, bio } = req.body;
+
+      // Create a new profile document
+      const updateQuery = { idNum: req.body.id };
+      const updateValues = { $set: 
+        { firstName: firstName,
+          lastName: lastName,
+          birthday: birthday,
+          pronouns: pronouns,
+          bio: bio
+        
+        } };
+     
+      // Save the profile to the database
+      await responder.Profile.updateOne(updateQuery, updateValues).then(function(){
+        console.log("Saved successfully");
+        profileDetails.firstName = firstName;
+        profileDetails.lastName = lastName;
+        profileDetails.birthday = birthday;
+        profileDetails.pronouns = pronouns;
+        profileDetails.bio = bio;
+        res.status(200).send('Profile updated successfully');
+      });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
   }
 });
   server.get('/profile', function(req, resp){

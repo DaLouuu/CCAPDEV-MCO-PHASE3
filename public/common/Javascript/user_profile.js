@@ -60,7 +60,35 @@ $(document).ready(function () {
         updateProgressBar();
     }
     
+    $('#saveChangesButton').click(function() {
+        var formData = {
+            firstName: $('#firstNameInput').val(),
+            lastName: $('#lastNameInput').val(),
+            birthday: $('#birthdayInput').val(),
+            pronouns: $('#pronounsInput').val(),
+            bio: $('#bioInput').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/save-pfp',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('Response data:', data.message);
     
+                // reload page
+                location.reload();
+    
+                // Display success message to the user
+                alert('Profile edited successfully');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    });
     $('#editProfilePicButton').click(function() {
         $('#fileInput').click();
        
