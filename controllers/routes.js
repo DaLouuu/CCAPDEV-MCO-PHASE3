@@ -69,16 +69,18 @@ const upload = multer({ storage: storage });
 
 
 // function to get reservations for lab techs
-function getLabTechReservations(profileDetails) {
+function getLabTechReservations() {
   return responder.Reservation.find().then(function(reservations) {
     console.log('List successful');
     let userReservations = [];
+    
     for (const item of reservations) {
+      const concatenatedSeats = item.seats.join(', ');
       if (!item.isDeleted) {
         userReservations.push({
           _id: item._id.toString(),
           lab: item.lab,
-          seat: item.seat,
+          seat: concatenatedSeats,
           requestDT: item.requestDT,
           reserveDT: item.reserveDT,
           type: item.type,
@@ -92,6 +94,31 @@ function getLabTechReservations(profileDetails) {
     return userReservations;
   }).catch(errorFn);
 }
+function getLabTechReservationsByID(profileDetails) {
+  const searchQuery = { requesterID: profileDetails.idNum };
+  return responder.Reservation.find(searchQuery).then(function(reservations) {
+    console.log('List successful');
+    let userReservations = [];
+    
+    for (const item of reservations) {
+      const concatenatedSeats = item.seats.join(', ');
+      if (!item.isDeleted) {
+        userReservations.push({
+          _id: item._id.toString(),
+          lab: item.lab,
+          seat: concatenatedSeats,
+          requestDT: item.requestDT,
+          reserveDT: item.reserveDT,
+          type: item.type,
+          requesterID: item.requesterID,
+          requestFor: item.requestFor,
+          isDeleted: item.isDeleted
+        });
+      }
+    }
+    return userReservations;
+  }).catch(errorFn);
+}
 
 // function to get reservations for students
 function getStudentReservations(profileDetails) {
@@ -99,11 +126,13 @@ function getStudentReservations(profileDetails) {
   return responder.Reservation.find(searchQuery).then(function(reservations) {
     console.log('List successful');
     let userReservations = [];
+    
     for (const item of reservations) {
+      const concatenatedSeats = item.seats.join(', ');
       if (!item.isDeleted) {
         userReservations.push({
           lab: item.lab,
-          seat: item.seat,
+          seat: concatenatedSeats,
           requestDT: item.requestDT,
           reserveDT: item.reserveDT,
           type: item.type
@@ -205,11 +234,7 @@ function add(server){
       profileDetails: profileDetails
     });
     
-    // Example usage:
-    const numColumns = 9; // Specify the number of columns
-    const seats = generateSeatNumbers(numColumns);
-    console.log(seats);
-
+    
     console.log("USER ID:", req.session.login_user);
     console.log("SESSION ID: ", req.session.login_id);
 
@@ -242,10 +267,10 @@ server.post('/upload-pfp', upload.single('profilePicture'), async (req, res) => 
 });
 server.post('/save-pfp', async (req, res) => {
   try {
-      const { firstName, lastName, birthday, pronouns, bio } = req.body;
+      const { idNum, firstName, lastName, birthday, pronouns, bio } = req.body;
 
       // Create a new profile document
-      const updateQuery = { idNum: req.body.id };
+      const updateQuery = { idNum: idNum };
       const updateValues = { $set: 
         { firstName: firstName,
           lastName: lastName,
@@ -269,6 +294,7 @@ server.post('/save-pfp', async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 });
+
   server.get('/profile', function(req, resp){
     if (profileDetails.isLabtech) {
        getLabTechReservations(profileDetails).then(function(userReservations) {
@@ -466,7 +492,6 @@ server.post('/delete-user', function(req, resp) {
 
 
     
-    
 server.get('/view-reservations', function(req, resp) {
   let reservations = []; // Initialize reservations array
 
@@ -603,22 +628,23 @@ function generateSeatNumbers(numColumns) {
           isPublic: user.isPublic,
           isLabtech: user.isLabtech
         };
-        // Check if the user is a lab tech or a student
-        if (user.isLabtech) {
-            getLabTechReservations(userProfile).then(function(userReservations) {
-                reservations = userReservations;
-                console.log("User: " + userProfile);
-                console.log("reservations: " + reservations);
-                renderPage(userProfile, reservations);
-            });
-        } else {
-            getStudentReservations(userProfile).then(function(userReservations) {
-                reservations = userReservations;
-                console.log("User: " + userProfile);
-                console.log("reservations: " + reservations);
-                renderPage(userProfile, reservations);
-            });
+        // use same function for both, 
+        //because we need to show the reservations made by this specific user and not what is visible on their end
+        if (user.isLabtech){
+          getLabTechReservationsByID(userProfile).then(function(userReservations) {
+            reservations = userReservations;
+            console.log(reservations)
+            renderPage(userProfile, reservations);
+          });
+        }else {
+          getStudentReservations(userProfile).then(function(userReservations) {
+            reservations = userReservations;
+            console.log("User: " + userProfile);
+            console.log("reservations: " + reservations);
+            renderPage(userProfile, reservations);
+          });
         }
+        
 
         // Function to render the page after fetching reservations
         function renderPage(user, reservations) {

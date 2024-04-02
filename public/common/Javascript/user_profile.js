@@ -62,6 +62,7 @@ $(document).ready(function () {
     
     $('#saveChangesButton').click(function() {
         var formData = {
+            idNum: $('#idNumber').text(),
             firstName: $('#firstNameInput').val(),
             lastName: $('#lastNameInput').val(),
             birthday: $('#birthdayInput').val(),

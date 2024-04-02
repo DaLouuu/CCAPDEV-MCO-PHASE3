@@ -24,7 +24,7 @@ const mongoose = require('mongoose');
   
   const reservationSchema = new mongoose.Schema({
     lab: { type: String },
-    seat: { type: String },
+    seats: { type: [ String ] },
     requestDT: { type: String },
     reserveDT: { type: String },
     type: { type: String },
