@@ -21,11 +21,11 @@ $(document).ready(function () {
     const grpLabel = $('#group-percent');
     const privacyInput = $('#toggleSwitch');
 
-    homeButton.click(function(){
+    $('#pHomeButton').click(function(){
         window.location.href = '/homepage';
     });
 
-    backButton.click(function(){
+    $('#pBackButton').click(function(){
         history.back();
     });
 
@@ -59,7 +59,9 @@ $(document).ready(function () {
         grpLabel.show();
         updateProgressBar();
     }
-    
+    backButton.click(function(){
+        history.back();
+    });
     $('#saveChangesButton').click(function() {
         var formData = {
             idNum: $('#idNumber').text(),

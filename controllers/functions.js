@@ -38,7 +38,7 @@ function handleError(response, errorMessage) {
       console.log('List successful');
       let userList = [];
       for (const user of users) {
-        if (!user.isDeleted) {
+        if (!user.isDeleted && profileDetails.idNum != user.idNum) {
           userList.push({
             _id: user._id.toString(),
             firstName: user.firstName,

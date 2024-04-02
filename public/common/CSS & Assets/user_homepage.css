@@ -187,11 +187,11 @@ background-size: cover;
 border: none;
 cursor: pointer;
 }
-*/
+
 .profile-popup {
   display: none;
   position: absolute;
-  top: calc(100% + 5px);
+  margin-left: 200px;
   left: 0;
   width: 100px;
   background-color: #F8EBFC;

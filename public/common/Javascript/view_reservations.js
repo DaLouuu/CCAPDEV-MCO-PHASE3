@@ -40,7 +40,7 @@ $(document).ready(function() {
         window.location.href = '/findUser_id/' + substringAfterSecondSpace;
     });
     profileButton.click(function() {
-        $('.profile-popup').show();
+        $('.profile-popup').toggle();
     });
 
     $(document).click(function(event) {

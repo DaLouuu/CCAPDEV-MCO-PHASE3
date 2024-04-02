@@ -11,7 +11,8 @@ const session = require('express-session');
 const { createBrotliCompress } = require('zlib');
 const mongoStore = require('connect-mongodb-session')(session);
 
-const fs = require('fs');
+const fs = require('fs'); //remove once db lab load fixed
+
 function add(server){
     server.get('/view-reservations', function(req, resp) {
         let reservations = []; // Initialize reservations 

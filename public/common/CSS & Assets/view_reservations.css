@@ -302,7 +302,7 @@ thead tr th {
 .profile-popup {
     display: none;
     position: absolute;
-    top: calc(100% + 5px); 
+    
     left: 0;
     width: 100px; 
     background-color: #F8EBFC;

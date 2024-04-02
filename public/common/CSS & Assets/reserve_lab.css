@@ -401,6 +401,8 @@ img {
     position: absolute;
     top: calc(100% + 5px); 
     left: 0;
+    margin-top: 10px;
+    margin-right: 20px;
     width: 100px;
     background-color: #F8EBFC;
     border: 1px solid #F8EBFC;
