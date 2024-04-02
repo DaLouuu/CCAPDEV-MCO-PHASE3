@@ -470,7 +470,8 @@ server.get('/view-reservations', function(req, resp) {
       resp.render('choose-lab',{
         layout: 'index',
         title: 'ILabYou - We Lab to Reserve for You',
-        filename: 'choose-lab'
+        filename: 'choose-lab',
+        profileDetails: profileDetails
       });
     });
 
