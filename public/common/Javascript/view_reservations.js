@@ -32,7 +32,12 @@ $(document).ready(function() {
         window.location.href = '/homepage';
     });
     studentId.click(function() {
-        window.location.href = 'student_user.html';
+        const userId = $(this).text(); 
+        //TO DO: GET SUBSTRING AFTER SPACE
+        // Find the position of the second space
+        let secondSpaceIndex = userId.indexOf(' ', userId.indexOf(' ') + 1);
+        let substringAfterSecondSpace = userId.substring(secondSpaceIndex + 1);
+        window.location.href = '/findUser_id/' + substringAfterSecondSpace;
     });
     profileButton.click(function() {
         $('.profile-popup').show();
@@ -43,7 +48,7 @@ $(document).ready(function() {
             $('.profile-popup').hide();
         }
     });
-
+   
     $('.table-row').click(function(){
         getReservationDetails($(this));
         reservationWindow.show();
@@ -82,8 +87,9 @@ $(document).ready(function() {
         seat.html('<b>Seat Number: </b>' + $(tableDatas[1]).text());
         reqDate.html('<b>Date and Time of Request: </b>' + $(tableDatas[2]).text());
         resDate.html('<b>Date and Time of Reservation: </b>' + $(tableDatas[3]).text());
-        if(tableDatas.length == 6){
+        if(tableDatas.length == 7){
             studentId.html('<b>Student ID: </b>' + $(tableDatas[5]).text());
+            $('#res-id').html('<b>Reservation ID: </b>' + $(tableDatas[6]).text());
         }
 
     }
@@ -112,19 +118,35 @@ $(document).ready(function() {
             }
         });
     }
+    $('#choiceForm').submit(function(event) {
+        event.preventDefault(); // Prevent form submission
 
-    $('#choiceForm').submit(function (event) {
-        event.preventDefault();
-        var choice = $('input[name="choice"]:checked').val();
+        // Check if the user has selected to delete the reservation
+        const choice = $('input[name="choice"]:checked').val();
+        if (choice === 'yes') {
+            const reservationId = $('#res-id').text(); 
+            let secondSpaceIndex = reservationId.indexOf(' ', reservationId.indexOf(' ') + 1);
+            let substringAfterSecondSpace = reservationId.substring(secondSpaceIndex + 1);
+            const url = `/delete-reservation/${substringAfterSecondSpace}`;
 
-        if (choice === "yes") {
-            closeButtonDelete.trigger('click');
-            window.alert("Reservation successfully deleted.");
-        }
-        else if (choice === "no"){
+            // Send AJAX request to delete reservation
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                success: function(response) {
+                    closeButtonDelete.trigger('click');
+                    window.alert("Reservation successfully deleted.");
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    alert('Error, try again later.');
+                }
+            });
+        } else {
             closeButtonDelete.trigger('click');
         }
     });
+    
 
     $('#edit-res').click(function(){
         window.location.href = '/edit_reserve';

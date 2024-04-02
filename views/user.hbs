@@ -67,6 +67,7 @@
                         <th>Type</th>
                         {{#if user.isLabtech}}
                             <th>Student ID</th>
+                            <th>Reservation ID</th>
                         {{/if}}
                     </tr>
                 </thead>
@@ -80,6 +81,7 @@
                                 <td>{{reserveDT}}</td>
                                 <td>{{type}}</td>
                                 <td>{{requestFor}}</td>
+                                <td>{{_id}}</td>
                             </tr>
                         {{/each}}
                     {{else}}

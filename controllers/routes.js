@@ -131,6 +131,7 @@ function getStudentReservations(profileDetails) {
       const concatenatedSeats = item.seats.join(', ');
       if (!item.isDeleted) {
         userReservations.push({
+          _id: item._id.toString(),
           lab: item.lab,
           seat: concatenatedSeats,
           requestDT: item.requestDT,
@@ -297,7 +298,7 @@ server.post('/save-pfp', async (req, res) => {
 
   server.get('/profile', function(req, resp){
     if (profileDetails.isLabtech) {
-       getLabTechReservations(profileDetails).then(function(userReservations) {
+       getLabTechReservationsByID(profileDetails).then(function(userReservations) {
         reservations = userReservations;
         renderPage();
       });
@@ -518,7 +519,16 @@ server.get('/view-reservations', function(req, resp) {
     });
   }
 });
+server.put('/delete-reservation/:id', async (req, res) => {
+  const reservationId = Object(req.params.id);
 
+  const updateQuery = { _id: reservationId};
+  const updateValues = { $set: { isDeleted: true} };
+  responder.Reservation.updateOne(updateQuery, updateValues).then(function(){
+    console.log("deleted successfully, _id: " + req.params.id);  
+    res.status(200).send('Profile picture uploaded successfully');
+  });
+});
 
     // choose lab
     server.get('/choose-lab', function(req, resp){
@@ -607,13 +617,20 @@ function generateSeatNumbers(numColumns) {
     });
   });
   
-
+  server.get('/findUser_id/:id', function(req, resp) {
+    const idNum = req.params.id;
+    console.log("idNum: "+ idNum);
+    const searchQuery = { idNum: idNum};
+    responder.Profile.findOne(searchQuery).then(function(result){
+      const id = result._id;
+      console.log("_id: " + result._id.toString());
+      resp.redirect(`/user?id=${id}`);
+    }); 
+  });
+  
   server.get('/user', function(req, resp) {
-    const userId = req.query.id; // Retrieve the user ID from the query parameter
-
-    // Find the user based on the ID
+    const userId = Object(req.query.id); 
     responder.Profile.findById(userId).then(function(user) {
-        // Initialize reservations array
         let reservations = [];
         let userProfile = {
           firstName: user.firstName,
