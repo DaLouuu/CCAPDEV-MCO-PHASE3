@@ -93,6 +93,7 @@ $(document).ready(function () {
         });
     });
     $('#editProfilePicButton').click(function() {
+        console.log("clicked edit");
         $('#fileInput').click();
        
     });

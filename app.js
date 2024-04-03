@@ -92,7 +92,7 @@ server.listen(port, function () {
 
 function signalHandler() {
     console.log("Closing MongoDB Connection...")
-    client.close();
+    server.close();
     process.exit();
 }
 
