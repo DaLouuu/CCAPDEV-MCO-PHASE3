@@ -20,10 +20,10 @@ const mongoStore = require('connect-mongodb-session')(session);
 
 
 // Create a new MongoDB session store
-/*const store = new mongoStore({
+const store = new mongoStore({
     uri: mongoURI,
     collection: 'sessions'
-});*/
+});
 
 
 function add(server){
