@@ -4,12 +4,26 @@ const { updateProfileDetails, profileDetails } = require('./profileDetails');
 const responder = require('../models/Responder');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/labDB');
-const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
-mongoose.connect(mongo_uri);
+//mongoose.connect('mongodb://127.0.0.1:27017/labDB');
+//const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
+//mongoose.connect(mongo_uri);
+// Load environment variables
+const mongoURI = process.env.MONGODB_URI;
+
+// Connect to MongoDB using the environment variable
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+
 const session = require('express-session');
 const { createBrotliCompress } = require('zlib');
 const mongoStore = require('connect-mongodb-session')(session);
+
+
+
+// Create a new MongoDB session store
+/*const store = new mongoStore({
+    uri: mongoURI,
+    collection: 'sessions'
+});*/
 
 
 function add(server){

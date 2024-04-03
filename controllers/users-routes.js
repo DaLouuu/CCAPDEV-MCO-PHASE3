@@ -2,14 +2,7 @@
 const fn = require('./functions');
 const { updateProfileDetails, profileDetails } = require('./profileDetails');
 const responder = require('../models/Responder');
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/labDB');
-const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
-mongoose.connect(mongo_uri);
-const session = require('express-session');
-const { createBrotliCompress } = require('zlib');
-const mongoStore = require('connect-mongodb-session')(session);
+
 
 function add(server){
     server.get('/user', function(req, resp) {
