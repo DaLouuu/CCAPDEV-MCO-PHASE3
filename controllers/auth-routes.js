@@ -26,7 +26,8 @@ const mongoStore = require('connect-mongodb-session')(session);
 
 function add(server){
     // Load environment variables
-    const mongoURI = process.env.MONGODB_URI;
+    //const mongoURI = process.env.MONGODB_URI;
+    const mongoURI = 'mongodb://127.0.0.1:27017/labDB';
 
     // Log the value of mongoURI for debugging
     console.log('MongoDB URI:', mongoURI);

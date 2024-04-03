@@ -206,10 +206,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var confirmReservationBtn = document.getElementById("confirmReservationBtn");
     confirmReservationBtn.addEventListener("click", function () {
-        alert("Reservation is successful");
-        reserveSeats();
+        var reservationData = {
+            seatNumber: document.getElementById("selectedSeatNum").value,
+            date: document.getElementById("selectedDate").value,
+            timeSlot: document.getElementById("selectedTime").value,
+            anonymous: document.getElementById("anonymous").checked,
+            groupOrSolo: document.getElementById("soloReservation").checked ? "Solo" : "Group"
+        };
 
-        modal.style.display = "none";
+        $.ajax({
+            type: 'POST',
+            url: '/save-reservation',
+            data: JSON.stringify(reservationData),
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('Reservation saved successfully');
+                alert("Reservation is successful");
+                reserveSeats();
+                modal.style.display = "none";
+            },
+            error: function(xhr, status, error) {
+                console.error('Error saving reservation:', error);
+                alert('An error occurred while saving the reservation. Please try again later.');
+            }
+        });
     });
 
     function getTimeText(timeValue) {
