@@ -37,6 +37,7 @@ const mongoose = require('mongoose');
     labIndex: { type: String },
     labName: { type: String },
     columns: { type: Number },
+    img: {type: String}
   },{ versionKey: false });
   
   const searchSchema = new mongoose.Schema({

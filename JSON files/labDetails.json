@@ -2,27 +2,32 @@
     {
         "labIndex": "0",
         "labName": "GK303",
-        "columns": 9
+        "columns": 9,
+        "img": "/common/CSS & Assets/Assets/lab-1.jpg"
     },
     
     {
         "labIndex": "1",
         "labName": "GK304",
-        "columns": 8
+        "columns": 8,
+        "img": "/common/CSS & Assets/Assets/lab-1.jpg"
     },
     {
         "labIndex": "2",
         "labName": "GK305",
-        "columns": 8
+        "columns": 8,
+        "img": "/common/CSS & Assets/Assets/lab-2.jpg"
     },
     {
         "labIndex": "3",
         "labName": "GK306A",
-        "columns": 9
+        "columns": 9,
+        "img": "/common/CSS & Assets/Assets/lab-3.jpg"
     },
     {
         "labIndex": "4",
         "labName": "GK306B",
-        "columns": 9
+        "columns": 9,
+        "img": "/common/CSS & Assets/Assets/lab-4.jpg"
     }
 ]

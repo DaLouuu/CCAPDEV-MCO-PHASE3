@@ -57,18 +57,33 @@ function add(server){
             profileDetails: profileDetails
         });
     });
-    server.get('/reserve', (req, res) => {
-        try {
-            // Read lab details from the JSON file
-            const labDetails = JSON.parse(fs.readFileSync('JSON files/labDetails.json', 'utf8'));
-            // Check if a specific lab index is requested
-            const labIndex = req.query.lab;
-            console.log('Requested lab index:', labIndex); // Debugging output
+    // Server-side endpoint to fetch lab details
+server.get('/getLabDetails', async function(req, res){
+    try {
+        // Fetch lab details from the database
+        const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean(); // Query to get labIndex, labName, and columns, and convert Mongoose documents to plain JavaScript objects
+        
+        res.json({ labDetails });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+server.get('/reserve', async (req, res) => {
+    try {
+        // Read the lab index from the query parameters
+        const labIndex = req.query.lab;
+        console.log('Requested lab index:', labIndex); // Debugging output
 
-            if (labIndex !== undefined && labIndex >= 0 && labIndex < labDetails.length) {
+        if (labIndex !== undefined) {
+            // Fetch lab details from the database
+            const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
+
+            // Check if the requested lab index is valid
+            if (labIndex >= 0 && labIndex < labDetails.length) {
                 // Retrieve the lab with the specified index
                 const selectedLab = labDetails[labIndex];
                 selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
+
                 // Render the reserve.hbs template with the selected lab
                 res.render('reserve', {
                     layout: 'index',
@@ -78,22 +93,31 @@ function add(server){
                     selectedLab: selectedLab
                 });
             } else {
-                // Invalid lab index or no specific lab requested, render the page without selecting any lab
-                const selectedLab = labDetails[0];
-                selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
+                // Invalid lab index, render the page without selecting any lab
                 res.render('reserve', {
                     layout: 'index',
                     title: 'ILabYou - We Lab to Reserve for You',
                     filename: 'reserve',
                     profileDetails: profileDetails,
-                    selectedLab: selectedLab
+                    selectedLab: null // Pass null as selectedLab since the index is invalid
                 });
             }
-        } catch (error) {
-            console.error('Error rendering reserve page:', error);
-            res.status(500).send('Internal Server Error');
+        } else {
+            // No lab index provided, render the page without selecting any lab
+            res.render('reserve', {
+                layout: 'index',
+                title: 'ILabYou - We Lab to Reserve for You',
+                filename: 'reserve',
+                profileDetails: profileDetails,
+                selectedLab: null // Pass null as selectedLab since no index is provided
+            });
         }
-    });
+    } catch (error) {
+        console.error('Error rendering reserve page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
     server.get('/findUser_id/:id', function(req, resp) {
         const idNum = req.params.id;
         console.log("idNum: "+ idNum);
