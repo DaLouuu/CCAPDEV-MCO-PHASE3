@@ -73,45 +73,27 @@ server.get('/reserve', async (req, res) => {
         // Read the lab index from the query parameters
         const labIndex = req.query.lab;
         console.log('Requested lab index:', labIndex); // Debugging output
+        if (labIndex == undefined)
+            labIndex = 0;
+        // Fetch lab details from the database
+        const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
 
-        if (labIndex !== undefined) {
-            // Fetch lab details from the database
-            const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
+        // Check if the requested lab index is valid
+        if (labIndex >= 0 && labIndex < labDetails.length) {
+            // Retrieve the lab with the specified index
+            const selectedLab = labDetails[labIndex];
+            selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
 
-            // Check if the requested lab index is valid
-            if (labIndex >= 0 && labIndex < labDetails.length) {
-                // Retrieve the lab with the specified index
-                const selectedLab = labDetails[labIndex];
-                selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
-
-                // Render the reserve.hbs template with the selected lab
-                res.render('reserve', {
-                    layout: 'index',
-                    title: 'ILabYou - We Lab to Reserve for You',
-                    filename: 'reserve',
-                    profileDetails: profileDetails,
-                    selectedLab: selectedLab
-                });
-            } else {
-                // Invalid lab index, render the page without selecting any lab
-                res.render('reserve', {
-                    layout: 'index',
-                    title: 'ILabYou - We Lab to Reserve for You',
-                    filename: 'reserve',
-                    profileDetails: profileDetails,
-                    selectedLab: null // Pass null as selectedLab since the index is invalid
-                });
-            }
-        } else {
-            // No lab index provided, render the page without selecting any lab
+            // Render the reserve.hbs template with the selected lab
             res.render('reserve', {
                 layout: 'index',
                 title: 'ILabYou - We Lab to Reserve for You',
-                filename: 'reserve',
+                filename: 'reserve_lab',
                 profileDetails: profileDetails,
-                selectedLab: null // Pass null as selectedLab since no index is provided
+                selectedLab: selectedLab
             });
-        }
+        }    
+        
     } catch (error) {
         console.error('Error rendering reserve page:', error);
         res.status(500).send('Internal Server Error');
