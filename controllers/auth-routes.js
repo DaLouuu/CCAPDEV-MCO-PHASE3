@@ -8,10 +8,11 @@ const mongoose = require('mongoose');
 //const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
 //mongoose.connect(mongo_uri);
 // Load environment variables
-const mongoURI = process.env.MONGODB_URI;
+
+//const mongoURI = process.env.MONGODB_URI;
 
 // Connect to MongoDB using the environment variable
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const session = require('express-session');
 const { createBrotliCompress } = require('zlib');
@@ -20,21 +21,40 @@ const mongoStore = require('connect-mongodb-session')(session);
 
 
 // Create a new MongoDB session store
-const store = new mongoStore({
-    uri: mongoURI,
-    collection: 'sessions'
-    //expires: 1000*60*60 // 1 hour
-    //expires: 1000*60*60// 1 hour
-});
+
 
 
 function add(server){
+    // Load environment variables
+    const mongoURI = process.env.MONGODB_URI;
+
+    // Log the value of mongoURI for debugging
+    console.log('MongoDB URI:', mongoURI);
+
+    // Connect to MongoDB using the environment variable
+    mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => {
+            console.log('Connected to MongoDB');
+        })
+        .catch(error => {
+            console.error('Error connecting to MongoDB:', error);
+        });
+
+    // Create a new MongoDB session store
+    const store = new mongoStore({
+        uri: mongoURI,
+        collection: 'sessions'
+        //expires: 1000*60*60 // 1 hour
+    //expires: 1000*60*60// 1 hour
+    });
+
     server.use(session({
         secret: 'sikret',
-        saveUninitialized: true, 
+        saveUninitialized: true,
         resave: false,
         store: store
     }));
+
     
     server.get('/', function(req, resp){
         resp.render('login',{
