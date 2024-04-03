@@ -23,6 +23,8 @@ const mongoStore = require('connect-mongodb-session')(session);
 const store = new mongoStore({
     uri: mongoURI,
     collection: 'sessions'
+    //expires: 1000*60*60 // 1 hour
+    //expires: 1000*60*60// 1 hour
 });
 
 
@@ -31,12 +33,7 @@ function add(server){
         secret: 'sikret',
         saveUninitialized: true, 
         resave: false,
-        store: new mongoStore({ 
-          uri: mongo_uri,
-          collection: 'sessions',
-          //expires: 1000*60*60 // 1 hour
-          //expires: 1000*60*60// 1 hour
-        })
+        store: store
     }));
     
     server.get('/', function(req, resp){
