@@ -34,8 +34,6 @@ function add(server){
     // Connect to MongoDB using the environment variable
     mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
     
-    
-    
     const store = new mongoStore({
         uri: mongoURI,
         collection: 'sessions'
