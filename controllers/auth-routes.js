@@ -17,8 +17,8 @@ const mongoStore = require('connect-mongodb-session')(session);
 
 function add(server){
     // Load environment variables
-    //const mongoURI = process.env.MONGODB_URI;
-    const mongoURI = 'mongodb://127.0.0.1:27017/labDB';
+    const mongoURI = process.env.MONGODB_URI;
+    //const mongoURI = 'mongodb://127.0.0.1:27017/labDB';
     // Log the value of mongoURI for debugging
     console.log('MongoDB URI:', mongoURI);
 
@@ -207,22 +207,27 @@ function add(server){
     //delete user
     server.post('/delete-user', function(req, resp) {
         const userId = req.session.login_user; // Assuming login_user stores the user ID
-        
-        responder.Profile.findByIdAndUpdate(userId, { isDeleted: true }).then(userDelete => {
-            if (userDelete) {
-                console.log("User deleted successfully: ", userDelete);
-                req.session.destroy(function(err) {
-                console.log("Session destroyed.");
-                resp.redirect('/');
-                });
-            } else {
-                console.error('User not found for deletion');
-                resp.status(404).send('User not found'); // User not found error
-            }
-        }).catch(error => {
-            console.error('Error deleting user:', error);
-            resp.status(500).send('Error deleting user'); // Internal server error
-        });
+        const choice = req.body.choice;
+        if (choice === 'yes'){
+            responder.Profile.findByIdAndUpdate(userId, { isDeleted: true }).then(userDelete => {
+                if (userDelete) {
+                    console.log("User deleted successfully: ", userDelete);
+                    req.session.destroy(function(err) {
+                    console.log("Session destroyed.");
+                    resp.redirect('/');
+                    });
+                } else {
+                    console.error('User not found for deletion');
+                    resp.status(404).send('User not found'); // User not found error
+                }
+            }).catch(error => {
+                console.error('Error deleting user:', error);
+                resp.status(500).send('Error deleting user'); // Internal server error
+            });
+        }
+        else {
+            resp.redirect('/profile');
+        }
     });
 }
 
