@@ -48,7 +48,6 @@
     width: 5vw;
     height: 5vw;
     border-radius: 100%;
-    background-image: url('./Assets/elmo.jpg');
     background-size: cover;
     border: none;
     cursor: pointer;
@@ -153,6 +152,8 @@ button:hover {
     width: 50%;
     padding: 10px;
     margin: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     border-radius: 10px;
     height: auto;
 }
@@ -259,12 +260,13 @@ h2 {
     padding: 10px;
     padding-left: 25px;
     padding-right: 25px;
-    margin: 10px;
+    margin: 30px;
     margin-left: 80px;
     border-radius: 10px;
     overflow-y: auto;
     height: 35vw; 
     font-size: 1vw;
+    height: auto;
 }
 
 /* Table Row */

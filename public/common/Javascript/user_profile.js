@@ -21,11 +21,11 @@ $(document).ready(function () {
     const grpLabel = $('#group-percent');
     const privacyInput = $('#toggleSwitch');
 
-    homeButton.click(function(){
+    $('#pHomeButton').click(function(){
         window.location.href = '/homepage';
     });
 
-    backButton.click(function(){
+    $('#pBackButton').click(function(){
         history.back();
     });
 
@@ -59,20 +59,73 @@ $(document).ready(function () {
         grpLabel.show();
         updateProgressBar();
     }
+    backButton.click(function(){
+        history.back();
+    });
+    $('#saveChangesButton').click(function() {
+        var formData = {
+            idNum: $('#idNumber').text(),
+            firstName: $('#firstNameInput').val(),
+            lastName: $('#lastNameInput').val(),
+            birthday: $('#birthdayInput').val(),
+            pronouns: $('#pronounsInput').val(),
+            bio: $('#bioInput').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/save-pfp',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function(data) {
+                console.log('Response data:', data.message);
     
+                // reload page
+                location.reload();
     
+                // Display success message to the user
+                alert('Profile edited successfully');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    });
     $('#editProfilePicButton').click(function() {
         $('#fileInput').click();
+       
     });
     $('#fileInput').change(function() {
-        var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#profile-picture').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
+        var formData = new FormData();
+        formData.append('profilePicture', $('#fileInput')[0].files[0]);
+        formData.append('id', $('#idNumber').text());
+    
+        $.ajax({
+            url: '/upload-pfp',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data, status) {
+                // Handle success response
+                console.log('Profile picture uploaded successfully');
+                console.log('Response data:', data);
+    
+                // reload page
+                location.reload();
+    
+                // Display success message to the user
+                alert('Profile picture uploaded successfully');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error('Error uploading profile picture:', error);
+                
+                // Display error message to the user
+                alert('Error uploading profile picture. Please try again.');
+            }
+        });
     });
     function updateProgressBar() {
         const soloPercent = getSoloPercent();

@@ -16,6 +16,7 @@ const mongoose = require('mongoose');
     idNum: { type: String },
     birthday: { type: String },
     pronouns: { type: String },
+    pic: {type: String},
     isPublic: { type: Boolean },
     isLabtech: { type: Boolean },
     isDeleted: { type: Boolean }
@@ -23,7 +24,7 @@ const mongoose = require('mongoose');
   
   const reservationSchema = new mongoose.Schema({
     lab: { type: String },
-    seat: { type: String },
+    seats: { type: [ String ] },
     requestDT: { type: String },
     reserveDT: { type: String },
     type: { type: String },
@@ -36,6 +37,7 @@ const mongoose = require('mongoose');
     labIndex: { type: String },
     labName: { type: String },
     columns: { type: Number },
+    img: {type: String}
   },{ versionKey: false });
   
   const searchSchema = new mongoose.Schema({

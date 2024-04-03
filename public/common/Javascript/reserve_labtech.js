@@ -1,197 +1,185 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const openButton = document.getElementById('quesButton');
-    const popupWindow = document.getElementById('popupWindow');
-    const closeButton = document.getElementById('closeButton');
-    const dimmedBackground = document.getElementById('dimmedBackground');
-    const homeButton = document.getElementById('homeButton');
+$(document).ready(function() {
+    const openButton = $('#quesButton');
+    const popupWindow = $('#popupWindow');
+    const closeButton = $('#closeButton');
+    const dimmedBackground = $('#dimmedBackground');
+    const homeButton = $('#homeButton');
 
-    homeButton.addEventListener('click', function () {
+    homeButton.on('click', function () {
         window.location.href = '/homepage';
     });
 
-    openButton.addEventListener('click', function () {
-        popupWindow.classList.add('open');
-        dimmedBackground.style.display = 'block';
+    openButton.on('click', function () {
+        popupWindow.addClass('open');
+        dimmedBackground.css('display', 'block');
     });
 
-    closeButton.addEventListener('click', function () {
-        popupWindow.classList.remove('open');
-        dimmedBackground.style.display = 'none';
+    closeButton.on('click', function () {
+        popupWindow.removeClass('open');
+        dimmedBackground.css('display', 'none');
     });
 
-    const currentDateElement = document.getElementById('currentDate');
+    const currentDateElement = $('#currentDate');
     const currentDate = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    currentDateElement.textContent = currentDate.toLocaleDateString('en-US', options);
+    currentDateElement.text(currentDate.toLocaleDateString('en-US', options));
 
-    const seatElements = document.querySelectorAll('.seat');
+    const seatElements = $('.seat');
     let selectedSeats = [];
 
     function clearSelectedSeats() {
-        seatElements.forEach(seat => {
-            if (seat.style.backgroundColor === 'rgb(147, 149, 255)' ) {
-                seat.style.backgroundColor = '';
+        seatElements.each(function() {
+            if ($(this).css('backgroundColor') === 'rgb(147, 149, 255)') {
+                $(this).css('backgroundColor', '');
             }
         });
         selectedSeats = [];
     }
 
     function reserveSeats() {
-        const seatElements = document.querySelectorAll('.seat');
-        
-        seatElements.forEach(function(seat) {
-            if (seat.style.backgroundColor === 'rgb(255, 145, 77)' || seat.style.backgroundColor === '#ff914d') {
-                seat.style.backgroundColor = '';
+        const seatElements = $('.seat');
+
+        seatElements.each(function() {
+            if ($(this).css('backgroundColor') === 'rgb(255, 145, 77)' || $(this).css('backgroundColor') === '#ff914d') {
+                $(this).css('backgroundColor', '');
             }
         });
-    
-        selectedSeats.forEach(seat => {
-            seat.style.backgroundColor = 'rgb(246, 154, 160)';
+
+        selectedSeats.forEach(function(seat) {
+            $(seat).css('backgroundColor', 'rgb(246, 154, 160)');
         });
-    
+
         selectedSeats = [];
     }
 
-    document.getElementById("soloReservation").addEventListener('change', function() {
+    $('#soloReservation').on('change', function() {
         clearSelectedSeats();
-        document.getElementById("selectedSeatNum").value = " ";
+        $('#selectedSeatNum').val('');
     });
 
-    document.getElementById("groupReservation").addEventListener('change', function() {
+    $('#groupReservation').on('change', function() {
         clearSelectedSeats();
-        document.getElementById("selectedSeatNum").value = " ";
+        $('#selectedSeatNum').val('');
     });
 
-    seatElements.forEach(function(seat) {
-        seat.addEventListener('click', function() {
-            const seatId = this.querySelector('.seat-id').textContent;
-            const seatInput = document.getElementById('selectedSeatNum');
-    
-            if (this.style.backgroundColor === 'rgb(246, 154, 160)') {
-                alert("This seat is already booked");
+    seatElements.on('click', function() {
+        const seatId = $(this).find('.seat-id').text();
+        const seatInput = $('#selectedSeatNum');
+
+        if ($(this).css('backgroundColor') === 'rgb(246, 154, 160)') {
+            alert("This seat is already booked");
+            return;
+        }
+        if ($(this).css('backgroundColor') === 'rgb(255, 145, 77)') {
+            alert("This seat is already yours");
+            return;
+        }
+
+        if ($('#groupReservation').prop('checked')) {
+            if (selectedSeats.length >= 5 && !selectedSeats.includes(this)) {
+                alert("You can only select up to 5 seats.");
                 return;
             }
-            if (this.style.backgroundColor === 'rgb(255, 145, 77)') {
-                alert("This seat is already yours");
-                return;
-            }
-    
-            if (document.getElementById("groupReservation").checked) {
-                if (selectedSeats.length >= 5 && !selectedSeats.includes(this)) {
-                        alert("You can only select up to 5 seats.");
-                        return;     
-                    }
-                
-                if (selectedSeats.includes(this)) {
-                    selectedSeats = selectedSeats.filter(selected => selected !== this);
-                    this.style.backgroundColor = '';
-                } else {
-                    this.style.backgroundColor = '#9395ff';
-                    selectedSeats.push(this);
-                }
-            }
-            
-            if (document.getElementById("soloReservation").checked) {
-                selectedSeats.forEach(selectedSeat => {
-                    selectedSeat.style.backgroundColor = '';
-                });
-    
-                selectedSeats = [];
-    
-                this.style.backgroundColor = '#9395ff';
+
+            if (selectedSeats.includes(this)) {
+                selectedSeats = selectedSeats.filter(selected => selected !== this);
+                $(this).css('backgroundColor', '');
+            } else {
+                $(this).css('backgroundColor', '#9395ff');
                 selectedSeats.push(this);
             }
-    
-          
-    
-            seatInput.value = selectedSeats.map(seat => seat.querySelector('.seat-id').textContent).join(',');
-        });
+        } else if ($('#soloReservation').prop('checked')) {
+            selectedSeats.forEach(function(selectedSeat) {
+                $(selectedSeat).css('backgroundColor', '');
+            });
+
+            selectedSeats = [];
+
+            $(this).css('backgroundColor', '#9395ff');
+            selectedSeats.push(this);
+        }
+
+        seatInput.val(selectedSeats.map(seat => $(seat).find('.seat-id').text()).join(', '));
     });
-  
-    var reserveBtn = document.getElementById("reserveBtn");
-    var modal = document.getElementById("reservationModal");
-    var closeBtn = document.querySelector(".close");
-    var confirmStudentID = document.getElementById("confirmStudentID");
-    var confirmSeatNum = document.getElementById("confirmSeatNum");
-    var confirmDate = document.getElementById("confirmDate");
-    var confirmTime = document.getElementById("confirmTime");
 
-    var confirmReservationType2 = document.getElementById("confirmReservationTypeGroupOrSolo");
+    var reserveBtn = $('#reserveBtn');
+    var modal = $('#reservationModal');
+    var closeBtn = $('.close');
+    var confirmStudentID = $('#confirmStudentID');
+    var confirmSeatNum = $('#confirmSeatNum');
+    var confirmDate = $('#confirmDate');
+    var confirmTime = $('#confirmTime');
+    var confirmReservationType2 = $('#confirmReservationTypeGroupOrSolo');
 
+    reserveBtn.on('click', function() {
+        var selectedStudentID = $('#selectedStudentID').val();
+        var selectedSeatNum = $('#selectedSeatNum').val();
+        var selectedDate = $('#selectedDate').val();
+        var selectedTime = $('#selectedTime').val();
+        var isSolo = $('#soloReservation').prop('checked');
+        var isGroup = $('#groupReservation').prop('checked');
 
-    reserveBtn.addEventListener("click", function () {
-        var selectedStudentID = document.getElementById("selectedStudentID").value;
-        var selectedSeatNum = document.getElementById("selectedSeatNum").value;
-        var selectedDate = document.getElementById("selectedDate").value;
-        var selectedTime = document.getElementById("selectedTime").value;
-        var isSolo = document.getElementById("soloReservation").checked;
-        var isGroup = document.getElementById("groupReservation").checked;
-
-        if (!selectedStudentID ||!selectedSeatNum || !selectedDate || !selectedTime) {
+        if (!selectedStudentID || !selectedSeatNum || !selectedDate || !selectedTime) {
             alert("Please complete the reservation form.");
             return;
         }
-        if (selectedSeats.length< 2 && (document.getElementById("groupReservation").checked))
-        {
+        if (selectedSeats.length < 2 && $('#groupReservation').prop('checked')) {
             alert("You must select at least 2 seats.");
             return;
-
         }
 
-        confirmStudentID.textContent = selectedStudentID
-        confirmSeatNum.textContent = selectedSeatNum;
-        confirmDate.textContent = selectedDate;
-        confirmTime.textContent = getTimeText(selectedTime);
-
+        confirmStudentID.text(selectedStudentID);
+        confirmSeatNum.text(selectedSeatNum);
+        confirmDate.text(selectedDate);
+        confirmTime.text(getTimeText(selectedTime));
 
         if (isSolo) {
-            confirmReservationType2.textContent = "Solo";
-            confirmReservationBtn.dataset.reservationType2 = "Solo";
+            confirmReservationType2.text("Solo");
+            confirmReservationBtn.data('reservationType2', "Solo");
         } else {
-            confirmReservationType2.textContent = "Group";
-            confirmReservationBtn.dataset.reservationType2 = "Group";
+            confirmReservationType2.text("Group");
+            confirmReservationBtn.data('reservationType2', "Group");
         }
 
         if (isGroup) {
-            confirmReservationType2.textContent = "Group";
-            confirmReservationBtn.dataset.reservationType2 = "Group";
+            confirmReservationType2.text("Group");
+            confirmReservationBtn.data('reservationType2', "Group");
         } else {
-            confirmReservationType2.textContent = "Solo";
-            confirmReservationBtn.dataset.reservationType2 = "Solo";
+            confirmReservationType2.text("Solo");
+            confirmReservationBtn.data('reservationType2', "Solo");
         }
-        
-        modal.style.display = "block";
+
+        modal.css('display', "block");
     });
 
-    closeBtn.addEventListener("click", function () {
-            modal.style.display = "none";
+    closeBtn.on('click', function() {
+        modal.css('display', "none");
     });
 
-    cancelReservationBtn.addEventListener("click", function () {
-        modal.style.display = "none";
+    $('#cancelReservationBtn').on('click', function() {
+        modal.css('display', "none");
     });
 
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
+    $(window).on('click', function(event) {
+        if ($(event.target).is(modal)) {
+            modal.css('display', "none");
         }
     });
 
-    var confirmReservationBtn = document.getElementById("confirmReservationBtn");
-    confirmReservationBtn.addEventListener("click", function () {
+    var confirmReservationBtn = $('#confirmReservationBtn');
+    confirmReservationBtn.on('click', function() {
         alert("Reservation is successful");
         reserveSeats();
-
-        modal.style.display = "none";
+        modal.css('display', "none");
         clearInputs();
     });
 
     function clearInputs() {
-        document.getElementById("selectedStudentID").value = "";
-        document.getElementById("selectedSeatNum").value = " ";
-        document.getElementById("selectedDate").value = "";
-        document.getElementById("soloReservation").checked = true;
-        document.getElementById("groupReservation").checked = false;
+        $('#selectedStudentID').val('');
+        $('#selectedSeatNum').val('');
+        $('#selectedDate').val('');
+        $('#soloReservation').prop('checked', true);
+        $('#groupReservation').prop('checked', false);
     }
 
     function getTimeText(timeValue) {
@@ -212,6 +200,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 return "Unknown Time";
         }
     }
-
-    
 });

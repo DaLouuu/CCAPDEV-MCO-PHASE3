@@ -16,7 +16,7 @@ $(document).ready(function() {
         window.location.href = '/homepage';
     });
     profileButton.click(function() {
-        $('.profile-popup').show();
+        $('.profile-popup').toggle();
     });
 
     $(document).click(function(event) {

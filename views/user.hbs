@@ -2,7 +2,7 @@
     {{> userHeader}}
     <div id="body">
         <div id="main-section">
-            <img id="profile-picture" src="/common/CSS & Assets/Assets/elmo.jpg" alt="Profile Picture">
+            <img id="profile-picture" src="{{user.pic}}" alt="Profile Picture">
             <br>            
             <div id="fullName">{{user.firstName}} {{user.lastName}}</div>   
             <br>
@@ -67,6 +67,7 @@
                         <th>Type</th>
                         {{#if user.isLabtech}}
                             <th>Student ID</th>
+                            <th>Reservation ID</th>
                         {{/if}}
                     </tr>
                 </thead>
@@ -79,7 +80,8 @@
                                 <td>{{requestDT}}</td>
                                 <td>{{reserveDT}}</td>
                                 <td>{{type}}</td>
-                                <td>{{id}}</td>
+                                <td>{{requestFor}}</td>
+                                <td>{{_id}}</td>
                             </tr>
                         {{/each}}
                     {{else}}
@@ -90,6 +92,7 @@
                             <td>{{requestDT}}</td>
                             <td>{{reserveDT}}</td>
                             <td>{{type}}</td>
+                            
                         </tr>
                         {{/each}}
                     {{/if}}

@@ -20,7 +20,8 @@
                 <th>Date and Time of Reservation</th>
                 <th>Reservation Type</th>
                 {{#if profileDetails.isLabtech}}
-                            <th>Student ID</th>
+                    <th>Student ID</th>
+                    <th>Reservation ID</th>
                 {{/if}}
             </tr>
         </thead>
@@ -34,6 +35,7 @@
                                 <td>{{reserveDT}}</td>
                                 <td>{{type}}</td>
                                 <td>{{requestFor}}</td>
+                                <td>{{_id}}</td>
                             </tr>
                         {{/each}}
                     {{else}}
@@ -55,12 +57,14 @@
         <button id="closeRes" class="close-popup">&times;</button>
         
         <h4>Reservation Details</h4>
+        
         <div id="student-id"></div>
         <div id="res-type"></div>
         <div id="laboratory"></div>
         <div id="seat-num"></div>
         <div id="req-date"></div>
         <div id="res-date"></div> 
+        <div id="res-id"></div>
         <button id="edit-res">Edit Reservation</button>
         <button id="delete-res">Delete Reservation</button>
     </div>
@@ -88,12 +92,7 @@
             </form>
         </div> 
     </div>  
-    <div class="profile-popup">
-        <ul>
-            <li><a href="labtech_profile.html">View Account</a></li>
-            <li><a href="login.html">Logout</a></li>
-        </ul>
-    </div>
+    
     
 </body>
 
