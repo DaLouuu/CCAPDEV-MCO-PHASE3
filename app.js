@@ -89,3 +89,13 @@ const port = process.env.PORT | 9090;
 server.listen(port, function () {
     console.log('Listening at port ' + port);
 });
+
+function signalHandler() {
+    console.log("Closing MongoDB Connection...")
+    client.close();
+    process.exit();
+}
+
+process.on("SIGINT", signalHandler)
+process.on("SIGTERM", signalHandler)
+process.on("SIGQUIT", signalHandler) 

@@ -6,12 +6,6 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/labDB');
-const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
-mongoose.connect(mongo_uri);
-const session = require('express-session');
-const { createBrotliCompress } = require('zlib');
-const mongoStore = require('connect-mongodb-session')(session);
 const parentDir = path.dirname(__dirname);
 const destinationDirectory = path.join(parentDir, 'public', 'common', 'CSS & Assets', 'Assets');
 const storage = multer.diskStorage({

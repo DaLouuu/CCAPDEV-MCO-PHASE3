@@ -2,14 +2,7 @@
 const fn = require('./functions');
 const { updateProfileDetails, profileDetails } = require('./profileDetails');
 const responder = require('../models/Responder');
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/labDB');
-const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
-mongoose.connect(mongo_uri);
-const session = require('express-session');
-const { createBrotliCompress } = require('zlib');
-const mongoStore = require('connect-mongodb-session')(session);
+
 
 const fs = require('fs'); //remove once db lab load fixed
 
@@ -53,47 +46,52 @@ function add(server){
         resp.render('choose-lab',{
             layout: 'index',
             title: 'ILabYou - We Lab to Reserve for You',
-            filename: 'choose-lab',
+            filename: 'choose_lab',
             profileDetails: profileDetails
         });
     });
-    server.get('/reserve', (req, res) => {
-        try {
-            // Read lab details from the JSON file
-            const labDetails = JSON.parse(fs.readFileSync('JSON files/labDetails.json', 'utf8'));
-            // Check if a specific lab index is requested
-            const labIndex = req.query.lab;
-            console.log('Requested lab index:', labIndex); // Debugging output
+    // Server-side endpoint to fetch lab details
+server.get('/getLabDetails', async function(req, res){
+    try {
+        // Fetch lab details from the database
+        const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean(); // Query to get labIndex, labName, and columns, and convert Mongoose documents to plain JavaScript objects
+        
+        res.json({ labDetails });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+server.get('/reserve', async (req, res) => {
+    try {
+        // Read the lab index from the query parameters
+        let labIndex = req.query.lab;
+        console.log('Requested lab index:', labIndex); // Debugging output
+        if (labIndex == undefined)
+            labIndex = 0;
+        // Fetch lab details from the database
+        let labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
 
-            if (labIndex !== undefined && labIndex >= 0 && labIndex < labDetails.length) {
-                // Retrieve the lab with the specified index
-                const selectedLab = labDetails[labIndex];
-                selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
-                // Render the reserve.hbs template with the selected lab
-                res.render('reserve', {
-                    layout: 'index',
-                    title: 'ILabYou - We Lab to Reserve for You',
-                    filename: 'reserve',
-                    profileDetails: profileDetails,
-                    selectedLab: selectedLab
-                });
-            } else {
-                // Invalid lab index or no specific lab requested, render the page without selecting any lab
-                const selectedLab = labDetails[0];
-                selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
-                res.render('reserve', {
-                    layout: 'index',
-                    title: 'ILabYou - We Lab to Reserve for You',
-                    filename: 'reserve',
-                    profileDetails: profileDetails,
-                    selectedLab: selectedLab
-                });
-            }
-        } catch (error) {
-            console.error('Error rendering reserve page:', error);
-            res.status(500).send('Internal Server Error');
-        }
-    });
+        // Check if the requested lab index is valid
+        if (labIndex >= 0 && labIndex < labDetails.length) {
+            // Retrieve the lab with the specified index
+            let selectedLab = labDetails[labIndex];
+            selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
+
+            // Render the reserve.hbs template with the selected lab
+            res.render('reserve', {
+                layout: null,
+                title: 'ILabYou - We Lab to Reserve for You',
+                profileDetails: profileDetails,
+                selectedLab: selectedLab
+            });
+        }    
+        
+    } catch (error) {
+        console.error('Error rendering reserve page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
     server.get('/findUser_id/:id', function(req, resp) {
         const idNum = req.params.id;
         console.log("idNum: "+ idNum);
