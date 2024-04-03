@@ -1,9 +1,11 @@
- <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+<!DOCTYPE html>
+<html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve | {{profileDetails.role}}</title>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link id="favicon" rel="icon" href="/common/CSS & Assets/Assets/ILABYOU-logo.png" type="image/png">
     {{#if profileDetails.isLabtech}}
     <link rel="stylesheet" href="/common/CSS & Assets/edit_reserve.css">
@@ -337,9 +339,9 @@
             <span class="close">&times;</span>
           
             <h2>Reservation Confirmation</h2>
-            <h4>Room: {{selectedLab.labName}}</h4>
-            <p>Student ID Number: <span id="confirmStudentID"></span></p>
-            <p>Seat Number: <span id="confirmSeatNum"></span></p>
+            <h4>Room: <span id="confirmLabName">{{selectedLab.labName}}</span></h4>
+            <strong> <p>Seat Number: </strong> <span id="confirmSeatNum"></span></p>
+            <p> Student ID Number: <span id="confirmStudentID">{{profileDetails.idNum}}</span></p>
             <p>Date: <span id="confirmDate"></span></p>
             <p>Time Slot: <span id="confirmTime"></span></p>
             <p>Reservation Type II: <span id="confirmReservationTypeGroupOrSolo"></span></p>
@@ -435,8 +437,9 @@
             <span class="close">&times;</span>
           
             <h2>Reservation Confirmation</h2>
-            <h4>Room: {{selectedLab.labName}}</h4>
+            <h4>Room: <span id="confirmLabName">{{selectedLab.labName}}</span></h4>
 <strong> <p>Seat Number: </strong> <span id="confirmSeatNum"></span></p>
+<p> Student ID Number: <span id="confirmStudentID">{{profileDetails.idNum}}</span></p>
 <strong> <p>Date:        </strong><span id="confirmDate"></span></p>
 <strong> <p>Time Slot:   </strong> <span id="confirmTime"></span></p>
 <strong> <p>Reservation Type:</strong> <span id="confirmReservationType"></span></p>
@@ -468,3 +471,4 @@
  
 
 </body>
+</html>
