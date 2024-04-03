@@ -168,11 +168,67 @@ $(document).ready(function() {
 
     var confirmReservationBtn = $('#confirmReservationBtn');
     confirmReservationBtn.on('click', function() {
-        alert("Reservation is successful");
-        reserveSeats();
-        modal.css('display', "none");
-        clearInputs();
+        
+        var lab = $('#confirmLabName').text();
+        var selectedSeatNum = $('#confirmSeatNum').text();
+        var selectedDate = $('#confirmDate').text();
+        var selectedTime = $('#confirmTime').text();
+        var type = $('#confirmReservationTypeGroupOrSolo').text();
+        
+        var requesterID = $('#confirmLabtechID').text();
+        var requestFor = $('#confirmStudentID').text();
+    
+        // Format requestDT as current date and time
+        var currentDate = new Date();
+        var requestDT = formatDate(currentDate);
+    
+        // Format reserveDT as selected date and time
+        var reserveDT = selectedDate + ' ' + selectedTime;
+    
+        // Determine reservation type based on isSolo and isGroup
+       
+    
+        // Get seat number from confirmSeatNum element
+        
+        var reservationData = {
+            lab: lab,
+            seats: selectedSeatNum, 
+            requestDT: requestDT,
+            reserveDT: reserveDT,
+            type: type, 
+            requesterID: requesterID,
+            requestFor: requestFor,
+            isDeleted: false
+        };
+    
+        
+        $.ajax({
+            url: "/create-reservation",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(reservationData),
+            success: function(response) {
+                console.log("Reservation saved successfully.");
+                alert("Reservation is successful");
+                reserveSeats();
+                modal.css('display', "none");
+            },
+            error: function(xhr, status, error) {
+                console.error("Error saving reservation:", error);
+            }
+        });
     });
+    // Function to format date as "YYYY-MM-DD hh:mm AM/PM"
+    function formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // The hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate() + ' ' + strTime;
+    }
 
     function clearInputs() {
         $('#selectedStudentID').val('');

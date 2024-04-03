@@ -174,6 +174,57 @@ function getLabTechReservations() {
   
     return seatNumbers;
   }
+
+  function saveStudentReservation(reservationDetails) {
+    // Extract reservation details
+    const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isDeleted } = reservationDetails;
+
+    // Create a new reservation object
+    const reservation = new responder.Reservation({
+        lab,
+        seats,
+        requestDT,
+        reserveDT,
+        type,
+        requesterID,
+        requestFor,
+        isDeleted
+    });
+
+    return reservation.save()
+        .then(() => {
+            console.log("Reservation saved successfully.");
+            return "Reservation saved successfully.";
+        })
+        .catch(error => {
+            console.error("Error saving reservation:", error);
+            throw new Error("Error saving reservation.");
+        });
+}
+function updateSeatColors(reservationData) {
+  $('seat').each(function() {
+      const seatId = $(this).attr('id');
+      let isReserved = false;
+      // Loop through each reservation
+      reservationData.forEach(reservation => {
+          // Check if the seatId exists in the reservation's seats array
+          if (reservation.seats.includes(seatId)) {
+              // Seat is reserved
+              isReserved = true;
+              return false; // Exit the loop since we found a match
+          }
+      });
+      // Update seat color based on reservation status
+      if (isReserved) {
+          // Seat is reserved, change color
+          $(this).css('background-color', '#f69aa0');
+      } else {
+          // Seat is not reserved, change color back to default
+          $(this).css('background-color', '#5cb485');
+      }
+  });
+}
+
   module.exports = {
     handleError: handleError,
     getSearchUsers: getSearchUsers,
@@ -181,6 +232,8 @@ function getLabTechReservations() {
     getLabTechReservationsByID: getLabTechReservationsByID,
     getStudentReservations: getStudentReservations,
     generateUniqueUserId: generateUniqueUserId,
-    generateSeatNumbers: generateSeatNumbers
+    generateSeatNumbers: generateSeatNumbers,
+    saveStudentReservation : saveStudentReservation,
+    updateSeatColors : updateSeatColors
 
   };

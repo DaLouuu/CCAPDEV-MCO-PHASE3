@@ -11,7 +11,6 @@ const session = require('express-session');
 const { createBrotliCompress } = require('zlib');
 const mongoStore = require('connect-mongodb-session')(session);
 
-const fs = require('fs'); //remove once db lab load fixed
 
 function add(server){
     server.get('/view-reservations', function(req, resp) {
@@ -58,7 +57,7 @@ function add(server){
         });
     });
     // Server-side endpoint to fetch lab details
-server.get('/getLabDetails', async function(req, res){
+ server.get('/getLabDetails', async function(req, res){
     try {
         // Fetch lab details from the database
         const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean(); // Query to get labIndex, labName, and columns, and convert Mongoose documents to plain JavaScript objects
@@ -67,10 +66,25 @@ server.get('/getLabDetails', async function(req, res){
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }
-});
-server.get('/reserve', async (req, res) => {
+ });
+
+ server.get('/getReserveData', async function(req, res){
+    try {
+        // Fetch reserve data from the database
+        const reservationData = await responder.Reservation.find({}, { lab: 1, seats: 1, requestDT: 1, reserveDT: 1, type: 1, requesterID: 1, requestFor: 1, isDeleted: 1 }).lean();
+        
+        res.json({ reservationData });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+ });
+
+
+
+ server.get('/reserve', async (req, res) => {
     try {
         // Read the lab index from the query parameters
+        let reservationData = await responder.Reservation.find({}, { lab: 1, seats: 1, requestDT: 1, reserveDT: 1, type: 1, requesterID: 1, requestFor: 1, isDeleted: 1 }).lean();
         let labIndex = req.query.lab;
         console.log('Requested lab index:', labIndex); // Debugging output
         if (labIndex == undefined)
@@ -83,13 +97,13 @@ server.get('/reserve', async (req, res) => {
             // Retrieve the lab with the specified index
             let selectedLab = labDetails[labIndex];
             selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
-
-            // Render the reserve.hbs template with the selected lab
+          
             res.render('reserve', {
                 layout: null,
                 title: 'ILabYou - We Lab to Reserve for You',
                 profileDetails: profileDetails,
-                selectedLab: selectedLab
+                selectedLab: selectedLab,
+                reservationData : reservationData
             });
         }    
         
@@ -97,7 +111,8 @@ server.get('/reserve', async (req, res) => {
         console.error('Error rendering reserve page:', error);
         res.status(500).send('Internal Server Error');
     }
-});
+ });
+
 
     server.get('/findUser_id/:id', function(req, resp) {
         const idNum = req.params.id;
@@ -109,6 +124,31 @@ server.get('/reserve', async (req, res) => {
             resp.redirect(`/user?id=${id}`);
         }); 
     }); 
-}
 
+
+    server.post('/create-reservation', async (req, res) => {
+        try {
+            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isDeleted } = req.body;
+            
+            // Call saveStudentReservation function to save reservation
+            await fn.saveStudentReservation({
+                lab,
+                seats,
+                requestDT,
+                reserveDT,
+                type,
+                requesterID,
+                requestFor,
+                isDeleted
+            });
+    
+            res.status(201).send("Reservation saved successfully.");
+        } catch (error) {
+            console.error("Error saving reservation:", error);
+            res.status(500).send("Internal Server Error");
+        }
+    });
+    
+    
+}
 module.exports.add = add;
