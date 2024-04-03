@@ -53,7 +53,7 @@ function add(server){
         resp.render('choose-lab',{
             layout: 'index',
             title: 'ILabYou - We Lab to Reserve for You',
-            filename: 'choose-lab',
+            filename: 'choose_lab',
             profileDetails: profileDetails
         });
     });

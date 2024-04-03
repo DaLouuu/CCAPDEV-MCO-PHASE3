@@ -1,19 +1,9 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose a Lab | ILabYou - We Lab to Reserve for You</title>
-
-    <link id="favicon" rel="icon" href="/common/CSS & Assets/Assets/ILABYOU-logo.png" type="image/png">
-    <link rel="stylesheet" href="/common/CSS & Assets/choose_lab.css">
-
-</head>
-
 <body>
     {{> mainHeader}}
     <div class="main-content-parent">
-        <button onclick="leftArrow()" id="left-arrow" class="arrow">&lt;</button>
+        <button id="left-arrow" class="arrow">&lt;</button>
         <div class="visuals-parent">
-            <a id="lab-page"href="/reserve">
+            <a id="lab-page" href="/reserve">
             <div class="image-frame">
                 <img id="lab-img" src="/common/CSS & Assets/Assets/lab-1.jpg">
             </div>
@@ -22,7 +12,7 @@
                 <div id="lab-text">GK303</div>
             </div>
         </div>
-        <button onclick="rightArrow()" id="right-arrow" class="arrow">&gt;</button>
+        <button id="right-arrow" class="arrow">&gt;</button>
     </div>
 
     <div id="aboutWindow" class="popup">
@@ -31,8 +21,4 @@
         <div>This page enables you to view all available labs for reservation. 
             Navigate through the labs using the arrows and click on the image to select the lab you wish to reserve.</div>
     </div>
-   
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/common/Javascript/choose_lab.js"></script>
 </body>
