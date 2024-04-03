@@ -32,7 +32,6 @@ function add(server){
     console.log('MongoDB URI:', mongoURI);
 
     // Connect to MongoDB using the environment variable
-    mongoose.disconnect();
     mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
     
     
