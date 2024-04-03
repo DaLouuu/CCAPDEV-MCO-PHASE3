@@ -14,7 +14,7 @@ document.getElementById('signup-button').addEventListener('click', function (eve
         console.log('Password:', password);
         console.log('Role:', document.querySelector('input[name="choice"]:checked').value);
 
-        window.location.href = 'login.html';
+        window.location.href = '/';
         alert("Account successfully created. You will be redirected to the login page.");
     }
 });
