@@ -71,24 +71,23 @@ server.get('/getLabDetails', async function(req, res){
 server.get('/reserve', async (req, res) => {
     try {
         // Read the lab index from the query parameters
-        const labIndex = req.query.lab;
+        let labIndex = req.query.lab;
         console.log('Requested lab index:', labIndex); // Debugging output
         if (labIndex == undefined)
             labIndex = 0;
         // Fetch lab details from the database
-        const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
+        let labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
 
         // Check if the requested lab index is valid
         if (labIndex >= 0 && labIndex < labDetails.length) {
             // Retrieve the lab with the specified index
-            const selectedLab = labDetails[labIndex];
+            let selectedLab = labDetails[labIndex];
             selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
 
             // Render the reserve.hbs template with the selected lab
             res.render('reserve', {
-                layout: 'index',
+                layout: null,
                 title: 'ILabYou - We Lab to Reserve for You',
-                filename: 'reserve_lab',
                 profileDetails: profileDetails,
                 selectedLab: selectedLab
             });
