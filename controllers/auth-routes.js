@@ -32,15 +32,11 @@ function add(server){
     console.log('MongoDB URI:', mongoURI);
 
     // Connect to MongoDB using the environment variable
-    mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => {
-            console.log('Connected to MongoDB');
-        })
-        .catch(error => {
-            console.error('Error connecting to MongoDB:', error);
-        });
-
-    // Create a new MongoDB session store
+    if (mongoose.connection.readyState === 0) {
+        mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    }
+    
+    
     const store = new mongoStore({
         uri: mongoURI,
         collection: 'sessions'
