@@ -75,6 +75,11 @@ function add(server){
     server.post('/read-user', function(req, resp) {
         let searchUser = { username: req.body.email };
         let password = req.body.password;
+
+        if (searchUser === null || password === null) {
+            console.log('Please complete all required fields.');
+          }
+          
     
         responder.Login.findOne(searchUser).then(function(user) {
         console.log('Finding user');
