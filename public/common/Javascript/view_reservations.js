@@ -157,23 +157,6 @@ $('button[id^="edit-res"]').click(function() {
 
     // Redirect to the edit reservation page with the reservation ID
     window.location.href = '/edit_reserve/' + substringAfterSecondSpace;
-
-    $.ajax({
-        url: '/edit_reserve/' + substringAfterSecondSpace, // Include reservation ID in the URL
-        method: 'GET',
-        success: function(reservation) {
-            // Set input field values based on the reservation details
-            $('#labInput').val(reservation.lab);
-            $('#seatInput').val(reservation.seat);
-            $('#requestDTInput').val(reservation.requestDT);
-            $('#reserveDTInput').val(reservation.reserveDT);
-            $('#typeInput').val(reservation.type);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors
-            console.error('Error fetching reservation:', error);
-        }
-    });
 });
 
 

@@ -193,15 +193,10 @@ server.get('/reserve', async (req, res) => {
                 requestFor: requestFor,
                 isAnonymous: isAnonymous,
             }).then(() => {
-                // Respond with a success message
-                res.status(200).json({ message: 'Reservation updated successfully' });
-                resp.redirect('/view-reservations');
+                res.status(200).send('Reservation updated successfully');
             });
-
         } catch (error) {
-            // If an error occurs, respond with an error status code and message
-            console.error('Error updating reservation:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500).json({ error: error.message });
         }
     });
     
