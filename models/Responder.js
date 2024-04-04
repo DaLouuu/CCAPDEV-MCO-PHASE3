@@ -30,6 +30,7 @@ const mongoose = require('mongoose');
     type: { type: String },
     requesterID: { type: String },
     requestFor: {type: String},
+    isAnonymous: {type: Boolean},
     isDeleted: { type: Boolean },
   },{ versionKey: false });
   

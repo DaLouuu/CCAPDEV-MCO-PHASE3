@@ -86,14 +86,16 @@
                         {{/each}}
                     {{else}}
                         {{#each reservations}}
-                        <tr class="table-row">
-                            <td>{{lab}}</td>
-                            <td>{{seat}}</td>
-                            <td>{{requestDT}}</td>
-                            <td>{{reserveDT}}</td>
-                            <td>{{type}}</td>
-                            
-                        </tr>
+                        {{#if isNotAnonymous}}
+                            <tr class="table-row">
+                                <td>{{lab}}</td>
+                                <td>{{seat}}</td>
+                                <td>{{requestDT}}</td>
+                                <td>{{reserveDT}}</td>
+                                <td>{{type}}</td>
+                                
+                            </tr>
+                        {{/if}}
                         {{/each}}
                     {{/if}}
                 </tbody>
