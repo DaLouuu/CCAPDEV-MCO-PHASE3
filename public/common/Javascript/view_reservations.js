@@ -152,6 +152,10 @@ $(document).ready(function() {
         window.location.href = '/edit_reserve';
     });
 
+    $('#present-res').click(function(){
+        console.log("Student is present!!");
+    });
+
 
     
 });

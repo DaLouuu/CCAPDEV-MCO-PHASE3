@@ -22,6 +22,7 @@
                 {{#if profileDetails.isLabtech}}
                     <th>Student ID</th>
                     <th>Reservation ID</th>
+                    <th>Reservation Status</th>
                 {{/if}}
             </tr>
         </thead>
@@ -36,6 +37,7 @@
                                 <td>{{type}}</td>
                                 <td>{{requestFor}}</td>
                                 <td>{{_id}}</td>
+                                <!--<td>{{status}}</td>-->
                             </tr>
                         {{/each}}
                     {{else}}
@@ -65,8 +67,12 @@
         <div id="req-date"></div>
         <div id="res-date"></div> 
         <div id="res-id"></div>
+        <div id="res-status"></div>
         <button id="edit-res">Edit Reservation</button>
         <button id="delete-res">Delete Reservation</button>
+        {{#if profileDetails.isLabtech}}
+            <button id="present-res">Student Present</button>
+        {{/if}}
     </div>
     <div id="aboutWindow" class="popup">
         <button id="closeAbout" class="close-popup">&times;</button>

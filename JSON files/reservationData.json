@@ -7,7 +7,8 @@
     "requesterID": "ST123456",
     "requestFor": "ST123456",
     "isAnonymous": false,
-    "isDeleted": true
+    "isDeleted": true,
+    "status": "Booked"
 },
 {
     "lab": "GK304",
@@ -18,7 +19,8 @@
     "requesterID": "ST49259989",
     "requestFor": "ST49259989",
     "isAnonymous": false,
-    "isDeleted": false  
+    "isDeleted": false,
+    "status": "Booked"  
 },
 {
     "lab": "GK305",
@@ -29,7 +31,8 @@
     "requesterID": "LT12209589",
     "requestFor": "ST123456",
     "isAnonymous": false,
-    "isDeleted": false  
+    "isDeleted": false,
+    "status": "Booked"  
 },
 {
     "lab": "GK306A",
@@ -40,7 +43,8 @@
     "requesterID": "ST123456",
     "requestFor": "ST123456",
     "isAnonymous": false,
-    "isDeleted": false  
+    "isDeleted": false,
+    "status": "Booked"  
 },
 {
     "lab": "GK306B",
@@ -51,6 +55,7 @@
     "requesterID": "LT12209589",
     "requestFor": "ST123456",
     "isAnonymous": false,
-    "isDeleted": false  
+    "isDeleted": false,
+    "status": "Booked"  
 }
 ]

@@ -200,7 +200,7 @@ thead tr th {
     border-radius: 10px;
 }
 
-#edit-res, #delete-res {
+#edit-res, #delete-res, #present-res {
     border-radius: 10px;
     background-color: rgb(218, 181, 218);
     border: 1px solid white;
@@ -212,6 +212,10 @@ thead tr th {
 
 #delete-res {
     background-color: rgb(242, 128, 128);
+}
+
+#present-res {
+    background-color: rgb(236, 91, 171);
 }
 
 .close-popup {

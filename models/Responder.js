@@ -32,6 +32,7 @@ const mongoose = require('mongoose');
     requestFor: {type: String},
     isAnonymous: {type: Boolean},
     isDeleted: { type: Boolean },
+    status: { type: String, enum: ['Booked', 'Present', 'No-Show'] },
   },{ versionKey: false });
   
   const labSchema = new mongoose.Schema({
