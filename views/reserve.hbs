@@ -16,7 +16,7 @@
 </head>
 
 <body id="{{profileDetails.role}}-view">
-    {{> reserveHeader}}
+   {{> reserveHeader}}
     <div id ="body">
         <div class="seating-plan">
     
@@ -199,26 +199,6 @@
 {{/inArray}}
           
 
-
-
-  {{#if profileDetails.isLabtech}}
-            <div class="row"> 
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="green"></div>
-                        <span>Available</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="red"></div>
-                        <span>Booked</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="purple"></div>
-                        <span>Selected</span>
-                    </div>
-                </div>    
-            </div>      
-            {{else}}
             <div class="row"> 
                 <div class="legend">
 
@@ -241,7 +221,7 @@
                     </div>
                 </div>    
             </div>
-            {{/if}}
+          
 
 
         </div>
@@ -339,9 +319,10 @@
             <span class="close">&times;</span>
           
             <h2>Reservation Confirmation</h2>
-            <h4>Room: {{selectedLab.labName}}</h4>
-            <p>Student ID Number: <span id="confirmStudentID"></span></p>
-            <p>Seat Number: <span id="confirmSeatNum"></span></p>
+            <h4>Room: <span id="confirmLabName">{{selectedLab.labName}}</span></h4>
+            <strong> <p>Seat Number: </strong> <span id="confirmSeatNum"></span></p>
+            <p> Labtech ID Number: <span id="confirmLabtechID">{{profileDetails.idNum}}</span></p>
+            <p> Student ID Number: <span id="confirmStudentID"></span></p>
             <p>Date: <span id="confirmDate"></span></p>
             <p>Time Slot: <span id="confirmTime"></span></p>
             <p>Reservation Type II: <span id="confirmReservationTypeGroupOrSolo"></span></p>
@@ -437,8 +418,9 @@
             <span class="close">&times;</span>
           
             <h2>Reservation Confirmation</h2>
-            <h4>Room: {{selectedLab.labName}}</h4>
+            <h4>Room: <span id="confirmLabName">{{selectedLab.labName}}</span></h4>
 <strong> <p>Seat Number: </strong> <span id="confirmSeatNum"></span></p>
+<p> Student ID Number: <span id="confirmStudentID">{{profileDetails.idNum}}</span></p>
 <strong> <p>Date:        </strong><span id="confirmDate"></span></p>
 <strong> <p>Time Slot:   </strong> <span id="confirmTime"></span></p>
 <strong> <p>Reservation Type:</strong> <span id="confirmReservationType"></span></p>

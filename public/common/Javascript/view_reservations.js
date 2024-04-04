@@ -149,7 +149,7 @@ $(document).ready(function() {
     
 
     $('#edit-res').click(function(){
-        window.location.href = '/edit_reserve';
+        window.location.href = '/edit_reserve';1    
     });
 
 

@@ -155,6 +155,33 @@ function getLabTechReservations() {
   
     return seatNumbers;
   }
+  function saveReservation(reservationDetails) {
+    // Extract reservation details
+    const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor,isAnonymous, isDeleted } = reservationDetails;
+
+    // Create a new reservation object
+    const reservation = new responder.Reservation({
+        lab,
+        seats,
+        requestDT,
+        reserveDT,
+        type,
+        requesterID,
+        requestFor,
+        isAnonymous,
+        isDeleted,
+    });
+
+    return reservation.save()
+        .then(() => {
+            console.log("Reservation saved successfully.");
+            return "Reservation saved successfully.";
+        })
+        .catch(error => {
+            console.error("Error saving reservation:", error);
+            throw new Error("Error saving reservation.");
+        });
+}
   module.exports = {
     handleError: handleError,
     getSearchUsers: getSearchUsers,
@@ -162,6 +189,6 @@ function getLabTechReservations() {
     getLabTechReservationsByID: getLabTechReservationsByID,
     getStudentReservations: getStudentReservations,
     generateUniqueUserId: generateUniqueUserId,
-    generateSeatNumbers: generateSeatNumbers
-
+    generateSeatNumbers: generateSeatNumbers,
+    saveReservation : saveReservation
   };

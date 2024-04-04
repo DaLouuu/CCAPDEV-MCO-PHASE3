@@ -16,15 +16,12 @@ const mongoStore = require('connect-mongodb-session')(session);
 
 
 function add(server){
-    // Load environment variables
+    // Load environment variable
     const mongoURI = process.env.MONGODB_URI;
     //const mongoURI = 'mongodb://127.0.0.1:27017/labDB';
-    // Log the value of mongoURI for debugging
     console.log('MongoDB URI:', mongoURI);
-
-    // Connect to MongoDB using the environment variable
     mongoose.disconnect();
-    mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(mongoURI);
     
     const store = new mongoStore({
         uri: mongoURI,
@@ -75,7 +72,9 @@ function add(server){
     server.post('/read-user', function(req, resp) {
         let searchUser = { username: req.body.email };
         let password = req.body.password;
-    
+        if (searchUser === null || password === null) {
+            console.log('Please complete all required fields.');
+          }
         responder.Login.findOne(searchUser).then(function(user) {
         console.log('Finding user');
       
@@ -229,6 +228,12 @@ function add(server){
             resp.redirect('/profile');
         }
     });
+    server.get('/logout', function(req, resp){
+        req.session.destroy(function(err) {
+          console.log("Session destroyed. Successfully logged out.");
+            resp.redirect('/');
+        });
+      });
 }
 
 module.exports.add = add;
