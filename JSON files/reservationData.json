@@ -6,6 +6,7 @@
     "type": "Solo",
     "requesterID": "ST123456",
     "requestFor": "ST123456",
+    "isAnonymous": false,
     "isDeleted": true
 },
 {
@@ -16,6 +17,7 @@
     "type": "Group",
     "requesterID": "ST49259989",
     "requestFor": "ST49259989",
+    "isAnonymous": false,
     "isDeleted": false  
 },
 {
@@ -26,6 +28,7 @@
     "type": "Group",
     "requesterID": "LT12209589",
     "requestFor": "ST123456",
+    "isAnonymous": false,
     "isDeleted": false  
 },
 {
@@ -36,6 +39,7 @@
     "type": "Group",
     "requesterID": "ST123456",
     "requestFor": "ST123456",
+    "isAnonymous": false,
     "isDeleted": false  
 },
 {
@@ -46,6 +50,7 @@
     "type": "Solo",
     "requesterID": "LT12209589",
     "requestFor": "ST123456",
+    "isAnonymous": false,
     "isDeleted": false  
 }
 ]

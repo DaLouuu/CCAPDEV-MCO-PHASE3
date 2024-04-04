@@ -21,29 +21,19 @@ $(document).ready(function () {
     const grpLabel = $('#group-percent');
     const privacyInput = $('#toggleSwitch');
 
-    $('#pHomeButton').click(function(){
+    $('#homeButton').click(function(){
         window.location.href = '/homepage';
     });
 
-    $('#pBackButton').click(function(){
+    $('#backButton').click(function(){
         history.back();
     });
 
-    $('#pfp').click(function(event) {
-        event.preventDefault();
-        $('.profile-popup').toggle();
-    });
+    
 
-    $(document).click(function(event) {
-        if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('#pfp')) {
-            $('.profile-popup').hide();
-        }
-    });
+   
 
-    $('.profile-popup').click(function(event) {
-        event.stopPropagation();
-    });
-
+   
     var rowCount = $('.table-row').length;
     activeStat.text("You have " + rowCount + " active reservations");
     if (rowCount == 0){
@@ -59,9 +49,7 @@ $(document).ready(function () {
         grpLabel.show();
         updateProgressBar();
     }
-    backButton.click(function(){
-        history.back();
-    });
+    
     $('#saveChangesButton').click(function() {
         var formData = {
             idNum: $('#idNumber').text(),
@@ -93,6 +81,7 @@ $(document).ready(function () {
         });
     });
     $('#editProfilePicButton').click(function() {
+        console.log("clicked edit");
         $('#fileInput').click();
        
     });
@@ -226,20 +215,5 @@ $(document).ready(function () {
         $('#privacyStatus').text(status);
     });
 
-/*
-    $('#choiceForm').submit(function (event) {
-        event.preventDefault();
-
-        var choice = $('input[name="choice"]:checked').val();
-
-        if (choice === "yes") {
-            
-            window.location.href = 'login.html';
-            window.alert("Account successfully deleted. You will be redirected to the login page.");
-        }
-        else if (choice === "no"){
-            closeButtonDelete.trigger('click');
-        }
-    });*/
 
 });

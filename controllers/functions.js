@@ -107,7 +107,8 @@ function getLabTechReservations() {
             seat: concatenatedSeats,
             requestDT: item.requestDT,
             reserveDT: item.reserveDT,
-            type: item.type
+            type: item.type,
+            isNotAnonymous: !(item.isAnonymous)
           });
         }
       }

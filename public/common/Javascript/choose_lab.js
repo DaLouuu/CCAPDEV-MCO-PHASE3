@@ -21,6 +21,9 @@ $(document).ready(function() {
             columns = labDetails.map(function(lab) {
                 return lab.columns;
             });
+            images = labDetails.map(function(lab) {
+                return lab.img;
+            });
             console.log("labs: " + labChoices);
             console.log("columns: " + columns);
             // Update UI with initial lab details
@@ -32,9 +35,7 @@ $(document).ready(function() {
         }
     });
     $('#left-arrow').on('click', function() {
-        //var labChoices = ['GK303','GK304', 'GK305', 'GK306A', 'GK306B'];
         var chosenLab = $('#lab-text').text();
-        //images = ['/common/CSS & Assets/Assets/lab-1.jpg','/common/CSS & Assets/Assets/lab-1.jpg', '/common/CSS & Assets/Assets/lab-2.jpg', '/common/CSS & Assets/Assets/lab-3.jpg', '/common/CSS & Assets/Assets/lab-4.jpg'];
         var currentIndex = labChoices.indexOf(chosenLab);
     
         if (currentIndex !== -1) {
@@ -46,10 +47,7 @@ $(document).ready(function() {
     });
     
     $('#right-arrow').on('click', function() {
-        //var labChoices = ['GK303','GK304', 'GK305', 'GK306A', 'GK306B'];
-        //console.log("Right arrow clicked");
         var chosenLab = $('#lab-text').text();
-        //const images = ['/common/CSS & Assets/Assets/lab-1.jpg','/common/CSS & Assets/Assets/lab-1.jpg', '/common/CSS & Assets/Assets/lab-2.jpg', '/common/CSS & Assets/Assets/lab-3.jpg', '/common/CSS & Assets/Assets/lab-4.jpg'];
         var currentIndex = labChoices.indexOf(chosenLab);
     
         if (currentIndex !== -1) {
