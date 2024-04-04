@@ -192,8 +192,12 @@ server.get('/reserve', async (req, res) => {
                 requesterID: requesterID,
                 requestFor: requestFor,
                 isAnonymous: isAnonymous,
-            }).then(() => {
-                res.status(200).send('Reservation updated successfully');
+            }).then((result) => {
+                if (result != undefined) {
+                    res.status(200).send('Reservation updated successfully');
+                } else {
+                    res.status(500).json({ error: error.message });
+                }
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
