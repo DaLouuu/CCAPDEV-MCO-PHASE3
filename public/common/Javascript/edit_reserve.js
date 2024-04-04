@@ -214,9 +214,21 @@ document.addEventListener('DOMContentLoaded', function () {
             groupOrSolo: document.getElementById("soloReservation").checked ? "Solo" : "Group"
         };
 
+        var reservationData = {
+            lab: lab,
+            seats: selectedSeatNum,
+            requestDT: requestDT,
+            reserveDT: reserveDT,
+            type: type,
+            requesterID: requesterID,
+            requestFor: requestFor,
+            isAnonymous: isAnonymous,
+            isDeleted: false
+        };
+
         $.ajax({
             type: 'POST',
-            url: '/save-reservation',
+            url: '/update-reservation',
             data: JSON.stringify(reservationData),
             contentType: 'application/json',
             success: function(data) {
@@ -224,12 +236,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert("Reservation is successful");
                 reserveSeats();
                 modal.style.display = "none";
+                // Redirect to view_reservations.hbs page
+                window.location.href = '/view-reservations'; // Redirect to view_reservations.hbs
             },
             error: function(xhr, status, error) {
                 console.error('Error saving reservation:', error);
                 alert('An error occurred while saving the reservation. Please try again later.');
             }
-        });
+        });       
+        
     });
 
     function getTimeText(timeValue) {

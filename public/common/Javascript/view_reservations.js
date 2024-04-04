@@ -148,9 +148,33 @@ $(document).ready(function() {
     });
     
 
-    $('#edit-res').click(function(){
-        window.location.href = '/edit_reserve';
+    // When any button with ID starting with 'edit-res-' is clicked
+$('button[id^="edit-res"]').click(function() {
+    // Get the reservation ID from the corresponding table cell
+    let reservationId = $('#res-id').text();
+    let secondSpaceIndex = reservationId.indexOf(' ', reservationId.indexOf(' ') + 1);
+    let substringAfterSecondSpace = reservationId.substring(secondSpaceIndex + 1);
+
+    // Redirect to the edit reservation page with the reservation ID
+    window.location.href = '/edit_reserve/' + substringAfterSecondSpace;
+
+    $.ajax({
+        url: '/edit_reserve/' + substringAfterSecondSpace, // Include reservation ID in the URL
+        method: 'GET',
+        success: function(reservation) {
+            // Set input field values based on the reservation details
+            $('#labInput').val(reservation.lab);
+            $('#seatInput').val(reservation.seat);
+            $('#requestDTInput').val(reservation.requestDT);
+            $('#reserveDTInput').val(reservation.reserveDT);
+            $('#typeInput').val(reservation.type);
+        },
+        error: function(xhr, status, error) {
+            // Handle errors
+            console.error('Error fetching reservation:', error);
+        }
     });
+});
 
 
     

@@ -104,58 +104,97 @@ server.get('/reserve', async (req, res) => {
     }); 
 
 
-    server.get('/edit_reserve', async (req, res) => {
-        try {
-            // Read the lab index from the query parameters
-            let labIndex = req.query.lab;
-            console.log('Requested lab index:', labIndex); // Debugging output
-            if (labIndex == undefined)
-                labIndex = 0;
-            // Fetch lab details from the database
-            let labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
+    // server.get('/edit_reserve', async (req, res) => {
+    //     try {
+    //         // Read the lab index from the query parameters
+    //         let labIndex = req.query.lab;
+    //         console.log('Requested lab index:', labIndex); // Debugging output
+    //         if (labIndex == undefined)
+    //             labIndex = 0;
+    //         // Fetch lab details from the database
+    //         let labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
     
-            // Check if the requested lab index is valid
-            if (labIndex >= 0 && labIndex < labDetails.length) {
-                // Retrieve the lab with the specified index
-                let selectedLab = labDetails[labIndex];
-                selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
+    //         // Check if the requested lab index is valid
+    //         if (labIndex >= 0 && labIndex < labDetails.length) {
+    //             // Retrieve the lab with the specified index
+    //             let selectedLab = labDetails[labIndex];
+    //             selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
     
-                // Render the edit_reserve.hbs template with the selected lab
-                res.render('edit_reserve', {
-                    layout: null,
-                    title: 'ILabYou - We Lab to Reserve for You',
-                    profileDetails: profileDetails,
-                    selectedLab: selectedLab
-                });
-            }    
+    //             // Render the edit_reserve.hbs template with the selected lab
+    //             res.render('edit_reserve', {
+    //                 layout: null,
+    //                 title: 'ILabYou - We Lab to Reserve for You',
+    //                 profileDetails: profileDetails,
+    //                 selectedLab: selectedLab
+    //             });
+    //         }    
             
-        } catch (error) {
-            console.error('Error rendering reserve page:', error);
-            res.status(500).send('Internal Server Error');
-        }
-    });
+    //     } catch (error) {
+    //         console.error('Error rendering reserve page:', error);
+    //         res.status(500).send('Internal Server Error');
+    //     }
+    // });
 
     server.get('/edit_reserve/:reservationId', async (req, res) => {
         try {
             const reservationId = req.params.reservationId;
-            const reservation = await responder.Reservation.findById(reservationId);
+            const reservation = await responder.Reservation.findById(reservationId).lean();
             if (!reservation) {
                 return res.status(404).send('Reservation not found');
             }
-            const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
-            // Render the edit_reserve.hbs template with the selected reservation and lab details
-            res.render('edit_reserve', {
-                layout: null,
-                title: 'ILabYou - We Lab to Reserve for You',
-                profileDetails: profileDetails,
-                selectedLab: labDetails[reservation.lab], // Assuming reservation has lab index
-                reservation: reservation // Pass the reservation details
-            });
+            
+            // Fetch lab details from the database
+            let labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
+            let selectedLab = {};
+            let firstSpaceIndex = reservation.reserveDT.indexOf(' ', reservation.reserveDT.indexOf(' '));
+            let substringAfterFirstSpace = reservation.reserveDT.substring(firstSpaceIndex + 1);
+            let reservationTime = substringAfterFirstSpace;
+            // let substringBeforeFirstSpace = reservation.reserveDT.substring(reservation.reserveDT - firstSpaceIndex);
+
+
+                for (let i = 0; i < labDetails.length; i++) {
+                    if (labDetails[i].labName === reservation.lab) {
+                        selectedLab = labDetails[i];
+                        console.log("Selected Lab index: " + i);
+                        selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
+                    }
+                }
+                
+                 // Render the edit_reserve.hbs template with the selected reservation and lab details
+                res.render('edit_reserve', {
+                    layout: null,
+                    title: 'ILabYou - We Lab to Reserve for You',
+                    profileDetails: profileDetails,
+                    selectedLab: selectedLab,
+                    reservation: reservation,
+                    // reservationDate: reservationDate,
+                    reservationTime: reservationTime
+                });  
         } catch (error) {
             console.error('Error rendering reserve page:', error);
             res.status(500).send('Internal Server Error');
         }
     });
+    
+    server.post('/update-reservation', async (req, res) => {
+        try {
+            const reservationId = req.params.reservationId;
+            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous, isDeleted} = req.body;
+
+            
+    
+            // Update the reservation in the database
+            await responder.Reservation.findByIdAndUpdate(reservationId, lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous, isDeleted);
+    
+            // Respond with a success message
+            res.status(200).json({ message: 'Reservation updated successfully' });
+        } catch (error) {
+            // If an error occurs, respond with an error status code and message
+            console.error('Error updating reservation:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
+    
 
 }
 
