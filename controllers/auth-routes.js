@@ -31,8 +31,6 @@ function add(server){
     const store = new mongoStore({
         uri: mongoURI,
         collection: 'sessions'
-        //expires: 1000*60*60 // 1 hour
-    //expires: 1000*60*60// 1 hour
     });
 
     server.use(session({
@@ -231,6 +229,13 @@ function add(server){
             resp.redirect('/profile');
         }
     });
+
+    server.get('/logout', function(req, resp){
+        req.session.destroy(function(err) {
+          console.log("Session destroyed. Successfully logged out.");
+            resp.redirect('/');
+        });
+      });
 }
 
 module.exports.add = add;
