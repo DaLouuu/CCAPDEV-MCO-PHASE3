@@ -2,9 +2,15 @@
 const fn = require('./functions');
 const { updateProfileDetails, profileDetails } = require('./profileDetails');
 const responder = require('../models/Responder');
+const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/labDB');
+const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
+mongoose.connect(mongo_uri);
+const session = require('express-session');
+const { createBrotliCompress } = require('zlib');
+const mongoStore = require('connect-mongodb-session')(session);
 
-
-const fs = require('fs'); //remove once db lab load fixed
 
 function add(server){
     server.get('/view-reservations', function(req, resp) {
@@ -51,7 +57,7 @@ function add(server){
         });
     });
     // Server-side endpoint to fetch lab details
-server.get('/getLabDetails', async function(req, res){
+ server.get('/getLabDetails', async function(req, res){
     try {
         // Fetch lab details from the database
         const labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean(); // Query to get labIndex, labName, and columns, and convert Mongoose documents to plain JavaScript objects
@@ -60,8 +66,11 @@ server.get('/getLabDetails', async function(req, res){
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }
-});
-server.get('/reserve', async (req, res) => {
+ });
+
+
+
+ server.get('/reserve', async (req, res) => {
     try {
         // Read the lab index from the query parameters
         let labIndex = req.query.lab;
@@ -92,6 +101,7 @@ server.get('/reserve', async (req, res) => {
     }
 });
 
+
     server.get('/findUser_id/:id', function(req, resp) {
         const idNum = req.params.id;
         console.log("idNum: "+ idNum);
@@ -102,6 +112,80 @@ server.get('/reserve', async (req, res) => {
             resp.redirect(`/user?id=${id}`);
         }); 
     }); 
-}
 
+
+    server.post('/create-reservation', async (req, res) => {
+        try {
+            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous, isDeleted } = req.body;
+            
+            // Call savetReservation function to save reservation
+            await fn.saveReservation({
+                lab,
+                seats,
+                requestDT,
+                reserveDT,
+                type,
+                requesterID,
+                requestFor,
+                isAnonymous,
+                isDeleted
+            });
+    
+            res.status(201).send("Reservation saved successfully.");
+        } catch (error) {
+            console.error("Error saving reservation:", error);
+            res.status(500).send("Internal Server Error");
+        }
+    });
+    
+    
+    server.get('/checkReservations', async function(req, res) {
+        try {
+            const { lab, date, time, currentRequesterID } = req.query;
+    
+            // Log the values of lab, date, and time for debugging
+            console.log('Lab:', lab);
+            console.log('Date:', date);
+            console.log('Time:', time);
+            console.log('ID:', currentRequesterID);
+            
+            // Step 1: Retrieve Reservation Data
+            const combinedDateTime = date + ' ' + time;
+    
+            // Log the combinedDateTime for debugging
+            console.log('Combined DateTime:', combinedDateTime);
+            
+            // Retrieve reservations from the database
+            const reservations = await responder.Reservation.find({ 
+                lab: lab, 
+                reserveDT: combinedDateTime, 
+                isDeleted: false
+            });
+    
+            console.log('Retrieved Reservations:', reservations);
+    
+            // Extract reserved seats
+            const reservedSeats = reservations.flatMap(reservation => reservation.seats);
+    
+            // Extract requesterID of each reservation
+            const reservationRequesterIDs = reservations.map(reservation => reservation.requesterID);
+    
+            console.log('Reserved Seats:', reservedSeats);
+            console.log('Reservation Requester IDs:', reservationRequesterIDs);
+    
+            // Check if the current requesterID matches any of the reservation requesterIDs
+            const isCurrentRequester = reservationRequesterIDs.includes(currentRequesterID);
+    
+            console.log('Is Current Requester:', isCurrentRequester);
+    
+            // Step 3: Send Reserved Seat Numbers, Reservation Requester IDs, and Current Requester Status to Frontend
+            res.json({ reservedSeats, reservationRequesterIDs, isCurrentRequester });
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    });
+    
+
+}
 module.exports.add = add;
