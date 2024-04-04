@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     const homeButton = $('#homeButton');
     const profileButton = $('#pfp');

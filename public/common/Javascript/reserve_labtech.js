@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
    
     const currentDateElement = $('#currentDate');
@@ -316,3 +317,4 @@ function formatDateTime(date) {
         }
     }
 });
+
