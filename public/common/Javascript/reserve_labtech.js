@@ -206,7 +206,7 @@ function checkReservations(lab, date, time, currentRequesterID) {
 function updateSeatColors(reservedSeats, isCurrentRequester) {
     console.log('isCurrentRequester:', isCurrentRequester);
     console.log('Updating seat colors with reserved seats:', reservedSeats);
-    const currentRequesterID =  $('#confirmStudentID').text();;
+    const currentRequesterID =  $('#confirmLabtechID').text();;
     const isCurrentRQ = isCurrentRequester.includes(currentRequesterID);
     $('.seat').each(function() {
         const seatId = $(this).find('.seat-id').text().trim(); // Remove the prefix
