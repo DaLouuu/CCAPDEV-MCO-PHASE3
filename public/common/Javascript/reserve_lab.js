@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+ 
     const currentDateElement = $('#currentDate');
     const currentDate = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -41,7 +43,7 @@ $(document).ready(function() {
 
     function clearSelectedSeats() {
         seatElements.each(function() {
-            if ($(this).css('backgroundColor') === 'rgb(147, 149, 255)' || $(this).css('backgroundColor') === 'rgb(255, 145, 77)') {
+            if ($(this).css('backgroundColor') === 'rgb(147, 149, 255)') {
                 $(this).css('backgroundColor', '');
             }
         });
@@ -50,11 +52,6 @@ $(document).ready(function() {
     }
 
     function reserveSeats() {
-        seatElements.each(function() {
-            if ($(this).css('backgroundColor') === 'rgb(255, 145, 77)' || $(this).css('backgroundColor') === '#ff914d') {
-                $(this).css('backgroundColor', '');
-            }
-        });
 
         selectedSeats.forEach(function(seat) {
             $(seat).css('backgroundColor', '#ff914d');
@@ -178,12 +175,136 @@ $(document).ready(function() {
         }
     });
 
-    var confirmReservationBtn = $('#confirmReservationBtn');
-    confirmReservationBtn.on('click', function() {
-        alert("Reservation is successful");
-        reserveSeats();
-        modal.css('display', "none");
+
+
+// Call the checkReservations function when the date or time changes
+$('#selectedDate, #selectedTime').change(function() {
+    const selectedLab = $('#confirmLabName').text(); // Get selected lab from frontend
+    const selectedDate = $('#selectedDate').val(); // Get selected date from frontend
+    const selectedTimeValue = $('#selectedTime').val(); // Get the value of the selected time from frontend
+    const selectedTime = getTimeText(selectedTimeValue);
+    const currentRequesterID =  $('#confirmStudentID').text();;
+    checkReservations(selectedLab, selectedDate, selectedTime,currentRequesterID);
+});
+
+// AJAX request to check reservations and update seat colors
+function checkReservations(lab, date, time, currentRequesterID) {
+    $.ajax({
+        type: 'GET',
+        url: '/checkReservations',
+        data: {
+            lab: lab,
+            date: date,
+            time: time,
+            currentRequesterID: currentRequesterID
+        },
+        success: function(data) {
+            console.log('Updating the Seats');
+            console.log('Detected Reservations:', data.reservedSeats);
+            console.log('Reservation Requester IDs:', data.reservationRequesterIDs);
+            updateSeatColors(data.reservedSeats, data.reservationRequesterIDs, currentRequesterID);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
     });
+}
+
+function updateSeatColors(reservedSeats, isCurrentRequester) {
+    console.log('isCurrentRequester:', isCurrentRequester);
+    console.log('Updating seat colors with reserved seats:', reservedSeats);
+    const currentRequesterID =  $('#confirmStudentID').text();;
+    const isCurrentRQ = isCurrentRequester.includes(currentRequesterID);
+    $('.seat').each(function() {
+        const seatId = $(this).find('.seat-id').text().trim(); // Remove the prefix
+  
+        if (reservedSeats.includes(seatId)) {
+            console.log('Seat', seatId, 'is reserved.');
+            if (isCurrentRQ) {
+                console.log('Reservation made by current user.');
+                $(this).css('background-color', '#ff914d'); // Orange color for current user's reservations
+            } else {
+                $(this).css('background-color', '#f69aa0'); // Reserved color (e.g., red)
+            }
+        } else {
+            $(this).css('background-color', '#5cb485'); // Available color (e.g., green)
+        }
+    });
+}
+
+
+var confirmReservationBtn = $('#confirmReservationBtn');
+confirmReservationBtn.on('click', function() {
+    
+    var lab = $('#confirmLabName').text();
+    var selectedSeatNum = $('#confirmSeatNum').text();
+    var seatsArray = selectedSeatNum.split(', '); // Split the string into an array
+    var trimmedSeatsArray = seatsArray.map(seat => seat.trim());
+    var selectedDate = $('#confirmDate').text();
+    var selectedTime = $('#confirmTime').text();
+    var type = $('#confirmReservationTypeGroupOrSolo').text();
+    var isAnonymous = $('#anonymous').prop('checked'); 
+    var requesterID = $('#confirmStudentID').text();
+    var requestFor = $('#confirmStudentID').text();
+
+    var currentDate = new Date();
+    var requestDT = formatDateTime(currentDate);
+
+    var reserveDT = selectedDate + ' ' + selectedTime;
+
+  
+    
+    var reservationData = {
+        lab: lab,
+        seats: trimmedSeatsArray, 
+        requestDT: requestDT,
+        reserveDT: reserveDT,
+        type: type, 
+        requesterID: requesterID,
+        requestFor: requestFor,
+        isAnonymous: isAnonymous,
+        isDeleted: false
+    };
+
+    
+    $.ajax({
+        url: "/create-reservation",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(reservationData),
+        success: function(response) {
+            console.log("Reservation saved successfully.");
+            alert("Reservation is successful");
+            reserveSeats();
+            modal.css('display', "none");
+        },
+        error: function(xhr, status, error) {
+            console.error("Error saving reservation:", error);
+        }
+    });
+});
+
+    
+function formatDateTime(date) {
+    // Get the components of the date
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Add leading zero if month is single digit
+    const day = String(date.getDate()).padStart(2, '0'); // Add leading zero if day is single digit
+    const hours = String(date.getHours()).padStart(2, '0'); // Add leading zero if hour is single digit
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Add leading zero if minute is single digit
+
+    // Determine AM/PM
+    const meridiem = (hours < 12) ? 'AM' : 'PM';
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = (hours % 12 === 0) ? 12 : hours % 12;
+
+    // Concatenate the components with dashes and colons to form the desired format
+    const formattedDateTime = `${year}-${month}-${day} ${formattedHours}:${minutes} ${meridiem}`;
+
+    return formattedDateTime;
+}
+
 
     function getTimeText(timeValue) {
         switch (timeValue) {
@@ -203,4 +324,9 @@ $(document).ready(function() {
                 return "Unknown Time";
         }
     }
+
+
+
+
+
 });
