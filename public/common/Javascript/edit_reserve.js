@@ -211,15 +211,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    var confirmReservationBtn = document.getElementById("confirmReservationBtn");
-    confirmReservationBtn.addEventListener("click", function () {
-        var reservationData = {
-            seatNumber: document.getElementById("selectedSeatNum").value,
-            date: document.getElementById("selectedDate").value,
-            timeSlot: document.getElementById("selectedTime").value,
-            anonymous: document.getElementById("anonymous").checked,
-            groupOrSolo: document.getElementById("soloReservation").checked ? "Solo" : "Group"
-        };
+    var confirmReservationBtn = $("#confirmReservationBtn");
+    confirmReservationBtn.on("click", function () {
+        // Assuming reservationId is already available in your script
+        var reservationId = getUrlPathParameter(2); // Assuming the ID is at index 2
+
+        var lab = $('#confirmLabName').text();
+        var selectedSeatNum = $('#confirmSeatNum').text();
+        var seatsArray = selectedSeatNum.split(', '); // Split the string into an array
+        var trimmedSeatsArray = seatsArray.map(seat => seat.trim());
+        var selectedDate = $('#confirmDate').text();
+        var selectedTime = $('#confirmTime').text();
+        var type = $('#confirmReservationTypeGroupOrSolo').text();
+        var isAnonymous;
+
+        if (profileDetails.isLabtech === true) {
+            isAnonymous = false;
+        } else {
+            isAnonymous = $('#anonymous').prop('checked'); 
+        }
+        var requesterID = $('#confirmStudentID').text();
+        var requestFor = $('#confirmStudentID').text();
+
+        var currentDate = new Date();
+        var requestDT = formatDateTime(currentDate);
+
+        var reserveDT = selectedDate + ' ' + selectedTime;
 
         var updatedResData = {
             lab: lab,
@@ -233,16 +250,18 @@ document.addEventListener('DOMContentLoaded', function () {
             isDeleted: false
         };
 
+        console.log("Reservation ID:", reservationId);
+
         $.ajax({
             type: 'POST',
-            url: '/update-reservation',
+            url: '/update-reservation/' + reservationId, // Include reservationId in the URL
             data: JSON.stringify(updatedResData),
             contentType: 'application/json',
             success: function(data) {
                 console.log('Reservation saved successfully');
-                alert("Reservation is successful");
+                alert("Reservation is successful, reservationId:" + reservationId);
                 reserveSeats();
-                modal.style.display = "none";
+                modal.css("display", "none");
                 // Redirect to view_reservations.hbs page
                 window.location.href = '/view-reservations'; // Redirect to view_reservations.hbs
             },
@@ -251,8 +270,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('An error occurred while saving the reservation. Please try again later.');
             }
         });       
-        
     });
+
+    function getUrlPathParameter(index) {
+        var path = window.location.pathname.split('/');
+        console.log("Path:", window.location.pathname); // Log the entire URL path
+        console.log("Path array:", path); // Log the path array
+        return path[index];
+    }
 
     function getTimeText(timeValue) {
         switch (timeValue) {

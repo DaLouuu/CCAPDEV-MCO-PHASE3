@@ -255,7 +255,7 @@
 
             <div class="dateBox">
                 <div id="left-arrow"><img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/angle-left-512.png" alt="left-arrow"></div>
-                <div class="date" id="currentDate"> </div>
+                <div class="date" id="currentDate" value="{{reservationDate}}"> </div>
                 <div id="right-arrow"><img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/angle-right-512.png" alt="right-arrow"></div>
             </div> 
 {{#if profileDetails.isLabtech}}
@@ -306,9 +306,9 @@
                         <label for="groupOrSolo"> </label>
                     </div>
                     <div class="col-75">
-                        <input type="radio" id="soloReservation" name="reservationType" value="solo" checked>
+                        <input type="radio" id="soloReservation" name="reservationType" value="solo" {{#ifEquals reservationType 'solo'}}checked{{/ifEquals}}>
                         <label for="soloReservation"><img src="https://cdn-icons-png.flaticon.com/128/9742/9742643.png" alt="Solo Logo" height="32"> Solo </label>
-                        <input type="radio" id="groupReservation" name="reservationType" value="group">
+                        <input type="radio" id="groupReservation" name="reservationType" value="group" {{#ifEquals reservationType 'group'}}checked{{/ifEquals}}>
                         <label for="groupReservation"><img src="https://cdn-icons-png.flaticon.com/128/1769/1769041.png" alt="Group Logo" height="32">Group Reservation</label>
                         
                     </div>

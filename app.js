@@ -22,6 +22,9 @@ const hbs = handlebars.create({ // Create an instance of handlebars
         compareTime: function(reservationTime, timeRange, options) {
             return reservationTime === timeRange ? options.fn(this) : options.inverse(this);
         },
+        ifEquals: function(arg1, arg2, options) {
+            return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+        },
         // Custom helper to check if a value is in an array
         inArray: function(value, array, options) {
             if (array.indexOf(value) !== -1) {

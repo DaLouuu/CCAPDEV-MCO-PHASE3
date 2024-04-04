@@ -167,7 +167,8 @@ server.get('/reserve', async (req, res) => {
                     selectedLab: selectedLab,
                     reservation: reservation,
                     reservationDate: reservationDate,
-                    reservationTime: reservationTime
+                    reservationTime: reservationTime,
+                    reservationType: reservation.reservationType
                 });  
         } catch (error) {
             console.error('Error rendering reserve page:', error);
@@ -175,13 +176,13 @@ server.get('/reserve', async (req, res) => {
         }
     });
     
-    server.post('/update-reservation', (req, res) => {
+    server.post('/update-reservation/:reservationId', (req, res) => {
         try {
-            const reservationId = req.params.reservationId;
-            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous} = req.body;
+            const reservationId = req.params.reservationId; // Extract reservationId from URL path
+            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous } = req.body;
 
-            console.log(req.body);
-    
+            console.log(reservationId);
+
             responder.Reservation.findByIdAndUpdate(reservationId, { 
                 lab: lab,
                 seats: seats,
@@ -191,18 +192,17 @@ server.get('/reserve', async (req, res) => {
                 requesterID: requesterID,
                 requestFor: requestFor,
                 isAnonymous: isAnonymous,
-             }).then(() => {
+            }).then(() => {
                 // Respond with a success message
                 res.status(200).json({ message: 'Reservation updated successfully' });
                 resp.redirect('/view-reservations');
             });
-    
+
         } catch (error) {
             // If an error occurs, respond with an error status code and message
             console.error('Error updating reservation:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-        
     });
     
 
