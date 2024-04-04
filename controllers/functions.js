@@ -1,6 +1,26 @@
 //default declarations
 const responder = require('../models/Responder');
-
+const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/labDB');
+const mongo_uri = 'mongodb://127.0.0.1:27017/labDB';
+mongoose.connect(mongo_uri);
+const session = require('express-session');
+const { createBrotliCompress } = require('zlib');
+const mongoStore = require('connect-mongodb-session')(session);
+const parentDir = path.dirname(__dirname);
+const destinationDirectory = path.join(parentDir, 'public', 'common', 'CSS & Assets', 'Assets');
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, destinationDirectory);
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
 
 
 function handleError(response, errorMessage) {
@@ -154,6 +174,35 @@ function getLabTechReservations() {
   
     return seatNumbers;
   }
+
+  function saveReservation(reservationDetails) {
+    // Extract reservation details
+    const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor,isAnonymous, isDeleted } = reservationDetails;
+
+    // Create a new reservation object
+    const reservation = new responder.Reservation({
+        lab,
+        seats,
+        requestDT,
+        reserveDT,
+        type,
+        requesterID,
+        requestFor,
+        isAnonymous,
+        isDeleted,
+    });
+
+    return reservation.save()
+        .then(() => {
+            console.log("Reservation saved successfully.");
+            return "Reservation saved successfully.";
+        })
+        .catch(error => {
+            console.error("Error saving reservation:", error);
+            throw new Error("Error saving reservation.");
+        });
+}
+
   module.exports = {
     handleError: handleError,
     getSearchUsers: getSearchUsers,
@@ -161,6 +210,7 @@ function getLabTechReservations() {
     getLabTechReservationsByID: getLabTechReservationsByID,
     getStudentReservations: getStudentReservations,
     generateUniqueUserId: generateUniqueUserId,
-    generateSeatNumbers: generateSeatNumbers
+    generateSeatNumbers: generateSeatNumbers,
+    saveReservation : saveReservation
 
   };
