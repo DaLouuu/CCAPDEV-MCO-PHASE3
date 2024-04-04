@@ -176,23 +176,34 @@ server.get('/reserve', async (req, res) => {
         }
     });
     
-    server.post('/update-reservation', async (req, res) => {
+    server.post('/update-reservation', (req, res) => {
         try {
             const reservationId = req.params.reservationId;
-            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous, isDeleted} = req.body;
+            const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous} = req.body;
 
-            
+            console.log(req.body);
     
-            // Update the reservation in the database
-            await responder.Reservation.findByIdAndUpdate(reservationId, lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous, isDeleted);
+            responder.Reservation.findByIdAndUpdate(reservationId, { 
+                lab: lab,
+                seats: seats,
+                requestDT: requestDT, 
+                reserveDT: reserveDT,
+                type: type,
+                requesterID: requesterID,
+                requestFor: requestFor,
+                isAnonymous: isAnonymous,
+             }).then(() => {
+                // Respond with a success message
+                res.status(200).json({ message: 'Reservation updated successfully' });
+                resp.redirect('/view-reservations');
+            });
     
-            // Respond with a success message
-            res.status(200).json({ message: 'Reservation updated successfully' });
         } catch (error) {
             // If an error occurs, respond with an error status code and message
             console.error('Error updating reservation:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+        
     });
     
 

@@ -1,3 +1,5 @@
+const { profileDetails } = require("../../../controllers/profileDetails");
+
 document.addEventListener('DOMContentLoaded', function () {
     const openButton = document.getElementById('quesButton');
     const popupWindow = document.getElementById('popupWindow');
@@ -133,22 +135,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    var reserveBtn = document.getElementById("reserveBtn");
-    var modal = document.getElementById("reservationModal");
-    var closeBtn = document.querySelector(".close");
-    var confirmSeatNum = document.getElementById("confirmSeatNum");
-    var confirmDate = document.getElementById("confirmDate");
-    var confirmTime = document.getElementById("confirmTime");
-    var confirmReservationType = document.getElementById("confirmReservationType");
-    var confirmReservationType2 = document.getElementById("confirmReservationTypeGroupOrSolo");
+    let reserveBtn = document.getElementById("reserveBtn");
+    let modal = document.getElementById("reservationModal");
+    let closeBtn = document.querySelector(".close");
+    let confirmSeatNum = document.getElementById("confirmSeatNum");
+    let confirmDate = document.getElementById("confirmDate");
+    let confirmTime = document.getElementById("confirmTime");
+    let confirmReservationType = document.getElementById("confirmReservationType");
+    let confirmReservationType2 = document.getElementById("confirmReservationTypeGroupOrSolo");
+    let isAnonymous;
 
     reserveBtn.addEventListener("click", function () {
-        var selectedSeatNum = document.getElementById("selectedSeatNum").value;
-        var selectedDate = document.getElementById("selectedDate").value;
-        var selectedTime = document.getElementById("selectedTime").value;
-        var isAnonymous = document.getElementById("anonymous").checked;
-        var isSolo = document.getElementById("soloReservation").checked;
-        var isGroup = document.getElementById("groupReservation").checked;
+        let selectedSeatNum = document.getElementById("selectedSeatNum").value;
+        let selectedDate = document.getElementById("selectedDate").value;
+        let selectedTime = document.getElementById("selectedTime").value;
+        if(profileDetails.isLabtech === true) {
+            isAnonymous = false;
+        } else {
+            isAnonymous = document.getElementById("anonymous").checked;
+        }
+        let isSolo = document.getElementById("soloReservation").checked;
+        let isGroup = document.getElementById("groupReservation").checked;
 
         if (!selectedSeatNum || !selectedDate || !selectedTime) {
             alert("Please complete the reservation form.");
@@ -214,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
             groupOrSolo: document.getElementById("soloReservation").checked ? "Solo" : "Group"
         };
 
-        var reservationData = {
+        var updatedResData = {
             lab: lab,
             seats: selectedSeatNum,
             requestDT: requestDT,
@@ -229,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             type: 'POST',
             url: '/update-reservation',
-            data: JSON.stringify(reservationData),
+            data: JSON.stringify(updatedResData),
             contentType: 'application/json',
             success: function(data) {
                 console.log('Reservation saved successfully');
