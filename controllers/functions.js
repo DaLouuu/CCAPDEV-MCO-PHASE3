@@ -57,7 +57,8 @@ function getLabTechReservations() {
             type: item.type,
             requesterID: item.requesterID,
             requestFor: item.requestFor,
-            isDeleted: item.isDeleted
+            isDeleted: item.isDeleted,
+            status: item.status
           });
         }
       }

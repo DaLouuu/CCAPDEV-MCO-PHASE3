@@ -10,11 +10,7 @@ const { createBrotliCompress } = require('zlib');
 const mongoStore = require('connect-mongodb-session')(session);
 
 
-
 // Create a new MongoDB session store
-
-
-
 function add(server){
     // Load environment variable
     const mongoURI = process.env.MONGODB_URI;

@@ -88,9 +88,11 @@ $(document).ready(function() {
         seat.html('<b>Seat Number: </b>' + $(tableDatas[1]).text());
         reqDate.html('<b>Date and Time of Request: </b>' + $(tableDatas[2]).text());
         resDate.html('<b>Date and Time of Reservation: </b>' + $(tableDatas[3]).text());
-        if(tableDatas.length == 7){
+        if(tableDatas.length == 8){
             studentId.html('<b>Student ID: </b>' + $(tableDatas[5]).text());
             $('#res-id').html('<b>Reservation ID: </b>' + $(tableDatas[6]).text());
+            $('#res-status').html('<b>Reservation Status: </b>' + $(tableDatas[7]).text());
+            
         }
 
     }
@@ -150,9 +152,27 @@ $(document).ready(function() {
     
 
     $('#edit-res').click(function(){
-        window.location.href = '/edit_reserve';1    
+        window.location.href = '/edit_reserve';  
     });
-
+    $('#present-res').click(function(){
+        const reservationId = $('#res-id').text(); 
+        let secondSpaceIndex = reservationId.indexOf(' ', reservationId.indexOf(' ') + 1);
+        let substringAfterSecondSpace = reservationId.substring(secondSpaceIndex + 1);
+        $.ajax({
+            type: 'POST',
+            url: '/update-res-status', // Specify the URL of your server-side route
+            data: {
+                _id: substringAfterSecondSpace
+            },
+            success: function(response) {
+                console.log('Success:', response);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
 
     
 });

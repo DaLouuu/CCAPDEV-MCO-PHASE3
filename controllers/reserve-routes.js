@@ -172,7 +172,19 @@ server.get('/reserve', async (req, res) => {
         }
     });
     
-
+    server.post('/update-res-status', (req, res) => {
+        const id = req.body._id;
+        responder.Reservation.findByIdAndUpdate(id, { status: 'Present' }, { new: true })
+        .then(updatedReservation => {
+            console.log('Updated reservation:', updatedReservation);
+            res.status(200).send({ message: 'Reservation status updated successfully', updatedReservation });
+        })
+        .catch(error => {
+            console.error('Error updating reservation:', error);
+            res.status(500).send({ error: 'Internal server error' });
+        });
+    });
+    
 }
 
 module.exports.add = add;
