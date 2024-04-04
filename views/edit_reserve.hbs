@@ -282,7 +282,7 @@
                       <label for="date">Date:</label>
                     </div>
                     <div class="col-75">
-                      <input type="date" id="selectedDate" name="date" placeholder="Please select a Date" value="{{reservation.reserveDT}}">
+                      <input type="date" id="selectedDate" name="date" placeholder="Please select a Date" value="{{reservationDate}}">
                     </div>
                 </div>
                 <div class="row-reserve">
@@ -291,18 +291,12 @@
                     </div>
                     <div class="col-75">
                       <select id="selectedTime" name="time">
-                        <option value="7000" > 07:30 AM - 09:00 AM     </option>
-                        <option value="9000"> 09:15 AM - 10:45 AM     </option>
-                        <option value="1100" > 11:00 AM - 12:30 PM     </option>
-                        <option value="1200" > 12:45 PM - 02:15 PM     </option>
-                        <option value="1400" > 02:30 PM - 04:00 PM     </option>
-                        <option value="1600" > 04:15 PM - 05:45 PM     </option>
-                        {{!-- <option value="7000" {{#if (eq reservationTime '07:30 AM - 09:00 AM')}} selected {{/if}}> 07:30 AM - 09:00 AM     </option>
-                        <option value="9000" {{#if (eq reservationTime '09:15 AM - 10:45 AM')}} selected {{/if}}> 09:15 AM - 10:45 AM     </option>
-                        <option value="1100" {{#if (eq reservationTime '11:00 AM - 12:30 PM')}} selected {{/if}}> 11:00 AM - 12:30 PM     </option>
-                        <option value="1200" {{#if (eq reservationTime '12:45 PM - 02:15 PM')}} selected {{/if}}> 12:45 PM - 02:15 PM     </option>
-                        <option value="1400" {{#if (eq reservationTime '02:30 PM - 04:00 PM')}} selected {{/if}}> 02:30 PM - 04:00 PM     </option>
-                        <option value="1600" {{#if (eq reservationTime '04:15 PM - 05:45 PM')}} selected {{/if}}> 04:15 PM - 05:45 PM     </option> --}}
+                        <option value="7000" {{#compareTime reservationTime '07:30 AM - 09:00 AM'}} selected {{/compareTime}}>07:30 AM - 09:00 AM</option>
+                        <option value="9000" {{#compareTime reservationTime '09:15 AM - 10:45 AM'}} selected {{/compareTime}}>09:15 AM - 10:45 AM</option>
+                        <option value="1100" {{#compareTime reservationTime '11:00 AM - 12:30 PM'}} selected {{/compareTime}}>11:00 AM - 12:30 PM</option>
+                        <option value="1200" {{#compareTime reservationTime '12:45 PM - 02:15 PM'}} selected {{/compareTime}}>12:45 PM - 02:15 PM</option>
+                        <option value="1400" {{#compareTime reservationTime '02:30 PM - 04:00 PM'}} selected {{/compareTime}}>02:30 PM - 04:00 PM</option>
+                        <option value="1600" {{#compareTime reservationTime '04:15 PM - 05:45 PM'}} selected {{/compareTime}}>04:15 PM - 05:45 PM</option>
                       </select>
                     </div>
                 </div>

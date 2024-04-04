@@ -149,8 +149,7 @@ server.get('/reserve', async (req, res) => {
             let firstSpaceIndex = reservation.reserveDT.indexOf(' ', reservation.reserveDT.indexOf(' '));
             let substringAfterFirstSpace = reservation.reserveDT.substring(firstSpaceIndex + 1);
             let reservationTime = substringAfterFirstSpace;
-            // let substringBeforeFirstSpace = reservation.reserveDT.substring(reservation.reserveDT - firstSpaceIndex);
-
+            let reservationDate = reservation.reserveDT.substring(0, firstSpaceIndex);
 
                 for (let i = 0; i < labDetails.length; i++) {
                     if (labDetails[i].labName === reservation.lab) {
@@ -167,7 +166,7 @@ server.get('/reserve', async (req, res) => {
                     profileDetails: profileDetails,
                     selectedLab: selectedLab,
                     reservation: reservation,
-                    // reservationDate: reservationDate,
+                    reservationDate: reservationDate,
                     reservationTime: reservationTime
                 });  
         } catch (error) {

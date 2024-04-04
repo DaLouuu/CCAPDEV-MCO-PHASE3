@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 const handlebars = require('express-handlebars');
+
 const hbs = handlebars.create({ // Create an instance of handlebars
     extname: 'hbs',
     helpers: { 
@@ -17,6 +18,9 @@ const hbs = handlebars.create({ // Create an instance of handlebars
                 else
                     return '';
             }
+        },
+        compareTime: function(reservationTime, timeRange, options) {
+            return reservationTime === timeRange ? options.fn(this) : options.inverse(this);
         },
         // Custom helper to check if a value is in an array
         inArray: function(value, array, options) {
