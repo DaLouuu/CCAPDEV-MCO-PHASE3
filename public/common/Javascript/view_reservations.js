@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     const homeButton = $('#homeButton');
     const profileButton = $('#pfp');
@@ -149,7 +150,7 @@ $(document).ready(function() {
     
 
     $('#edit-res').click(function(){
-        window.location.href = '/edit_reserve';
+        window.location.href = '/edit_reserve';1    
     });
 
 

@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 
  
@@ -324,9 +325,5 @@ function formatDateTime(date) {
                 return "Unknown Time";
         }
     }
-
-
-
-
 
 });
