@@ -81,8 +81,9 @@ $(document).ready(function () {
         });
     });
     $('#editProfilePicButton').click(function() {
-        console.log("clicked edit");
-        $('#fileInput').click();
+        $('#pfpPopup').show();
+        
+        
        
     });
     $('#fileInput').change(function() {
@@ -214,6 +215,8 @@ $(document).ready(function () {
         var status = getSwitchValue();
         $('#privacyStatus').text(status);
     });
-
+    $('#closeButtonPfp').click(function(){
+        $('#pfpPopup').hide();
+    });
 
 });
