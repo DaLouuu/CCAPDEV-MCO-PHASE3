@@ -156,33 +156,5 @@
             </form>
         </div> 
     </div>
-    <div id="pfpPopup">
-        <button id="closeButtonPfp">&times;</button>
-        <div id="pfp-selection">
-    <img class='pfp-choice' id="pfp-choice1" src="https://i.pinimg.com/originals/37/91/aa/3791aa75f0199f01e1e86676ffdb0103.jpg" alt="Profile Picture 1">
-    <img class='pfp-choice' id="pfp-choice2" src="https://i.pinimg.com/originals/40/6f/08/406f0876bfddaed4fd112cc271b52cbc.jpg" alt="Profile Picture 2">
-    <img class='pfp-choice' id="pfp-choice3" src="https://i.pinimg.com/originals/80/ea/f4/80eaf4d1cfd7fc8c1caae635cfb3585a.jpg" alt="Profile Picture 3">
-</div>
-<div id="pfp-options">
-    <form id="choiceForm" action="/save-profile-picture" method="post">
-        <div class="choice">
-            <input type="radio" id="radio-pfp1" name="choice" value="https://i.pinimg.com/originals/37/91/aa/3791aa75f0199f01e1e86676ffdb0103.jpg" class="input-choice">
-            <label for="radio-pfp1" class="choice-label">Picture 1</label>
-        </div>
-        <div class="choice">
-            <input type="radio" id="radio-pfp2" name="choice" value="https://i.pinimg.com/originals/40/6f/08/406f0876bfddaed4fd112cc271b52cbc.jpg" class="input-choice">
-            <label for="radio-pfp2" class="choice-label">Picture 2</label>
-        </div>
-        <div class="choice">
-            <input type="radio" id="radio-pfp3" name="choice" value="https://i.pinimg.com/originals/80/ea/f4/80eaf4d1cfd7fc8c1caae635cfb3585a.jpg" class="input-choice">
-            <label for="radio-pfp3" class="choice-label">Picture 3</label>
-        </div>
-        <br>
-        <button type="submit" class="submit-button">Submit</button>
-    </form>
-</div>
-
-        <!-- upon form submission, send to server side route, find a way to send the id, use const selectedPictureUrl = req.body.choice;-->
-    </div>
 </div>
 </body>
