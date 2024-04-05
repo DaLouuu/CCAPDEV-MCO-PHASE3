@@ -234,3 +234,14 @@ cursor: pointer;
   padding: 10px 20px;
   cursor: pointer;
 }
+#floatingButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #d7b1c7;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

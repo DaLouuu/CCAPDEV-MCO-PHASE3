@@ -1,0 +1,134 @@
+/* Header Buttons */
+.header-but {
+    font-family: Baskerville;
+    background-color: rgba(255, 255, 255, 0); 
+    margin-left: 3%;
+    border: 0px;
+    font-weight: bold;
+    font-size: large;
+    text-decoration: underline;
+    height: 50%;
+    width: auto;
+}
+
+/* Header */
+#header {
+    margin-top: 0px;
+    margin-left: 5%;
+    width: 95%;
+    align-items: center;
+}
+
+/* Top Bar */
+#top-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+#homeButton, #aboutButton {
+    font-size: 1.2vw;
+}
+
+/* Logo */
+#logo {
+    width: 5.7%;
+}
+
+/* Profile Picture */
+#pfp {
+    width: 5vw;
+    height: 5vw;
+    
+    border-radius: 100%;
+    background-image: url('./Assets/elmo.jpg');
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+/* Heading 1 */
+h1 {
+    font-family: Baskerville;
+    font-size: 300%;
+}
+
+/* Profile Picture Hover */
+#pfp:hover {
+    cursor: pointer;
+}
+
+/* Title */
+#title {
+    width: 50%;
+}
+
+/* Popup Profile */
+.profile-popup {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    margin-top:10px;
+    left: 0;
+    width: 100px;
+    background-color: #F8EBFC;
+    border: 1px solid #F8EBFC;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup Profile List */
+.profile-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-popup ul li {
+    padding: 10px;
+}
+
+.profile-popup ul li a {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+}
+
+.profile-popup ul li:hover {
+    background-color: #f1d4fa;
+}
+
+/* Profile Container */
+.profile-container {
+    padding-left: 2.2vw;
+    width: 9vh;
+    height: 9vh;
+    margin-top: 10px;
+    border-radius: 100%;
+    margin-left: 62vw;
+    border: white solid 0.5px;
+    position: relative;
+}
+
+#parent {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+
+#text {
+    width: 60%;
+    text-align: center; 
+}
+#title {
+    width: auto; 
+    text-align: left; 
+}
+body {
+    background-image: url('./Assets/general-bg.png');
+}

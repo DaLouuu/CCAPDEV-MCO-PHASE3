@@ -25,4 +25,7 @@ $(document).ready(function() {
     $('.profile-popup').click(function(event) {
         event.stopPropagation();
     }); 
+    $('#floatingButton').click(function() {
+        window.location.href = '/about';
+    });
 });

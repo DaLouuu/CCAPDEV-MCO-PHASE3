@@ -230,6 +230,14 @@ function add(server){
             resp.redirect('/');
         });
       });
+    server.get('/about', function(req, resp){
+        resp.render('about',{
+            layout: 'index',
+            title: 'ILabYou Login Page',
+            filename: 'about',
+            profileDetails: profileDetails
+        });
+    });
 }
 
 module.exports.add = add;
