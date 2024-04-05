@@ -42,16 +42,10 @@ const mongoose = require('mongoose');
     img: {type: String}
   },{ versionKey: false });
   
-  const searchSchema = new mongoose.Schema({
-    name: { type: String },
-    role: { type: String },
-    idNumber: { type: String },
-    status: { type: String },
-}, { versionKey: false });
   
   //create a collection and name it as a model
   module.exports.Login = mongoose.model('login', loginSchema);
   module.exports.Profile = mongoose.model('profile', profileSchema);
   module.exports.Reservation = mongoose.model('reservation', reservationSchema);
   module.exports.Lab = mongoose.model('lab', labSchema);
-  module.exports.Search = mongoose.model('search', searchSchema);
+  
