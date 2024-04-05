@@ -88,11 +88,10 @@ $(document).ready(function() {
         seat.html('<b>Seat Number: </b>' + $(tableDatas[1]).text());
         reqDate.html('<b>Date and Time of Request: </b>' + $(tableDatas[2]).text());
         resDate.html('<b>Date and Time of Reservation: </b>' + $(tableDatas[3]).text());
-        $('#res-id').html('<b>Reservation ID: </b>' + $(tableDatas[6]).text());
+        $('#res-id').html('<b>Reservation ID: </b>' + $(tableDatas[5]).text());
         if(tableDatas.length == 8){
-            studentId.html('<b>Student ID: </b>' + $(tableDatas[5]).text());
+            studentId.html('<b>Student ID: </b>' + $(tableDatas[6]).text());
             $('#res-status').html('<b>Reservation Status: </b>' + $(tableDatas[7]).text());
-            
         }
 
     }
