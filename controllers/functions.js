@@ -171,6 +171,7 @@ function getLabTechReservations() {
         requestFor,
         isAnonymous,
         isDeleted,
+        status: 'Booked'
     });
 
     return reservation.save()

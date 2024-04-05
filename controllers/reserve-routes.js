@@ -114,7 +114,7 @@ server.get('/reserve', async (req, res) => {
                 requesterID,
                 requestFor,
                 isAnonymous,
-                isDeleted
+                isDeleted,
             });
     
             res.status(201).send("Reservation saved successfully.");
