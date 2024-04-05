@@ -19,9 +19,9 @@
                 <th>Date and Time of Request</th>
                 <th>Date and Time of Reservation</th>
                 <th>Reservation Type</th>
+                <th>Reservation ID</th>
                 {{#if profileDetails.isLabtech}}
                     <th>Student ID</th>
-                    <th>Reservation ID</th>
                     <th>Status</th>
                 {{/if}}
             </tr>
@@ -35,8 +35,8 @@
                                 <td>{{requestDT}}</td>
                                 <td>{{reserveDT}}</td>
                                 <td>{{type}}</td>
-                                <td>{{requestFor}}</td>
                                 <td>{{_id}}</td>
+                                <td>{{requestFor}}</td>
                                 <td>{{status}}</td>
                             </tr>
                         {{/each}}
@@ -49,7 +49,6 @@
                             <td>{{reserveDT}}</td>
                             <td>{{type}}</td>
                             <td>{{_id}}</td>
-                            
                         </tr>
                         {{/each}}
                     {{/if}}

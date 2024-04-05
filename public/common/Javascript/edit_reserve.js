@@ -1,5 +1,6 @@
 
 $(document).ready(function() {
+
    
     const currentDateElement = $('#currentDate');
     const currentDate = new Date();
@@ -107,34 +108,40 @@ $(document).ready(function() {
     var reserveBtn = $('#reserveBtn');
     var modal = $('#reservationModal');
     var closeBtn = $('.close');
-    var confirmStudentID = $('#confirmStudentID');
     var confirmSeatNum = $('#confirmSeatNum');
     var confirmDate = $('#confirmDate');
     var confirmTime = $('#confirmTime');
+    var confirmReservationType = $('#confirmReservationType');
     var confirmReservationType2 = $('#confirmReservationTypeGroupOrSolo');
 
     reserveBtn.on('click', function() {
-        var selectedStudentID = $('#selectedStudentID').val();
         var selectedSeatNum = $('#selectedSeatNum').val();
         var selectedDate = $('#selectedDate').val();
         var selectedTime = $('#selectedTime').val();
+        var isAnonymous = $('#anonymous').prop('checked');
         var isSolo = $('#soloReservation').prop('checked');
         var isGroup = $('#groupReservation').prop('checked');
 
-        if (!selectedStudentID || !selectedSeatNum || !selectedDate || !selectedTime) {
+        if (!selectedSeatNum || !selectedDate || !selectedTime || selectedSeatNum === "Please select a Seat") {
             alert("Please complete the reservation form.");
             return;
         }
-        if (selectedSeats.length < 2 && $('#groupReservation').prop('checked')) {
+        if (selectedSeats.length < 2 && $('#groupReservation').is(':checked')) {
             alert("You must select at least 2 seats.");
             return;
         }
 
-        confirmStudentID.text(selectedStudentID);
         confirmSeatNum.text(selectedSeatNum);
         confirmDate.text(selectedDate);
         confirmTime.text(getTimeText(selectedTime));
 
+        if (isAnonymous) {
+            confirmReservationType.text("Anonymous");
+            confirmReservationBtn.data('reservationType', "Anonymous");
+        } else {
+            confirmReservationType.text("Standard");
+            confirmReservationBtn.data('reservationType', "Standard");
+        }
         if (isSolo) {
             confirmReservationType2.text("Solo");
             confirmReservationBtn.data('reservationType2', "Solo");
@@ -150,6 +157,7 @@ $(document).ready(function() {
             confirmReservationType2.text("Solo");
             confirmReservationBtn.data('reservationType2', "Solo");
         }
+
 
         modal.css('display', "block");
     });
@@ -180,6 +188,13 @@ $('#selectedDate, #selectedTime').change(function() {
     checkReservations(selectedLab, selectedDate, selectedTime,currentRequesterID);
 });
 
+const selectedLab = $('#confirmLabName').text(); // Get selected lab from frontend
+const selectedDate = $('#selectedDate').val(); // Get selected date from frontend
+const selectedTimeValue = $('#selectedTime').val(); // Get the value of the selected time from frontend
+const selectedTime = getTimeText(selectedTimeValue);
+const currentRequesterID =  $('#confirmStudentID').text();
+
+checkReservations(selectedLab, selectedDate, selectedTime,currentRequesterID);
 // AJAX request to check reservations and update seat colors
 function checkReservations(lab, date, time, currentRequesterID) {
     $.ajax({
@@ -206,7 +221,7 @@ function checkReservations(lab, date, time, currentRequesterID) {
 function updateSeatColors(reservedSeats, isCurrentRequester) {
     console.log('isCurrentRequester:', isCurrentRequester);
     console.log('Updating seat colors with reserved seats:', reservedSeats);
-    const currentRequesterID =  $('#confirmLabtechID').text();;
+    const currentRequesterID =  $('#confirmStudentID').text();;
     const isCurrentRQ = isCurrentRequester.includes(currentRequesterID);
     $('.seat').each(function() {
         const seatId = $(this).find('.seat-id').text().trim(); // Remove the prefix
@@ -235,9 +250,9 @@ confirmReservationBtn.on('click', function() {
     var selectedDate = $('#confirmDate').text();
     var selectedTime = $('#confirmTime').text();
     var type = $('#confirmReservationTypeGroupOrSolo').text();
-    var requesterID = $('#confirmLabtechID').text();
+    var requesterID = $('#confirmStudentID').text();
     var requestFor = $('#confirmStudentID').text();
-
+    var isAnonymous = $('#anonymous').prop('checked'); 
     var currentDate = new Date();
     var requestDT = formatDateTime(currentDate);
 
@@ -253,7 +268,7 @@ confirmReservationBtn.on('click', function() {
         type: type, 
         requesterID: requesterID,
         requestFor: requestFor,
-        isAnonymous: false,
+        isAnonymous: isAnonymous,
         isDeleted: false
     };
 
@@ -267,6 +282,7 @@ confirmReservationBtn.on('click', function() {
             console.log("Reservation updated successfully.");
             alert("Reservation is updated successfully");
             reserveSeats();
+            checkReservations(selectedLab, selectedDate, selectedTime,currentRequesterID);
             modal.css('display', "none");
         },
         error: function(xhr, status, error) {
@@ -299,21 +315,6 @@ function formatDateTime(date) {
 
 function getTimeText(timeValue) {
     switch (timeValue) {
-        /*
-        case "7000":
-            return "07:30 AM - 09:00 AM";
-        case "9000":
-            return "09:15 AM - 10:45 AM";
-        case "1100":
-            return "11:00 AM - 12:30 PM";
-        case "1200":
-            return "12:45 PM - 02:15 PM";
-        case "1400":
-            return "02:30 PM - 04:00 PM ";
-        case "1600":
-            return "04:15 PM - 05:45 PM";
-        default:
-            return "Unknown Time";*/
         case "900":
             return "9:00 AM - 9:30 AM";
         case "930":
