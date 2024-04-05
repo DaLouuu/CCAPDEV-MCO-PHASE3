@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     const homeButton = $('#homeButton');
     const profileButton = $('#pfp');
@@ -18,6 +17,13 @@ $(document).ready(function() {
     dimmedBackground.hide();
     reservationWindow.hide();
 
+    delReservation.click(function () {
+        reservationWindow.hide();
+        $('#deletePopup').show();
+        dimmedBackground.show();
+    });
+
+    // Function to handle delete reservation button click
     delReservation.click(function () {
         reservationWindow.hide();
         $('#deletePopup').show();
@@ -120,6 +126,8 @@ $(document).ready(function() {
             }
         });
     }
+
+    
     $('#choiceForm').submit(function(event) {
         event.preventDefault(); // Prevent form submission
 
@@ -150,9 +158,16 @@ $(document).ready(function() {
     });
     
 
-    $('#edit-res').click(function(){
-        window.location.href = '/edit_reserve';  
-    });
+$('button[id^="edit-res"]').click(function() {
+    // Get the reservation ID from the corresponding table cell
+    let reservationId = $('#res-id').text();
+    let secondSpaceIndex = reservationId.indexOf(' ', reservationId.indexOf(' ') + 1);
+    let substringAfterSecondSpace = reservationId.substring(secondSpaceIndex + 1);
+
+    // Redirect to the edit reservation page with the reservation ID
+    window.location.href = '/edit_reserve/' + substringAfterSecondSpace;
+});
+
     $('#present-res').click(function(){
         const reservationId = $('#res-id').text(); 
         let secondSpaceIndex = reservationId.indexOf(' ', reservationId.indexOf(' ') + 1);
