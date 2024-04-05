@@ -2,8 +2,8 @@
 const fn = require('./functions');
 const { updateProfileDetails, profileDetails } = require('./profileDetails');
 const responder = require('../models/Responder');
-
-
+const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 function add(server){
     server.get('/view-reservations', function(req, resp) {
         let reservations = []; // Initialize reservations 
@@ -140,7 +140,7 @@ server.get('/reserve', async (req, res) => {
     
             // Log the combinedDateTime for debugging
             console.log('Combined DateTime:', combinedDateTime);
-            
+            console.log('Current Lab:', lab);
             // Retrieve reservations from the database
             const reservations = await responder.Reservation.find({ 
                 lab: lab, 
@@ -184,6 +184,94 @@ server.get('/reserve', async (req, res) => {
             res.status(500).send({ error: 'Internal server error' });
         });
     });
+
+    server.get('/edit_reserve/:reservationId', async (req, res) => {
+        try {
+            const reservationId = req.params.reservationId;
+            const reservation = await responder.Reservation.findById(reservationId).lean();
+            if (!reservation) {
+                return res.status(404).send('Reservation not found');
+            }
+            
+            // Fetch lab details from the database
+            let labDetails = await responder.Lab.find({}, { labIndex: 1, labName: 1, columns: 1, img: 1 }).lean();
+            let selectedLab = {};
+            let firstSpaceIndex = reservation.reserveDT.indexOf(' ', reservation.reserveDT.indexOf(' '));
+            let substringAfterFirstSpace = reservation.reserveDT.substring(firstSpaceIndex + 1);
+            let reservationTime = substringAfterFirstSpace;
+            let reservationDate = reservation.reserveDT.substring(0, firstSpaceIndex);
+            let reservationSeats = reservation.seats;
+            let seatsString = reservationSeats.join(',');
+            reservationSeats.forEach(seat => {
+                console.log(seat); // Output each seat identifier, such as A1, A2, etc.
+            });
+
+                for (let i = 0; i < labDetails.length; i++) {
+                    if (labDetails[i].labName === reservation.lab) {
+                        selectedLab = labDetails[i];
+                        console.log("Selected Lab index: " + i);
+                        selectedLab.seatNumbers = fn.generateSeatNumbers(selectedLab.columns);
+                    }
+                }
+                
+                 // Render the edit_reserve.hbs template with the selected reservation and lab details
+                res.render('edit_reserve', {
+                    layout: null,
+                    title: 'ILabYou - We Lab to Reserve for You',
+                    profileDetails: profileDetails,
+                    selectedLab: selectedLab,
+                    reservation: reservation,
+                    reservationId: reservationId,
+                    reservationSeats: seatsString,
+                    reservationDate: reservationDate,
+                    reservationTime: reservationTime,
+                    reservationType: reservation.type
+                });  
+        } catch (error) {
+            console.error('Error rendering reserve page:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+
+server.post('/update-reservation/:reservationId', async (req, res) => {
+    try {
+        const reservationId = req.params.reservationId.slice(1);
+        
+        const { lab, seats, requestDT, reserveDT, type, requesterID, requestFor, isAnonymous, isDeleted } = req.body;
+        console.log(reservationId);
+        // Convert reservationId string to a valid ObjectId
+        
+        const validReservationId = new ObjectId(reservationId);
+        
+        // Find the existing reservation by ID
+        const existingReservation = await responder.Reservation.findById(validReservationId);
+
+        if (!existingReservation) {
+            return res.status(404).send('Reservation not found');
+        }
+
+        // Update the existing reservation with the new data
+        existingReservation.lab = lab;
+        existingReservation.seats = seats;
+        existingReservation.requestDT = requestDT;
+        existingReservation.reserveDT = reserveDT;
+        existingReservation.type = type;
+        existingReservation.requesterID = requesterID;
+        existingReservation.requestFor = requestFor;
+        existingReservation.isAnonymous = isAnonymous;
+        existingReservation.isDeleted = isDeleted;
+
+        // Save the updated reservation
+        await existingReservation.save();
+
+        res.status(200).send("Reservation updated successfully.");
+    } catch (error) {
+        console.error("Error updating reservation:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
     
 }
 
