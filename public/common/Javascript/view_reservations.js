@@ -44,7 +44,8 @@ $(document).ready(function() {
         // Find the position of the second space
         let secondSpaceIndex = userId.indexOf(' ', userId.indexOf(' ') + 1);
         let substringAfterSecondSpace = userId.substring(secondSpaceIndex + 1);
-        window.location.href = '/findUser_id/' + substringAfterSecondSpace;
+        if (substringAfterSecondSpace != 'Anonymous')
+            window.location.href = '/findUser_id/' + substringAfterSecondSpace;
     });
     profileButton.click(function() {
         $('.profile-popup').toggle();
