@@ -18,34 +18,6 @@ $(document).ready(function() {
     dimmedBackground.hide();
     reservationWindow.hide();
 
-    // Function to calculate the time difference in minutes between two time strings
-    function calculateTimeDifference(startTime, endTime) {
-        var start = new Date(startTime);
-        var end = new Date(endTime);
-        var difference = Math.abs(end - start);
-        return Math.floor((difference / 1000) / 60); // Convert milliseconds to minutes
-    }
-
-    // Function to check if the reservation can be deleted
-    function canDeleteReservation(reserveDT) {
-        var reservationTimes = reserveDT.split(" - ");
-        var startTime = new Date(reservationTimes[0].trim()); // Extract and convert start time from reserveDT to Date object
-        var currentTime = new Date(); // Current date and time
-
-        // Calculate the time difference in minutes
-        var timeDifference = calculateTimeDifference(currentTime, startTime);
-
-        return timeDifference < 10; // Return true if the difference is less than 10 minutes
-    }
-
-    // Check if the reservation can be deleted and show/hide delete button accordingly
-    var reserveDT = reservations.reserveDT; // Example reserveDT
-    if (canDeleteReservation(reserveDT)) {
-        delReservation.show(); // Show the delete reservation button
-    } else {
-        delReservation.hide(); // Hide the delete reservation button
-    }
-
     delReservation.click(function () {
         reservationWindow.hide();
         $('#deletePopup').show();
