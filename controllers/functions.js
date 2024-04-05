@@ -4,7 +4,7 @@ const responder = require('../models/Responder');
 
 
 function handleError(response, errorMessage) {
-    console.error(errorMessage); // Log the error message to console for debugging
+    console.log(errorMessage); // Log the error message to console for debugging
     //response.status(500).send('Internal Server Error'); // Send a generic error response with status code 500
   }
   function errorFn(err){
