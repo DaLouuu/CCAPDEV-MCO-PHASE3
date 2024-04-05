@@ -1,216 +1,301 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const openButton = document.getElementById('quesButton');
-    const popupWindow = document.getElementById('popupWindow');
-    const closeButton = document.getElementById('closeButton');
-    const dimmedBackground = document.getElementById('dimmedBackground');
 
-    var bookingDetails = {
-        seatNumber: "A3",
-        date: "2024-02-14",
-        timeSlot: "1100",
-        anonymous: true,
-        groupOrSolo: true
-    };
-
-    if (bookingDetails.groupOrSolo) {
-        document.getElementById("soloReservation").checked = true;
-    }
-    if (!bookingDetails.groupOrSolo) {
-        document.getElementById("groupReservation").checked = true;
-    }
-
-    document.getElementById("selectedSeatNum").value = bookingDetails.seatNumber;
-    document.getElementById("selectedDate").value = bookingDetails.date;
-    document.getElementById("selectedTime").value = bookingDetails.timeSlot;
-
-    if (bookingDetails.anonymous) {
-        document.getElementById("anonymous").checked = true;
-    }
-
-    openButton.addEventListener('click', function () {
-        popupWindow.classList.add('open');
-        dimmedBackground.style.display = 'block';
-    });
-
-    closeButton.addEventListener('click', function () {
-        popupWindow.classList.remove('open');
-        dimmedBackground.style.display = 'none';
-    });
-
-    const currentDateElement = document.getElementById('currentDate');
+$(document).ready(function() {
+   
+    const currentDateElement = $('#currentDate');
     const currentDate = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    currentDateElement.textContent = currentDate.toLocaleDateString('en-US', options);
+    currentDateElement.text(currentDate.toLocaleDateString('en-US', options));
 
-    const seatElements = document.querySelectorAll('.seat');
+    const seatElements = $('.seat');
     let selectedSeats = [];
 
+    const openButton = $('#quesButton');
+    const popupWindow = $('#popupWindow');
+    const closeButton = $('#closeButton');
+    const dimmedBackground = $('#dimmedBackground');
+    const homeButton = $('#homeButton');
+
+    homeButton.on('click', function () {
+        window.location.href = '/homepage';
+    });
+
+    openButton.on('click', function () {
+        popupWindow.addClass('open');
+        dimmedBackground.css('display', 'block');
+    });
+
+    closeButton.on('click', function () {
+        popupWindow.removeClass('open');
+        dimmedBackground.css('display', 'none');
+    });
+
+    function updateSelectedSeatsDisplay() {
+        const seatInput = $('#selectedSeatNum');
+        if (selectedSeats.length === 0) {
+            seatInput.val("Please select a Seat");
+        } else {
+            const selectedSeatNumbers = selectedSeats.map(seat => $(seat).find('.seat-id').text());
+            seatInput.val(selectedSeatNumbers.join(', '));
+        }
+    }
+
+
     function clearSelectedSeats() {
-        const selectedSeatNumbers = [];
-        seatElements.forEach(function (seat) {
-            if (seat.style.backgroundColor === 'rgb(147, 149, 255)') {
-                seat.style.backgroundColor = '';
+        seatElements.each(function() {
+            if ($(this).css('backgroundColor') === 'rgb(147, 149, 255)') {
+                $(this).css('backgroundColor', '');
             }
         });
-
-        seatElements.forEach(function (seat) {
-            if (seat.style.backgroundColor === 'rgb(255, 145, 77)') {
-                selectedSeatNumbers.push(seat.querySelector('.seat-id').textContent);
-            }
-        });
-
-        document.getElementById('selectedSeatNum').value = selectedSeatNumbers.join(',');
         selectedSeats = [];
+        updateSelectedSeatsDisplay();
     }
 
     function reserveSeats() {
-        const seatElements = document.querySelectorAll('.seat');
 
-        seatElements.forEach(function (seat) {
-            if (seat.style.backgroundColor === 'rgb(255, 145, 77)') {
-                seat.style.backgroundColor = '';
-            }
-        });
-
-        selectedSeats.forEach(seat => {
-            seat.style.backgroundColor = '#ff914d';
+        selectedSeats.forEach(function(seat) {
+            $(seat).css('backgroundColor', '#ff914d');
         });
 
         selectedSeats = [];
     }
 
-    document.getElementById("soloReservation").addEventListener('change', function () {
-        if (this.checked) {
-            clearSelectedSeats();
+    $('#soloReservation').on('change', clearSelectedSeats);
+    $('#groupReservation').on('change', clearSelectedSeats);
+
+    seatElements.on('click', function() {
+        const seatId = $(this).find('.seat-id').text();
+        const seatInput = $('#selectedSeatNum');
+
+        if ($(this).css('backgroundColor') === 'rgb(246, 154, 160)') {
+            alert("This seat is already booked");
+            return;
         }
-    });
+        if ($(this).css('backgroundColor') === 'rgb(255, 145, 77)') {
+            alert("This seat is already yours");
+            return;
+        }
 
-    document.getElementById("groupReservation").addEventListener('change', function () {
-        clearSelectedSeats();
-    });
-
-    seatElements.forEach(function (seat) {
-        seat.addEventListener('click', function () {
-            const seatId = this.querySelector('.seat-id').textContent;
-            const seatInput = document.getElementById('selectedSeatNum');
-
-            if (this.style.backgroundColor === 'rgb(246, 154, 160)') {
-                alert("This seat is already booked");
-                return;
-            }
-            if (this.style.backgroundColor === 'rgb(255, 145, 77)') {
-                alert("This seat is already yours");
+        if ($('#groupReservation').is(':checked')) {
+            if (selectedSeats.length >= 5 && !selectedSeats.includes(this)) {
+                alert("You can only select up to 5 seats.");
                 return;
             }
 
-            if (document.getElementById("groupReservation").checked) {
-                if (selectedSeats.length >= 5 && !selectedSeats.includes(this)) {
-                    alert("You can only select up to 5 seats.");
-                    return;
-                }
-
-                if (selectedSeats.includes(this)) {
-                    selectedSeats = selectedSeats.filter(selected => selected !== this);
-                    this.style.backgroundColor = '';
-                } else {
-                    this.style.backgroundColor = '#9395ff';
-                    selectedSeats.push(this);
-                }
-            }
-
-            if (document.getElementById("soloReservation").checked) {
-                selectedSeats.forEach(selectedSeat => {
-                    selectedSeat.style.backgroundColor = '';
-                });
-
-                selectedSeats = [];
-
-                this.style.backgroundColor = '#9395ff';
+            if (selectedSeats.includes(this)) {
+                selectedSeats = selectedSeats.filter(selected => selected !== this);
+                $(this).css('backgroundColor', '');
+            } else {
+                $(this).css('backgroundColor', '#9395ff');
                 selectedSeats.push(this);
             }
+        } else if ($('#soloReservation').is(':checked')) {
+            selectedSeats.forEach(function(selectedSeat) {
+                $(selectedSeat).css('backgroundColor', '');
+            });
 
-            seatInput.value = selectedSeats.map(seat => seat.querySelector('.seat-id').textContent).join(',');
-        });
+            selectedSeats = [];
+
+            $(this).css('backgroundColor', '#9395ff');
+            selectedSeats.push(this);
+        }
+
+        seatInput.val(selectedSeats.map(seat => $(seat).find('.seat-id').text()).join(', '));
+        updateSelectedSeatsDisplay();
     });
 
-    var reserveBtn = document.getElementById("reserveBtn");
-    var modal = document.getElementById("reservationModal");
-    var closeBtn = document.querySelector(".close");
-    var confirmSeatNum = document.getElementById("confirmSeatNum");
-    var confirmDate = document.getElementById("confirmDate");
-    var confirmTime = document.getElementById("confirmTime");
-    var confirmReservationType = document.getElementById("confirmReservationType");
-    var confirmReservationType2 = document.getElementById("confirmReservationTypeGroupOrSolo");
 
-    reserveBtn.addEventListener("click", function () {
-        var selectedSeatNum = document.getElementById("selectedSeatNum").value;
-        var selectedDate = document.getElementById("selectedDate").value;
-        var selectedTime = document.getElementById("selectedTime").value;
-        var isAnonymous = document.getElementById("anonymous").checked;
-        var isSolo = document.getElementById("soloReservation").checked;
-        var isGroup = document.getElementById("groupReservation").checked;
+    var reserveBtn = $('#reserveBtn');
+    var modal = $('#reservationModal');
+    var closeBtn = $('.close');
+    var confirmStudentID = $('#confirmStudentID');
+    var confirmSeatNum = $('#confirmSeatNum');
+    var confirmDate = $('#confirmDate');
+    var confirmTime = $('#confirmTime');
+    var confirmReservationType2 = $('#confirmReservationTypeGroupOrSolo');
 
-        if (!selectedSeatNum || !selectedDate || !selectedTime) {
+    reserveBtn.on('click', function() {
+        var selectedStudentID = $('#selectedStudentID').val();
+        var selectedSeatNum = $('#selectedSeatNum').val();
+        var selectedDate = $('#selectedDate').val();
+        var selectedTime = $('#selectedTime').val();
+        var isSolo = $('#soloReservation').prop('checked');
+        var isGroup = $('#groupReservation').prop('checked');
+
+        if (!selectedStudentID || !selectedSeatNum || !selectedDate || !selectedTime) {
             alert("Please complete the reservation form.");
             return;
         }
-        if (selectedSeats.length < 2 && (document.getElementById("groupReservation").checked)) {
+        if (selectedSeats.length < 2 && $('#groupReservation').prop('checked')) {
             alert("You must select at least 2 seats.");
             return;
         }
 
-        confirmSeatNum.textContent = selectedSeatNum;
-        confirmDate.textContent = selectedDate;
-        confirmTime.textContent = getTimeText(selectedTime);
-
-        if (isAnonymous) {
-            confirmReservationType.textContent = "Anonymous";
-            confirmReservationBtn.dataset.reservationType = "Anonymous";
-        } else {
-            confirmReservationType.textContent = "Standard";
-            confirmReservationBtn.dataset.reservationType = "Standard";
-        }
+        confirmStudentID.text(selectedStudentID);
+        confirmSeatNum.text(selectedSeatNum);
+        confirmDate.text(selectedDate);
+        confirmTime.text(getTimeText(selectedTime));
 
         if (isSolo) {
-            confirmReservationType2.textContent = "Solo";
-            confirmReservationBtn.dataset.reservationType2 = "Solo";
+            confirmReservationType2.text("Solo");
+            confirmReservationBtn.data('reservationType2', "Solo");
         } else {
-            confirmReservationType2.textContent = "Group";
-            confirmReservationBtn.dataset.reservationType2 = "Group";
+            confirmReservationType2.text("Group");
+            confirmReservationBtn.data('reservationType2', "Group");
         }
 
         if (isGroup) {
-            confirmReservationType2.textContent = "Group";
-            confirmReservationBtn.dataset.reservationType2 = "Group";
+            confirmReservationType2.text("Group");
+            confirmReservationBtn.data('reservationType2', "Group");
         } else {
-            confirmReservationType2.textContent = "Solo";
-            confirmReservationBtn.dataset.reservationType2 = "Solo";
+            confirmReservationType2.text("Solo");
+            confirmReservationBtn.data('reservationType2', "Solo");
         }
 
-        modal.style.display = "block";
+        modal.css('display', "block");
     });
 
-    closeBtn.addEventListener("click", function () {
-        modal.style.display = "none";
+    closeBtn.on('click', function() {
+        modal.css('display', "none");
     });
 
-    cancelReservationBtn.addEventListener("click", function () {
-        modal.style.display = "none";
+    $('#cancelReservationBtn').on('click', function() {
+        modal.css('display', "none");
     });
 
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
+    $(window).on('click', function(event) {
+        if ($(event.target).is(modal)) {
+            modal.css('display', "none");
         }
     });
 
-    var confirmReservationBtn = document.getElementById("confirmReservationBtn");
-    confirmReservationBtn.addEventListener("click", function () {
-        alert("Reservation is successful");
-        reserveSeats();
+    
 
-        modal.style.display = "none";
+// Call the checkReservations function when the date or time changes
+$('#selectedDate, #selectedTime').change(function() {
+    const selectedLab = $('#confirmLabName').text(); // Get selected lab from frontend
+    const selectedDate = $('#selectedDate').val(); // Get selected date from frontend
+    const selectedTimeValue = $('#selectedTime').val(); // Get the value of the selected time from frontend
+    const selectedTime = getTimeText(selectedTimeValue);
+    const currentRequesterID =  $('#confirmStudentID').text();;
+    checkReservations(selectedLab, selectedDate, selectedTime,currentRequesterID);
+});
+
+// AJAX request to check reservations and update seat colors
+function checkReservations(lab, date, time, currentRequesterID) {
+    $.ajax({
+        type: 'GET',
+        url: '/checkReservations',
+        data: {
+            lab: lab,
+            date: date,
+            time: time,
+            currentRequesterID: currentRequesterID
+        },
+        success: function(data) {
+            console.log('Updating the Seats');
+            console.log('Detected Reservations:', data.reservedSeats);
+            console.log('Reservation Requester IDs:', data.reservationRequesterIDs);
+            updateSeatColors(data.reservedSeats, data.reservationRequesterIDs, currentRequesterID);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
     });
+}
+
+function updateSeatColors(reservedSeats, isCurrentRequester) {
+    console.log('isCurrentRequester:', isCurrentRequester);
+    console.log('Updating seat colors with reserved seats:', reservedSeats);
+    const currentRequesterID =  $('#confirmLabtechID').text();;
+    const isCurrentRQ = isCurrentRequester.includes(currentRequesterID);
+    $('.seat').each(function() {
+        const seatId = $(this).find('.seat-id').text().trim(); // Remove the prefix
+  
+        if (reservedSeats.includes(seatId)) {
+            console.log('Seat', seatId, 'is reserved.');
+            if (isCurrentRQ) {
+                console.log('Reservation made by current user.');
+                $(this).css('background-color', '#ff914d'); // Orange color for current user's reservations
+            } else {
+                $(this).css('background-color', '#f69aa0'); // Reserved color (e.g., red)
+            }
+        } else {
+            $(this).css('background-color', '#5cb485'); // Available color (e.g., green)
+        }
+    });
+}
+
+var confirmReservationBtn = $('#confirmReservationBtn');
+confirmReservationBtn.on('click', function() {
+    var reservationID  = $('#reservationID').text();
+    var lab = $('#confirmLabName').text();
+    var selectedSeatNum = $('#confirmSeatNum').text();
+    var seatsArray = selectedSeatNum.split(', '); // Split the string into an array
+    var trimmedSeatsArray = seatsArray.map(seat => seat.trim());
+    var selectedDate = $('#confirmDate').text();
+    var selectedTime = $('#confirmTime').text();
+    var type = $('#confirmReservationTypeGroupOrSolo').text();
+    var requesterID = $('#confirmLabtechID').text();
+    var requestFor = $('#confirmStudentID').text();
+
+    var currentDate = new Date();
+    var requestDT = formatDateTime(currentDate);
+
+    var reserveDT = selectedDate + ' ' + selectedTime;
+
+  
+    
+    var reservationData = {
+        lab: lab,
+        seats: trimmedSeatsArray, 
+        requestDT: requestDT,
+        reserveDT: reserveDT,
+        type: type, 
+        requesterID: requesterID,
+        requestFor: requestFor,
+        isAnonymous: false,
+        isDeleted: false
+    };
+
+    
+    $.ajax({
+        url: "/update-reservation/:" + reservationID,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(reservationData),
+        success: function(response) {
+            console.log("Reservation updated successfully.");
+            alert("Reservation is updated successfully");
+            reserveSeats();
+            modal.css('display', "none");
+        },
+        error: function(xhr, status, error) {
+            console.error("Error updating reservation:", error);
+        }
+    });
+});
+
+    
+function formatDateTime(date) {
+    // Get the components of the date
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Add leading zero if month is single digit
+    const day = String(date.getDate()).padStart(2, '0'); // Add leading zero if day is single digit
+    const hours = String(date.getHours()).padStart(2, '0'); // Add leading zero if hour is single digit
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Add leading zero if minute is single digit
+
+    // Determine AM/PM
+    const meridiem = (hours < 12) ? 'AM' : 'PM';
+
+    // Convert hours from 24-hour to 12-hour format
+    const formattedHours = (hours % 12 === 0) ? 12 : hours % 12;
+
+    // Concatenate the components with dashes and colons to form the desired format
+    const formattedDateTime = `${year}-${month}-${day} ${formattedHours}:${minutes} ${meridiem}`;
+
+    return formattedDateTime;
+}
+
 
     function getTimeText(timeValue) {
         switch (timeValue) {
@@ -230,13 +315,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 return "Unknown Time";
         }
     }
-
 });
 
-document.getElementById('homeButton').addEventListener('click', function () {
-    window.location.href = 'student_homepage.html';
-});
-
-document.getElementById('switchButton1').addEventListener('click', function () {
-    window.location.href = 'edit_reserve_labtech.html';
-});

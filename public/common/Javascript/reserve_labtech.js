@@ -225,7 +225,6 @@ function updateSeatColors(reservedSeats, isCurrentRequester) {
         }
     });
 }
-
 var confirmReservationBtn = $('#confirmReservationBtn');
 confirmReservationBtn.on('click', function() {
     
