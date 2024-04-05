@@ -297,23 +297,54 @@ function formatDateTime(date) {
 }
 
 
-    function getTimeText(timeValue) {
-        switch (timeValue) {
-            case "7000":
-                return "07:30 AM - 09:00 AM";
-            case "9000":
-                return "09:15 AM - 10:45 AM";
-            case "1100":
-                return "11:00 AM - 12:30 PM";
-            case "1200":
-                return "12:45 PM - 02:15 PM";
-            case "1400":
-                return "02:30 PM - 04:00 PM ";
-            case "1600":
-                return "04:15 PM - 05:45 PM";
-            default:
-                return "Unknown Time";
-        }
+function getTimeText(timeValue) {
+    switch (timeValue) {
+        /*
+        case "7000":
+            return "07:30 AM - 09:00 AM";
+        case "9000":
+            return "09:15 AM - 10:45 AM";
+        case "1100":
+            return "11:00 AM - 12:30 PM";
+        case "1200":
+            return "12:45 PM - 02:15 PM";
+        case "1400":
+            return "02:30 PM - 04:00 PM ";
+        case "1600":
+            return "04:15 PM - 05:45 PM";
+        default:
+            return "Unknown Time";*/
+        case "900":
+            return "9:00 AM - 9:30 AM";
+        case "930":
+            return "9:30 AM - 10:00 AM";
+        case "1000":
+            return "10:00 AM - 10:30 AM";
+        case "1030":
+            return "10:30 AM - 11:00 AM";
+        case "1100":
+            return "11:00 AM - 11:30 AM";
+        case "1130":
+            return "11:30 AM - 12:00 PM";
+        case "1200":
+            return "12:00 PM - 12:30 PM";
+        case "1230":
+            return "12:30 PM - 1:00 PM";
+        case "1300":
+            return "1:00 PM - 1:30 PM";
+        case "1330":
+            return "1:30 PM - 2:00 PM";
+        case "1400":
+            return "2:00 PM - 2:30 PM";
+        case "1430":
+            return "2:30 PM - 3:00 PM";
+        case "1500":
+            return "3:00 PM - 3:30 PM";
+        case "1530":
+            return "3:30 PM - 4:00 PM";
+        default:
+            return "Unknown Time";
     }
+}
 });
 
